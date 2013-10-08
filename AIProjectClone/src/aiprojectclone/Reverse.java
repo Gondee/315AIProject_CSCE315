@@ -20,29 +20,32 @@ public class Reverse {
     private int ai_flag; //1 if Human vs AI or 2 if AI vs AI
     private int server_flag; //1 if server, 2 if client
     private int ai_difficulty; //Difficulty of AI
+    private int second_ai_dif; //possiable second AI difficulty 
     
     public GameBoard game; 
     public Server server;
     
     
             
-public Reverse(String i, int p, int a, int s)
-{
-    ip = i;
-    port = p;
-    ai_flag = a;
-    server_flag = s;
-    System.out.println("Reverse Class Constructed without AI!\n");
-    
-}
-public Reverse(String i, int p, int a, int s, int d)
+public Reverse(String i, int p, int a, int s, int d) //Human Vs AI
 {
     ip = i;
     port = p;
     ai_flag = a;
     server_flag = s;
     ai_difficulty = d;
-    System.out.println("Reverse Class Constructed with AI!\n");
+    System.out.println("Reverse Class Constructed with Human vs AI!\n");
+    
+}
+public Reverse(String i, int p, int a, int s, int d, int dd)
+{
+    ip = i;
+    port = p;
+    ai_flag = a;
+    server_flag = s;
+    ai_difficulty = d;
+    second_ai_dif = dd;
+    System.out.println("Reverse Class Constructed with AI vs AI!\n");
     
 }
 
@@ -107,6 +110,12 @@ public Reverse(){
        String i = ip;
        return i;   
    }
+   int get_difficulty()
+   {
+     int d = ai_difficulty;
+     return d;
+   }
+           
            
    
    
