@@ -21,6 +21,10 @@ public class Reverse {
     private int serv_cli; //1 if server, 2 if client
     private String NULL;
     
+    public GameBoard game; 
+    public Server server;
+    
+    
             
 public Reverse(String i, int p, int a, int s)
 {
@@ -29,7 +33,12 @@ public Reverse(String i, int p, int a, int s)
     ai_flag = a;
     serv_cli = s;
     System.out.println("Reverse Class Constructed!\n");
+    
 }
+
+public Reverse(){
+
+} //Default if intended to use controller_setup()
     
     
     
@@ -47,7 +56,7 @@ public Reverse(String i, int p, int a, int s)
         return; //ends controller before starting everything
        }
        
-       
+       System.out.println("Being Controller...");
        
        
        
@@ -66,36 +75,5 @@ public Reverse(String i, int p, int a, int s)
    
    
    
-               
- //-------------------------------------------------Sub Classes below           
-            
-    public class GameBoard{
-        
-        
-        
-        
-        
-       public class AI{
-           
-           
-           
-           
-       } 
-        
-        
-    }
-    
-    public class Server{            //Server will handel all connections 
-        
-        
-        
-        
-    }
-    
-    
-    
    
-    
-    
-    
 }
