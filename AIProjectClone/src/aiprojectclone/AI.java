@@ -10,6 +10,12 @@ package aiprojectclone;
  */
 public class AI extends GameBoard{
     
+    int difficulty_flag; 
+    
+    public AI(int flag)
+    {
+        difficulty_flag = flag;    
+    }
     
     
     

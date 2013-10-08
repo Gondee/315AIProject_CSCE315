@@ -19,9 +19,10 @@ public class AIProjectClone {
         int ExamplePort = 22;
         int ExampleAIFlag = 1;
         int ExampleS_CFlag = 1; 
+        int Example_Difficulty = 1;
         
-        
-        Reverse newGame = new Reverse(ExampleIP,ExamplePort,ExampleAIFlag,ExampleS_CFlag); //Constructor that adds the values
+        Reverse newGame = new Reverse(ExampleIP,ExamplePort,ExampleAIFlag,ExampleS_CFlag,Example_Difficulty); 
+            //Constructor that adds the values
         newGame.controller();
         
        

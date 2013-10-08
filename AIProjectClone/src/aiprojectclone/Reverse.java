@@ -18,8 +18,8 @@ public class Reverse {
     private String ip;
     private int port;
     private int ai_flag; //1 if Human vs AI or 2 if AI vs AI
-    private int serv_cli; //1 if server, 2 if client
-    private String NULL;
+    private int server_flag; //1 if server, 2 if client
+    private int ai_difficulty; //Difficulty of AI
     
     public GameBoard game; 
     public Server server;
@@ -31,8 +31,18 @@ public Reverse(String i, int p, int a, int s)
     ip = i;
     port = p;
     ai_flag = a;
-    serv_cli = s;
-    System.out.println("Reverse Class Constructed!\n");
+    server_flag = s;
+    System.out.println("Reverse Class Constructed without AI!\n");
+    
+}
+public Reverse(String i, int p, int a, int s, int d)
+{
+    ip = i;
+    port = p;
+    ai_flag = a;
+    server_flag = s;
+    ai_difficulty = d;
+    System.out.println("Reverse Class Constructed with AI!\n");
     
 }
 
@@ -69,10 +79,35 @@ public Reverse(){
     ip = i;
     port = p;
     ai_flag = a;
-    serv_cli = s;      
+    server_flag = s;      
    }//end of controller_setup
+
    
    
+   
+   
+   
+   int get_ai_flag()
+   {
+     int f = ai_flag;
+     return f;
+   }
+   int get_server_flag()
+   {
+       int s = server_flag;
+       return s;    
+   }
+   int get_port()
+   {
+     int p = port;
+     return p;
+   }
+   String get_ip()
+   {
+       String i = ip;
+       return i;   
+   }
+           
    
    
    
