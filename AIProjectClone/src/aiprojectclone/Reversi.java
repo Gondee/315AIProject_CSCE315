@@ -22,6 +22,9 @@ public class Reversi {
     private int remote_ai_diff; //Difficulty of AI of remote AI
     private int local_ai_diff; //Difficulty of AI of local AI
     
+    public char client_color = 'w';
+    public char server_color = 'b';
+    
     public GameBoard game; 
     public Server server;
     
