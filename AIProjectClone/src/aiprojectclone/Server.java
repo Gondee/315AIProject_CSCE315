@@ -1,18 +1,18 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package aiprojectclone;
 
 /**
  *
  * @author joshkruger
  */
-public class Server extends Reverse {
+public class Server extends Reversi {
     
     
     
-    
+    public Server() //Setup for server goes here
+    {
+        
+        
+    }
     
     
     
