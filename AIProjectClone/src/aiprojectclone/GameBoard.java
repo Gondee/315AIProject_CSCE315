@@ -8,6 +8,15 @@ import java.util.ArrayList;
 /**
  *
  * @author joshkruger
+ * 
+ * if something is labled with move in the name, it means it accepts user style
+ * move commands like 3d
+ * 
+ * if something has the label index in the name, it means it accepts index locations
+ * like 22 or 33
+ * 
+ * 
+ * 
  */
 public class GameBoard extends Reversi{
     
@@ -16,6 +25,7 @@ public class GameBoard extends Reversi{
     boolean ai_active; //if AI will be needed
     char color;
     
+    ArrayList<String> previous_moves;
     
     
     
@@ -34,6 +44,10 @@ public class GameBoard extends Reversi{
         {
             ai_active = false; //ai will not be needed 
         }
+        
+        
+        previous_moves = new ArrayList(); //Initalizing new list of previous moves 
+        
         setup_board();
     }//end of constructor
         
@@ -75,13 +89,56 @@ public class GameBoard extends Reversi{
       
     }
     
+    private int move_to_index(char c) //Converts the move charcter to int and usable index
+    {
+        int col=0;
+        int row=0;
+        
+        if(c =='a'||c =='b'|| c=='c'||c == 'd'||c=='e'||c=='f'||c=='g'||c=='h')
+        {
+           switch(c){
+               case 'a': col=0;
+                   break;
+               case 'b':col=1;
+                   break;
+               case 'c':col=2;
+                   break;
+               case 'd':col=3;
+                   break;
+               case 'e':col=4;
+                   break;
+               case 'f':col=5;
+                   break;
+               case 'g':col=6;
+                   break;
+               case 'h':col=7;
+                   break;
+               default:
+                   break;
+           }
+           
+          return col;    
+        }
+        else if(c == '1'||c =='2'||c=='3'||c== '4'||c=='5'||c=='6'||c=='7'||c=='8')
+        {
+             
+           row = Character.getNumericValue(c); 
+           row= row-1;//adjusting for offest.
+           
+           return row;
+           
+        }
+          
+     return 0; //If the value is already adjusted for index
+    }
+    
     public boolean check_state() //checks for winning conditions or special cases such as overtakes
     {
             
         return false;
     }
     
-    public boolean validate_move(String m) //Ensures new move is not bad
+    public boolean validate_move(String m) //Ensures new move is not bad, validates move structure ex. 'a2' or '11' Not index adjuested
     {
         
         int row;
@@ -172,7 +229,7 @@ public class GameBoard extends Reversi{
         
         //find avaliable moves
         
-         ArrayList<String> pos_moves =get_avaliable_moves(m); //possible moveset
+         ArrayList<String> pos_moves =get_avaliable_indexs(); //possible moveset
          
          boolean val = false;
          for(int i=0; i< pos_moves.size(); i++)
@@ -195,59 +252,11 @@ public class GameBoard extends Reversi{
       return true;  
     }
     
-    private int move_to_int(char c) //Converts the move charcter to int and usable index
-    {
-        int col=0;
-        int row=0;
-        
-        if(c =='a'||c =='b'|| c=='c'||c == 'd'||c=='e'||c=='f'||c=='g'||c=='h')
-        {
-           switch(c){
-               case 'a': col=0;
-                   break;
-               case 'b':col=1;
-                   break;
-               case 'c':col=2;
-                   break;
-               case 'd':col=3;
-                   break;
-               case 'e':col=4;
-                   break;
-               case 'f':col=5;
-                   break;
-               case 'g':col=6;
-                   break;
-               case 'h':col=7;
-                   break;
-               default:
-                   break;
-           }
-           
-          return col;    
-        }
-        
-        else if(c == '1'||c =='2'||c=='3'||c== '4'||c=='5'||c=='6'||c=='7'||c=='8')
-        {
-             
-           row = Character.getNumericValue(c); 
-           row= row-1;//adjusting for offest.
-           
-           return row;
-           
-        }
-        
-        
-        
-        
-        
-     return 0; //If 0 unexpectadly  
-    }
     
-    public ArrayList<String> get_avaliable_moves(String m)
+    
+    public ArrayList<String> get_avaliable_indexs()//takes in move, returns index locations of avaliable moves
     {
         
-       int row = move_to_int(m.charAt(0));   
-       int col = move_to_int(m.charAt(1));
        ArrayList<Integer> rows = new ArrayList(); //all unchecked moves 
        ArrayList<Integer> cols = new ArrayList();
        ArrayList<String> valid_moves = new ArrayList();
@@ -277,25 +286,25 @@ public class GameBoard extends Reversi{
         {
             //check up one
             temp= Integer.toString(rows.get(i)-1) + Integer.toString(cols.get(i));
-            if(valid_spot(temp))
+            if(valid_index(temp))
             {
               valid_moves.add(temp);  
             }
             //check down one
             temp= Integer.toString(rows.get(i)+1) + Integer.toString(cols.get(i));
-            if(valid_spot(temp))
+            if(valid_index(temp))
             {
               valid_moves.add(temp);  
             }
             //check left
             temp= Integer.toString(rows.get(i)) + Integer.toString(cols.get(i)-1);
-            if(valid_spot(temp))
+            if(valid_index(temp))
             {
               valid_moves.add(temp);  
             }
             // check right
             temp= Integer.toString(rows.get(i)) + Integer.toString(cols.get(i)+1);
-            if(valid_spot(temp))
+            if(valid_index(temp))
             {
               valid_moves.add(temp);  
             }
@@ -318,11 +327,69 @@ public class GameBoard extends Reversi{
     }
     
     
-    
-    
-    
-    public boolean valid_spot(String m) //assuming adjusted for index already, different than validate internal use
+    public boolean move(String n) //interface for actully moving
     {
+        String m =n; //Avoiding reference mods 
+        
+        boolean valid = validate_move(m);
+        if(valid == false)
+        {
+            System.out.println("\t Invalid move Selection");
+            return false;
+        }
+        
+       int row = move_to_index(m.charAt(0));   
+       int col = move_to_index(m.charAt(1));
+       
+       //System.out.println(color);
+       if(color == 'w')
+       {
+           //System.out.println("Row: "+row+" Col: "+ col);
+           board[row][col]='O';
+           return true;
+       }
+       if(color == 'b')
+       {
+           //System.out.println("Row: "+row+" Col: "+ col);
+           board[row][col]='@';
+           return true;
+       }
+       
+        
+        
+      return false;  
+    }
+    
+     
+    public char [][] get_board() //Returns copy of current board state
+    {
+        char [][] temp_board = board; //protection
+        
+        return temp_board;
+    }
+    
+    public void display_board()
+    {
+        
+        System.out.println("\t  - - - - - - - - ");
+        for(int i =0; i<8;i++)
+        {
+        System.out.println("\t"+(i+1)+"|"+board[i][0]+"|"+board[i][1]+"|"+board[i][2]+"|"+board[i][3]
+                +"|"+board[i][4]+"|"+board[i][5]+"|"+board[i][6] +"|"+ board[i][7]+"|");
+        System.out.println("\t  - - - - - - - - ");
+        }
+        System.out.println("\t  a b c d e f g h");
+                
+        
+        
+    }
+    
+        
+     //validates index locations, different than validate internal use
+    public boolean valid_index(String m)
+    {
+    
+        //</editor-fold>
         int row;
         int col = 0;
         //Valid length
@@ -399,65 +466,6 @@ public class GameBoard extends Reversi{
         
       return true; 
     }
-    
-    public boolean move(String n) //interface for actully moving
-    {
-        String m =n; //Avoiding reference mods 
-        
-        boolean valid = validate_move(m);
-        if(valid == false)
-        {
-            System.out.println("\t Invalid move Selection");
-            return false;
-        }
-        
-       int row = move_to_int(m.charAt(0));   
-       int col = move_to_int(m.charAt(1));
-       
-       //System.out.println(color);
-       if(color == 'w')
-       {
-           //System.out.println("Row: "+row+" Col: "+ col);
-           board[row][col]='O';
-           return true;
-       }
-       if(color == 'b')
-       {
-           //System.out.println("Row: "+row+" Col: "+ col);
-           board[row][col]='@';
-           return true;
-       }
-       
-        
-        
-      return false;  
-    }
-    
-     
-    public char [][] get_board() //Returns copy of current board state
-    {
-        char [][] temp_board = board; //protection
-        
-        return temp_board;
-    }
-    
-    public void display_board()
-    {
-        
-        System.out.println("\t  - - - - - - - - ");
-        for(int i =0; i<8;i++)
-        {
-        System.out.println("\t"+(i+1)+"|"+board[i][0]+"|"+board[i][1]+"|"+board[i][2]+"|"+board[i][3]
-                +"|"+board[i][4]+"|"+board[i][5]+"|"+board[i][6] +"|"+ board[i][7]+"|");
-        System.out.println("\t  - - - - - - - - ");
-        }
-        System.out.println("\t  a b c d e f g h");
-                
-        
-        
-    }
-    
-    
     
     
 }//end of class
