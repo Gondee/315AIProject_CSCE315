@@ -17,12 +17,12 @@ public class Reversi {
     
     private String ip;
     private int port;
-    private boolean ai_flag; //activate this copy of AI?
-    private int server_flag; //1 if server, 2 if client
+    static private boolean ai_flag; //activate this copy of AI?
+    static public int server_flag; //1 if server, 2 if client
     private int remote_ai_diff; //Difficulty of AI of remote AI
     private int local_ai_diff; //Difficulty of AI of local AI
     
-    public char client_color = 'w';
+    public char client_color = 'w';//Just so they can be switched
     public char server_color = 'b';
     
     public GameBoard game; 
@@ -73,10 +73,10 @@ public Reversi(){
        }
        
        System.out.println("Being Controller...");
-       
         game = new GameBoard(); 
         server = new Server();
        
+        
        
        
        

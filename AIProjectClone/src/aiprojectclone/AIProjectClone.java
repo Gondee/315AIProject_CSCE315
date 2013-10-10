@@ -4,6 +4,8 @@
  */
 package aiprojectclone;
 
+import java.util.Scanner;
+
 /**
  *
  * @author joshkruger
@@ -15,19 +17,26 @@ public class AIProjectClone {
      */
     public static void main(String[] args) {
         
-        String ExampleIP = "192.168.1.90";
-        int ExamplePort = 22;
-        boolean ExampleAIFlag = false;
-        int ExampleS_CFlag = 1; 
-        int Example_Difficulty = 1;
+        String IP = "192.168.1.90";
+        int Port = 22;
+        boolean AIFlag = false;
+        int S_CFlag = 2; 
+        int Difficulty = 1;
         
-        Reversi newGame = new Reversi(ExampleIP,ExamplePort,ExampleAIFlag,ExampleS_CFlag,Example_Difficulty); 
+        Reversi newGame = new Reversi(IP,Port,AIFlag,S_CFlag,Difficulty); 
             //Constructor that adds the values
         newGame.controller();
         
-       
-        boolean testmove = newGame.game.move("4c");
         
+        Scanner scanner = new Scanner (System.in);
+
+       while(true){
+        System.out.print("Enter your move: ");  
+        String m = scanner.next();
+         
+        if(newGame.game.move(m))
+            newGame.game.display_board();
+       }
         
         
         // TODO code application logic here
