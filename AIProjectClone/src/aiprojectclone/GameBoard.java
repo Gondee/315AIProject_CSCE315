@@ -6,6 +6,7 @@ package aiprojectclone;
 import java.util.ArrayList;
 import java.util.Random;
 
+
 /**
  *
  * @author joshkruger
@@ -22,8 +23,10 @@ import java.util.Random;
 public class GameBoard{
     
     private char [][] board;// actual board
+    private char winner =' ';
+    private char color; //working color
+    
     boolean ai_active; //if AI will be needed
-    char color; //working color
     ArrayList<String> previous_moves;
     
     
@@ -40,6 +43,14 @@ public class GameBoard{
     public void set_color(char c) //accepts 'w' or 'b'
     {
         color = c;
+    }
+    
+    public char get_winner()
+    {
+        if(winner != ' ')
+            return winner;
+        
+        return ' '; //No winner
     }
     
     //-------------------------------------Functions Below
@@ -170,8 +181,55 @@ public class GameBoard{
       return mov;  
     }
     
-    public boolean check_state() //checks for winning conditions or special cases such as overtakes
+    public boolean check_state() //checks for winning conditions or special cases such as overtakes //return true if someone win
     {
+        //Test game over
+        int space_count=0;
+        int white_count=0;
+        int black_count=0;
+        for(int i =0; i <8;i++)
+        {
+            for(int x=0; x<8;x++)
+            {
+              if(board[i][x] != ' ')
+              {
+                  space_count++;
+                  
+                  if(board[i][x] == 'O')
+                      white_count++;
+                  if(board[i][x] == '@')
+                      black_count++;
+    
+              }
+                  
+                
+            }
+            
+        }
+        if(space_count >63)
+        {
+            System.out.println("Game Over...");
+            if(white_count > black_count)
+            {
+                winner = 'w';
+                return true;
+            }
+            else if(white_count < black_count)
+            {
+                winner = 'b';
+                return true;
+            }
+            else
+            {
+                winner = 't'; //tie
+                return true;
+            }
+        }
+        
+        
+        
+        //check for overtakes 
+        
             
         return false;
     }
