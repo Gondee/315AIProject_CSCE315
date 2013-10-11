@@ -4,6 +4,7 @@
  */
 package aiprojectclone;
 import java.util.ArrayList;
+import java.util.Random;
 
 /**
  *
@@ -18,36 +19,21 @@ import java.util.ArrayList;
  * 
  * 
  */
-public class GameBoard extends Reversi{
+public class GameBoard{
     
     private char [][] board;// actual board
-    AI ai;                  //working instance of the AI 
     boolean ai_active; //if AI will be needed
-    char color;
-    
+    char color; //working color
     ArrayList<String> previous_moves;
     
     
     
     
-    public GameBoard(){         //Default constructor
-        
-        board = new char [8][8]; //setting up board
-        
-        
-        if(get_ai_flag()) //If AI is needed
-        {
-            ai = new AI(get_l_difficulty()); //creates new AI with appropriate difficulty
-            ai_active = true;
-        }
-        else 
-        {
-            ai_active = false; //ai will not be needed 
-        }
-        
-        
-        previous_moves = new ArrayList(); //Initalizing new list of previous moves 
-        
+    public GameBoard(char c){         //Default constructor
+        super();
+        board = new char [8][8]; //setting up board 
+        previous_moves = new ArrayList(); //Initalizing new list of previous moves
+        color = c; //
         setup_board();
     }//end of constructor
         
@@ -71,25 +57,13 @@ public class GameBoard extends Reversi{
         board[4][4] = 'O';
         
         
-        //System.out.println("BoardSetup:" + server_flag);
-        if(get_server_flag() == 2) //this instance is client
-        {
-            color = client_color;
-        }
-        else
-        {
-            color = server_color;
-        }
-        
-        
-        display_board();
-        
-       
-        
-      
     }
     
-    private int move_to_index(char c) //Converts the move charcter to int and usable index
+    
+    
+    
+    
+    private int move_to_index(char c) //Converts the move charcter to int and usable index, internal use
     {
         int col=0;
         int row=0;
@@ -130,6 +104,67 @@ public class GameBoard extends Reversi{
         }
           
      return 0; //If the value is already adjusted for index
+    }
+    
+    public String index_to_move(String m) //For external use
+    {
+        char r = m.charAt(0);
+        char c = m.charAt(1);
+        
+        
+        int row=0;
+        char col= ' ';//initalize as wrong input in case user has bad input
+        
+        if(r == '0'||r =='1'|| r=='2'||r == '3'||r =='4'|| r=='5'||r=='6'||r=='7')
+        {
+             
+           row = Character.getNumericValue(r); 
+           row= row+1;//adjusting for offest.
+           
+        }
+        else
+        {
+         System.out.println("Invalid row");
+         
+        }
+        
+       //valid character with conversion to int
+        
+        if(c =='0'||c =='1'|| c=='2'||c == '3'||c=='4'||c=='5'||c=='6'||c=='7')
+        {
+           switch(c){
+               case '0': col='a';
+                   break;
+               case '1':col='b';
+                   break;
+               case '2':col='c';
+                   break;
+               case '3':col='d';
+                   break;
+               case '4':col='e';
+                   break;
+               case '5':col='f';
+                   break;
+               case '6':col='g';
+                   break;
+               case '7':col='h';
+                   break;
+               default:
+                   break;
+           }
+           
+             
+        }
+        else
+        {
+            System.out.println("Invalid col");
+            
+        }
+   
+     
+      String mov = Integer.toString(row) + col;
+      //System.out.println("index_to_move: "+ mov);
+      return mov;  
     }
     
     public boolean check_state() //checks for winning conditions or special cases such as overtakes
@@ -466,6 +501,30 @@ public class GameBoard extends Reversi{
         
       return true; 
     }
+    
+    
+    
+    public boolean ramdom_ai()
+    {
+        //char c = game.color; //Getting color for this instance
+        Random generator = new Random(); //Random instance
+        
+        ArrayList<String> move_list = get_avaliable_indexs(); //Gets all indexs on current board for instance color
+        int random_move = generator.nextInt(move_list.size()); //In the future it will select from avaliable index positions      
+        String AIMove = move_list.get(random_move);
+        
+        
+        //System.out.println("AI Move: "+ AIMove);
+        String final_move = index_to_move(AIMove);
+        System.out.println("AI Move: "+ final_move);
+        
+        if(move(final_move))
+            return true;
+        
+        return false;
+    }
+    
+    
     
     
 }//end of class

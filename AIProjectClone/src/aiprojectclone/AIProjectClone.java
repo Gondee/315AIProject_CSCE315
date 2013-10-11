@@ -19,7 +19,7 @@ public class AIProjectClone {
         
         String IP = "192.168.1.90";
         int Port = 22;
-        boolean AIFlag = false;
+        boolean AIFlag = true;
         int S_CFlag = 2; 
         int Difficulty = 1;
         
@@ -29,14 +29,10 @@ public class AIProjectClone {
         
         
         Scanner scanner = new Scanner (System.in);
-
-       while(true){
         System.out.print("Enter your move: ");  
         String m = scanner.next();
-         
-        if(newGame.game.move(m))
-            newGame.game.display_board();
-       }
+      
+        
         
         
         // TODO code application logic here
