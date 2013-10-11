@@ -37,7 +37,10 @@ public class GameBoard{
         setup_board();
     }//end of constructor
         
-    
+    public void set_color(char c) //accepts 'w' or 'b'
+    {
+        color = c;
+    }
     
     //-------------------------------------Functions Below
     private void setup_board()
