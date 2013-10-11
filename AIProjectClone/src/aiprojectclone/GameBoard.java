@@ -585,6 +585,23 @@ public class GameBoard{
         return false;
     }
     
+    public String get_ASCII_board()
+    {
+        
+        String ascii_board ="";
+        ascii_board +="  - - - - - - - - ";
+        for(int i =0; i<8;i++)
+        {
+        ascii_board += ""+(i+1)+"|"+board[i][0]+"|"+board[i][1]+"|"+board[i][2]+"|"+board[i][3]
+                +"|"+board[i][4]+"|"+board[i][5]+"|"+board[i][6] +"|"+ board[i][7]+"|";
+        ascii_board += "  - - - - - - - - ";
+        }
+        ascii_board += "  a b c d e f g h";
+                
+     
+        return ascii_board;    
+    }
+    
     
     
     
