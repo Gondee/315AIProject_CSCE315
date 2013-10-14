@@ -4,6 +4,14 @@
  */
 package aiprojectclone;
 
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.PrintWriter;
+import java.io.BufferedReader;
+import java.net.ServerSocket;
+import java.net.Socket;
+
+
 /**
  *
  * @author joshkruger
@@ -14,13 +22,20 @@ package aiprojectclone;
  * 
  */
 public class Reversi {
-    
-    private String ip;
-    private int port;
+   
+	
+	public Server s;
+	//public Client c;
+	
+	public Reversi(int p) {
+		s = new Server(p);
+	}
+/*
     static private boolean ai_flag; //activate this copy of AI?
     static public int server_flag; //1 if server, 2 if client
     private int remote_ai_diff; //Difficulty of AI of remote AI
     private int local_ai_diff; //Difficulty of AI of local AI
+    
     
     protected char client_color = 'w';//Just so they can be switched
     protected char server_color = 'b';
@@ -84,6 +99,8 @@ public Reversi(){
     ai_flag = a;
     server_flag = s;      
    }//end of controller_setup
+   
+
 
    public void set_localAI_Diff(int d)
    {
@@ -119,7 +136,8 @@ public Reversi(){
      int d = local_ai_diff;
      return d;
    }
-           
+          
+*/   
            
    
    

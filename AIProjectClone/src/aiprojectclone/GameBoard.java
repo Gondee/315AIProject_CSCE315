@@ -3,6 +3,9 @@
  * and open the template in the editor.
  */
 package aiprojectclone;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.net.Socket;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -459,20 +462,18 @@ public class GameBoard{
         return temp_board;
     }
     
-    public void display_board()
+    public void display_board(Socket socket) throws IOException
     {
-        
-        System.out.println("\t  - - - - - - - - ");
+		PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
+		
+        out.println("\t  - - - - - - - - ");
         for(int i =0; i<8;i++)
         {
-        System.out.println("\t"+(i+1)+"|"+board[i][0]+"|"+board[i][1]+"|"+board[i][2]+"|"+board[i][3]
+        out.println("\t"+(i+1)+"|"+board[i][0]+"|"+board[i][1]+"|"+board[i][2]+"|"+board[i][3]
                 +"|"+board[i][4]+"|"+board[i][5]+"|"+board[i][6] +"|"+ board[i][7]+"|");
-        System.out.println("\t  - - - - - - - - ");
+        out.println("\t  - - - - - - - - ");
         }
-        System.out.println("\t  a b c d e f g h");
-                
-        
-        
+        out.println("\t  a b c d e f g h");       
     }
     
         
@@ -560,7 +561,7 @@ public class GameBoard{
     
     
     
-    public boolean ramdom_ai()
+    public boolean random_ai()
     {
         //char c = game.color; //Getting color for this instance
         Random generator = new Random(); //Random instance
