@@ -362,9 +362,9 @@ public class GameBoard{
        char c = 'O'; //player character default client
         
         if(color == 'w')
-             c= 'O';
+             c= '@';
         if(color == 'b')
-             c = '@';
+             c = 'O';
         
         
         for(int i =0; i<8;i++)
@@ -381,8 +381,9 @@ public class GameBoard{
             }
         }
         String temp;
-        for(int i =0; i< rows.size();i++)
+        for(int i =0; i< rows.size();i++) //make funtion for find line and find cross to see if a jump is possiable. 
         {
+            
             //check up one
             temp= Integer.toString(rows.get(i)-1) + Integer.toString(cols.get(i));
             if(valid_index(temp))
@@ -409,21 +410,14 @@ public class GameBoard{
             }
             
         }
-        
-//        for(int i=0; i<valid_moves.size();i++)
-//        {
-//            char rt = valid_moves.get(i).charAt(0);
-//            char ct = valid_moves.get(i).charAt(1);
-//
-//
-//            System.out.println("["+rt+","+ct+"]"); //testing
-//        }
-        
-        
-        
+
        
        return valid_moves; //passes back indexs of spots that are valid moves ex. [0][0] 
     }
+    
+    private boolean jump_row(){return false;} //to be done
+    private boolean jump_col(){return false;} //to do 
+    private boolean jump_diag(){return false;} // to do
     
     
     public boolean move(String n) //interface for actully moving
@@ -440,6 +434,7 @@ public class GameBoard{
        int row = move_to_index(m.charAt(0));   
        int col = move_to_index(m.charAt(1));
        
+       previous_moves.add(m);
        //System.out.println(color);
        if(color == 'w')
        {
