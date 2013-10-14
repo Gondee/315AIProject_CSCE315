@@ -4,6 +4,9 @@
  */
 package aiprojectclone;
 
+import java.io.IOException;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.util.Scanner;
 
 /**
@@ -14,14 +17,21 @@ public class AIProjectClone {
 
     /**
      * @param args the command line arguments
+     * @throws IOException 
      */
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
+    	
         
-        String IP = "192.168.1.90";
-        int Port = 22;
-        boolean AIFlag = true;
-        int S_CFlag = 2; 
-        int Difficulty = 1;
+        int Port = 5888;
+        Reversi newGame = new Reversi(Port);
+        newGame.s.listen();
+        
+    //	Reversi newGame = new Reversi(IP,Port,AIFlag,S_CFlag,Difficulty);  
+    	
+    //	newGame.server();
+    	
+/*        
+
         
         Reversi newGame = new Reversi(IP,Port,AIFlag,S_CFlag,Difficulty);     
         newGame.controller();
@@ -43,7 +53,7 @@ public class AIProjectClone {
         game.display_board();
         
         }
-        
+ */       
         // TODO code application logic here
     }
 }
