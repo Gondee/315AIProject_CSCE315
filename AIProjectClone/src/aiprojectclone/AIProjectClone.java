@@ -41,6 +41,7 @@ public class AIProjectClone {
         game.set_color('b');
         game.ramdom_ai();
         game.display_board();
+       
         
         }
         
