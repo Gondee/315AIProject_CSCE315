@@ -10,10 +10,9 @@ import java.net.Socket;
 public class Server {
 	
     private GameBoard board;
-    
-	private int port; // Port number of the server	
-	private int remote_port; // Hostname for remote server for AI vs AI
-	private String remote_hostname; // Port number of the remote server for AI vs AI
+    private int port; // Port number of the server	
+    private int remote_port; // Hostname for remote server for AI vs AI
+    private String remote_hostname; // Port number of the remote server for AI vs AI
     
     char client_color;
     char server_color;
