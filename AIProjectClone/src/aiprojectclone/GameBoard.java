@@ -561,7 +561,7 @@ public class GameBoard{
     
     
     
-    public boolean ramdom_ai()
+    public boolean random_ai()
     {
         //char c = game.color; //Getting color for this instance
         Random generator = new Random(); //Random instance

@@ -62,25 +62,34 @@ public class Server {
 				valid = true;
 				client_color = 'w';
 				server_color = 'b';
-			} else if(input.equals("BLACK") || input.equals("black") || input.equals("Black")) {
+				out.println("OK\n");
+			} else if (input.equals("BLACK") || input.equals("black") || input.equals("Black")) {
 				valid = true;
 				client_color = 'b';
-				server_color = 'w';				
-			} else if(!valid)
+				server_color = 'w';	
+				out.println("OK\n");
+			} else if (!valid)
 				out.println("INVALID CHOICE\n");
 		} while (!valid);
 			
 		board = new GameBoard(client_color);
+		board.display_board(socket);
+		out.println("MAKE FIRST MOVE\n");
 		
 		while (true) {
 			input = in.readLine();
-			
-			if (input.equals("DISPLAY"))
-				board.display_board(socket);		   
-			   	
-		    if (input.equals("EXIT"))
+		    if (input.equals("EXIT\n"))
 			    return 0;
-		    out.println(input+"\n");
+			else if(!board.move(input))
+				out.println("ILLEGAL\n");
+		    else if(board.check_state())
+		    	out.println("GAME OVER\n");
+			else if(!board.random_ai())
+				out.println("ILLEGAL AI MOVE\n");
+			else if(board.check_state())
+				out.println("GAME OVER\n");		 
+			out.println("OK");
+			board.display_board(socket);	
 		}
 		               
 	}
