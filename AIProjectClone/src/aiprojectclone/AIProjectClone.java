@@ -49,9 +49,9 @@ public class AIProjectClone {
         game.set_color('w');
         game.move(m);
         game.display_board();
-        game.set_color('b');
-        //game.random_ai();
-        //game.display_board();
+        //game.set_color('b');
+        game.random_ai();
+        game.display_board();
        
         
         }

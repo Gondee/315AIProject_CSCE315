@@ -75,10 +75,7 @@ public class GameBoard{
         
         
     }
-    
-    
-    
-    
+        
     
     private String move_to_index(String m) //Converts the move charcter to int and usable index, internal use
     {
@@ -302,7 +299,7 @@ public class GameBoard{
              
          
          
-      return true;  
+      return false;  
     }
     
     
@@ -334,6 +331,8 @@ public class GameBoard{
                 
             }
         }
+        
+        
         
         String temp;
         for(int i =0; i< rows.size();i++) //make funtion for find line and find cross to see if a jump is possiable. 
@@ -368,7 +367,36 @@ public class GameBoard{
                     valid_moves.add(temp);  
             }
             
-   
+            //Checking diagonal positions
+            //up right
+            temp= Integer.toString(cols.get(i)+1) + Integer.toString(rows.get(i)+1);
+            if(valid_index(temp))
+            {
+                if(jump_diag_test(temp))
+                    valid_moves.add(temp);  
+            }
+            
+            //up left
+            temp= Integer.toString(cols.get(i)-1) + Integer.toString(rows.get(i)+1);
+            if(valid_index(temp))
+            {
+                if(jump_diag_test(temp))
+                    valid_moves.add(temp);  
+            }
+            //down right
+            temp= Integer.toString(cols.get(i)+1) + Integer.toString(rows.get(i)-1);
+            if(valid_index(temp))
+            {
+                if(jump_diag_test(temp))
+                    valid_moves.add(temp);  
+            }
+            //down left
+            temp= Integer.toString(cols.get(i)-1) + Integer.toString(rows.get(i)-1);
+            if(valid_index(temp))
+            {
+                if(jump_diag_test(temp))
+                    valid_moves.add(temp);  
+            }
         }
 
        
@@ -496,12 +524,587 @@ public class GameBoard{
         
     } //to do 
     
-    private boolean jump_diag_test(String m){
+    public boolean jump_diag_test(String m){
+        
+        char op_color = '@';
+        char pl_color = 'O';
+        
+        if(color == 'b'){
+            op_color = 'O';
+            pl_color = '@';
+        }
+        if(color == 'w'){
+            op_color = '@';
+            pl_color = 'O';
+        }
+                    
+        
+        char c = m.charAt(0);
+        char r = m.charAt(1);
+        int col = Character.getNumericValue(c);
+        int row = Character.getNumericValue(r);
+        
+        int i =0;//Jump counter
+        int y = 0;
+        y = col-1;
+        for(int x =row-1;x > 0;x--){  //up and to the left
+            
+            
+               
+                if(board[x][y] == op_color){
+                    i++; 
+                }
+
+                if(board[x][y] == ' '){
+                    break;
+                }
+
+                if(board[x][y] == pl_color && i >0){
+                    //System.out.println("Jump diag up left test ");
+                    return true;
+                } 
+                if(y <8 && y >0)
+                    y--;
+                else 
+                    break;
+             
+        }
+        i=0;
+        y = col +1;
+        for(int x =row-1;x > 0;x--){  //up and to the right
+            
+                if(board[x][y] == op_color){
+                    i++; 
+                }
+
+                if(board[x][y] == ' '){
+                    break;
+                }
+
+                if(board[x][y] == pl_color && i >0){
+                    //System.out.println("Jump diag up right");
+                    return true;
+                } 
+                if(y <8 && y >0)
+                    y++;
+                else 
+                    break;
+             
+             
+        }
+        i=0;
+        y = col -1;
+        for(int x =row+1;x < 8;x++){  //down to the left
+            
+            
+               
+                if(board[x][y] == op_color){
+                    i++; 
+                }
+
+                if(board[x][y] == ' '){
+                    break;
+                }
+
+                if(board[x][y] == pl_color && i >0){
+                    //System.out.println("Jump diag down left");
+                    return true;
+                }
+                if(y <8 && y >0)
+                    y--;
+                else 
+                    break;
+             
+        }
+        i=0;
+        y = col+1;
+        for(int x =row+1;x < 8;x++){  //down to the right
+            
+            
+               
+                if(board[x][y] == op_color){
+                    i++; 
+                }
+
+                if(board[x][y] == ' '){
+                    break;
+                }
+
+                if(board[x][y] == pl_color && i >0){
+                    //System.out.println("Jump diag down right");
+                    return true;
+                }
+                
+                if(y <8 && y >0)
+                    y++;
+                else 
+                    break;
+             
+        }
+        
         
         
         return false;
     } // to do
     
+    public boolean peform_row_jump(String m){
+        
+        char op_color = '@';
+        char pl_color = 'O';
+        
+        if(color == 'b'){
+            op_color = 'O';
+            pl_color = '@';
+        }
+        if(color == 'w'){
+            op_color = '@';
+            pl_color = 'O';
+        }
+                    
+        
+        char c = m.charAt(0);
+        char r = m.charAt(1);
+        int col = Character.getNumericValue(c);
+        int row = Character.getNumericValue(r);
+        
+        int i =0;
+        boolean left = false;
+        boolean right = false;
+        
+        for(int x = col-1; x > 0; x--){
+ 
+            if(board[row][x] == op_color){
+               i++; 
+            }
+            
+            if(board[row][x] == ' '){
+                break;
+            }
+            
+            if(board[row][x] == pl_color && i >0){
+               left = true;
+            }
+            
+        }
+        
+        i = 0;
+        for(int x = col+1; x < 8; x++){
+
+            if(board[row][x] == op_color){
+               i++;
+            }
+            
+            if(board[row][x] == ' '){    
+                break;
+            }
+            
+            if(board[row][x] == pl_color && i >0){
+               right = true;
+            }
+            
+        }
+        
+        
+        i =0;
+        //--------peforming jump on directions
+        if(left)
+        {
+            for(int x = col-1; x > 0; x--){
+
+                if(board[row][x] == pl_color && i >0){
+                    break;
+                }
+
+                if(board[row][x] == op_color){
+                    i++;
+                board[row][x] = pl_color; 
+                }
+
+                if(board[row][x] == ' '){
+                    break;
+                }
+
+
+
+            }
+        }
+        
+        i = 0;
+        if(right)
+        {
+            for(int x = col+1; x < 8; x++){
+
+                if(board[row][x] == pl_color && i >0){
+                    break;
+                }
+
+                if(board[row][x] == op_color){
+                i++;
+                board[row][x] = pl_color;
+                }
+
+                if(board[row][x] == ' '){    
+                    break;
+                }
+
+
+
+            }
+        }
+ 
+        return false;
+    }
+    public boolean peform_col_jump(String m){
+        
+        char op_color = '@';
+        char pl_color = 'O';
+        
+        if(color == 'b'){
+            op_color = 'O';
+            pl_color = '@';
+        }
+        if(color == 'w'){
+            op_color = '@';
+            pl_color = 'O';
+        }
+                    
+        
+        char c = m.charAt(0);
+        char r = m.charAt(1);
+        int col = Character.getNumericValue(c);
+        int row = Character.getNumericValue(r);
+        
+        int i =0; 
+        boolean up = false;
+        boolean down = false;
+         
+        for(int x = row-1; x > 0; x--){
+ 
+            if(board[x][col] == op_color){
+               i++; 
+            }
+            
+            if(board[x][col] == ' '){
+                break;
+            }
+            
+            if(board[x][col] == pl_color && i >0){
+               up = true;
+            }
+            
+        }
+        
+        i = 0;
+        for(int x = row+1; x < 8; x++){
+
+            if(board[x][col] == op_color){
+               i++;
+            }
+            
+            if(board[x][col] == ' '){    
+                break;
+            }
+            
+            if(board[x][col] == pl_color && i >0){
+               down = true;
+            }
+            
+        }
+
+        i =0; 
+        if(up)
+        {
+            for(int x = row-1; x > 0; x--){
+
+                if(board[x][col] == pl_color && i >0){
+                break;
+                }
+
+                if(board[x][col] == op_color){
+                i++;
+                board[x][col] = pl_color;
+
+                }
+
+                if(board[x][col] == ' '){
+                    break;
+                }
+
+            }
+        }
+        
+        i = 0;
+        if(down)
+        {
+            for(int x = row+1; x < 8; x++){
+
+                if(board[x][col] == pl_color && i >0){
+                break;
+                }
+
+                if(board[x][col] == op_color){
+                i++;
+                board[x][col] = pl_color;
+                }
+
+                if(board[x][col] == ' '){    
+                    break;
+                }
+
+            }
+        }
+       
+        
+        
+        return true;
+    }
+    public boolean peform_diag_jump(String m){
+    
+        char op_color = '@';
+        char pl_color = 'O';
+        
+        if(color == 'b'){
+            op_color = 'O';
+            pl_color = '@';
+        }
+        if(color == 'w'){
+            op_color = '@';
+            pl_color = 'O';
+        }
+                    
+        
+        char c = m.charAt(0);
+        char r = m.charAt(1);
+        int col = Character.getNumericValue(c);
+        int row = Character.getNumericValue(r);
+        
+        boolean upleft = false;
+        boolean upright = false;
+        boolean downleft = false;
+        boolean downright = false;
+        
+        int i =0;//Jump counter
+        
+        int y = 0;
+        y = col-1;
+        for(int x =row-1;x > 0;x--){  //up and to the left
+            
+            
+               
+                if(board[x][y] == op_color){
+                    i++; 
+                }
+
+                if(board[x][y] == ' '){
+                    break;
+                }
+
+                if(board[x][y] == pl_color && i >0){
+                    //System.out.println("Jump diag up left test ");
+                    upleft = true;
+                } 
+                if(y <8 && y >0)
+                    y--;
+                else 
+                    break;
+             
+        }
+        i=0;
+        y = col +1;
+        for(int x =row-1;x > 0;x--){  //up and to the right
+            
+                if(board[x][y] == op_color){
+                    i++; 
+                }
+
+                if(board[x][y] == ' '){
+                    break;
+                }
+
+                if(board[x][y] == pl_color && i >0){
+                    //System.out.println("Jump diag up right");
+                    upright = true;
+                } 
+                if(y <8 && y >0)
+                    y++;
+                else 
+                    break;
+             
+             
+        }
+        i=0;
+        y = col -1;
+        for(int x =row+1;x < 8;x++){  //down to the left
+            
+            
+               
+                if(board[x][y] == op_color){
+                    i++; 
+                }
+
+                if(board[x][y] == ' '){
+                    break;
+                }
+
+                if(board[x][y] == pl_color && i >0){
+                    //System.out.println("Jump diag down left");
+                    downleft=true;
+                }
+                if(y <8 && y >0)
+                    y--;
+                else 
+                    break;
+             
+        }
+        i=0;
+        y = col+1;
+        for(int x =row+1;x < 8;x++){  //down to the right
+            
+            
+               
+                if(board[x][y] == op_color){
+                    i++; 
+                }
+
+                if(board[x][y] == ' '){
+                    break;
+                }
+
+                if(board[x][y] == pl_color && i >0){
+                    //System.out.println("Jump diag down right");
+                    downright = true;
+                }
+                
+                if(y <8 && y >0)
+                    y++;
+                else 
+                    break;
+             
+        }
+        
+        
+        //Peforming jumps----------------------------------------
+        i=0;
+        if(upleft){
+            
+            y = col-1;
+            for(int x =row-1;x > 0;x--){  //up and to the left
+                
+                if(board[x][y] == pl_color && i >0){
+                    break;
+                }
+                
+                if(board[x][y] == op_color){
+                    i++;
+                    board[x][y] = pl_color;
+                }
+
+                if(board[x][y] == ' '){
+                    break;
+                }
+
+                if(y <8 && y >0)
+                    y--;
+                else 
+                    break;
+             
+            }
+        }
+        
+        i=0;
+        if(upright){
+            
+            y = col +1;
+            for(int x =row-1;x > 0;x--){  //up and to the right
+            
+                if(board[x][y] == pl_color && i >0){
+                    break;
+                }
+                if(board[x][y] == op_color){
+                    i++;
+                    board[x][y] = pl_color;
+                }
+
+                if(board[x][y] == ' '){
+                    break;
+                }
+
+                 
+                if(y <8 && y >0)
+                    y++;
+                else 
+                    break;
+             
+             
+            }
+            
+        }
+        
+        i=0;
+        if(downleft){
+            
+            y = col -1;
+            for(int x =row+1;x < 8;x++){  //down to the left
+
+                if(board[x][y] == pl_color && i >0){
+                    break;
+                }
+                
+                if(board[x][y] == op_color){
+                    i++;
+                    board[x][y] = pl_color;
+                }
+
+                if(board[x][y] == ' '){
+                    break;
+                }
+
+                
+                if(y <8 && y >0)
+                    y--;
+                else 
+                    break;
+             
+            }
+            
+        }
+        
+        i=0;
+        if(downright){
+            
+              y = col+1;
+            for(int x =row+1;x < 8;x++){  //down to the right
+            
+            
+                if(board[x][y] == pl_color && i >0){
+                    break;
+                }
+               
+                if(board[x][y] == op_color){
+                    i++; 
+                    board[x][y] = pl_color;
+                            
+                }
+
+                if(board[x][y] == ' '){
+                    break;
+                }
+
+                
+                if(y <8 && y >0)
+                    y++;
+                else 
+                    break;
+             
+            }
+            
+        }
+            
+        
+        
+        return true;
+        
+    }
     
     
     public boolean move(String n) //interface for actully moving //F4
@@ -529,11 +1132,27 @@ public class GameBoard{
       
        if(color == 'w'){
            board[row][col]='O';
+           
+           if(jump_row_test(m))
+               peform_row_jump(m);
+           if(jump_col_test(m))
+               peform_col_jump(m);
+           if(jump_diag_test(m))
+               peform_diag_jump(m);
+           
            return true;
        }
        
        if(color == 'b'){
            board[row][col]='@';
+           
+           if(jump_row_test(m))
+               peform_row_jump(m);
+           if(jump_col_test(m))
+               peform_col_jump(m);
+           if(jump_diag_test(m))
+               peform_diag_jump(m);
+           
            return true;
        }
        
@@ -542,6 +1161,61 @@ public class GameBoard{
       return false;  
     }
     
+    public boolean ai_move(String n) //interface for actully moving //F4
+    {
+        String m = move_to_index(n);
+        
+       if("NO".equals(m)){
+           System.out.println("Invalid move");
+           return false;
+       }
+
+       if(!validate_move(m)){
+            System.out.println("\t Invalid move Selection");
+            return false;
+       }
+       
+       
+       
+       
+       char ca = m.charAt(0); 
+       char ra = m.charAt(1); 
+       int col = Character.getNumericValue(ca);  
+       int row = Character.getNumericValue(ra); 
+       //System.out.println("Move: "+m+":: "+col+","+row);
+      
+       if(color == 'w'){
+           board[row][col]='O';
+           
+           if(jump_row_test(m))
+               peform_row_jump(m);
+           if(jump_col_test(m))
+               peform_col_jump(m);
+           if(jump_diag_test(m))
+               peform_diag_jump(m);
+           
+           color = 'b'; //swtich back
+           return true;
+       }
+       
+       if(color == 'b'){
+           board[row][col]='@';
+           
+           if(jump_row_test(m))
+               peform_row_jump(m);
+           if(jump_col_test(m))
+               peform_col_jump(m);
+           if(jump_diag_test(m))
+               peform_diag_jump(m);
+           
+           color = 'w'; //swtich back
+           return true;
+       }
+       
+        
+        
+      return false;  
+    }
      
     public char [][] get_board() //Returns copy of current board state
     {
@@ -626,16 +1300,24 @@ public class GameBoard{
         //char c = game.color; //Getting color for this instance
         Random generator = new Random(); //Random instance
         
+        if(color == 'b') //swtiching color becasuse of server structure, probably remove for client server
+            color = 'w';
+        else if(color == 'w')
+            color = 'b';
+        
         ArrayList<String> move_list = get_avaliable_indexs(); //Gets all indexs on current board for instance color
+        if(move_list.isEmpty())
+            return false;
+        
         int random_move = generator.nextInt(move_list.size()); //In the future it will select from avaliable index positions      
         String AIMove = move_list.get(random_move);
         
         
-        System.out.println("AI Move: "+ AIMove);
+        //System.out.println("AI Move: "+ AIMove);
         String final_move = index_to_move(AIMove);
         System.out.println("AI Move: "+ final_move);
         
-        if(move(final_move))
+        if(ai_move(final_move))
             return true;
         
         return false;
