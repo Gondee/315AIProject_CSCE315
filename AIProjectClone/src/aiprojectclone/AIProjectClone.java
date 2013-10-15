@@ -30,12 +30,11 @@ public class AIProjectClone {
         
         int Port = 5888;
         Server s = new Server(Port);
+        s.listen();
     	  
 
-        
-        //Reversi newGame = new Reversi(IP,Port,AIFlag,S_CFlag,Difficulty);     
-        //newGame.controller();
-        
+        //Local testing below
+           
 //        GameBoard game = new GameBoard('w');// initial color
 //        
 //        Scanner scanner = new Scanner (System.in);
@@ -49,7 +48,6 @@ public class AIProjectClone {
 //        game.set_color('w');
 //        game.move(m);
 //        game.display_board();
-//        //game.set_color('b');
 //        game.random_ai();
 //        game.display_board();
 //       

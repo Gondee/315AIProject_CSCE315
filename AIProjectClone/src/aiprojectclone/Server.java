@@ -81,8 +81,8 @@ public class Server {
 			    return 0;
 			else if(!board.move(input))
 				out.println("ILLEGAL\n");
-		    else if(board.check_state())
-		    	out.println("GAME OVER\n");
+                        else if(board.check_state())
+                            out.println("GAME OVER\n");
 			else if(!board.random_ai())
 				out.println("AI SKIP\n");
 			else if(board.check_state())
