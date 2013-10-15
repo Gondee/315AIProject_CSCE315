@@ -259,6 +259,30 @@ public class GameBoard{
         }
         
         
+       
+        if(color == 'b'){
+            
+            ArrayList<String> mov1 = get_avaliable_indexs();
+            set_color('w'); //Checking opp moves
+            ArrayList<String> mov2 = get_avaliable_indexs();
+            set_color('b'); //Checking player moves
+            
+            if(mov1.isEmpty() && mov2.isEmpty())
+                return true; //game over, no one had moves
+            
+        }
+        if(color == 'w'){
+            ArrayList<String> mov1 = get_avaliable_indexs();
+            set_color('b'); //Checking opp moves
+            ArrayList<String> mov2 = get_avaliable_indexs();
+            set_color('w'); //Checking player moves
+            
+            if(mov1.isEmpty() && mov2.isEmpty())
+                return false; //game over, no one has moves
+            
+        }
+        
+        
         
         //check for overtakes 
         
