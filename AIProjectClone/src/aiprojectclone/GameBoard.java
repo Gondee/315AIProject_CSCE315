@@ -573,6 +573,11 @@ public class GameBoard{
         y = col-1;
         for(int x =row-1;x > 0;x--){  //up and to the left
             
+            if(y <8 && y >0)
+                    y--;
+                else 
+                    break;
+                
             
                
                 if(board[x][y] == op_color){
@@ -587,15 +592,17 @@ public class GameBoard{
                     //System.out.println("Jump diag up left test ");
                     return true;
                 } 
-                if(y <8 && y >0)
-                    y--;
-                else 
-                    break;
+                
              
         }
         i=0;
         y = col +1;
         for(int x =row-1;x > 0;x--){  //up and to the right
+            
+                if(y <8 && y >0)
+                    y++;
+                else 
+                    break;
             
                 if(board[x][y] == op_color){
                     i++; 
@@ -609,10 +616,7 @@ public class GameBoard{
                     //System.out.println("Jump diag up right");
                     return true;
                 } 
-                if(y <8 && y >0)
-                    y++;
-                else 
-                    break;
+                
              
              
         }
@@ -620,6 +624,10 @@ public class GameBoard{
         y = col -1;
         for(int x =row+1;x < 8;x++){  //down to the left
             
+                if(y <8 && y >0)
+                    y--;
+                else 
+                    break;
             
                
                 if(board[x][y] == op_color){
@@ -634,17 +642,17 @@ public class GameBoard{
                     //System.out.println("Jump diag down left");
                     return true;
                 }
-                if(y <8 && y >0)
-                    y--;
-                else 
-                    break;
+                
              
         }
         i=0;
         y = col+1;
         for(int x =row+1;x < 8;x++){  //down to the right
             
-            
+                if(y <8 && y >0)
+                    y++;
+                else 
+                    break;
                
                 if(board[x][y] == op_color){
                     i++; 
@@ -659,10 +667,7 @@ public class GameBoard{
                     return true;
                 }
                 
-                if(y <8 && y >0)
-                    y++;
-                else 
-                    break;
+                
              
         }
         
@@ -913,7 +918,10 @@ public class GameBoard{
         y = col-1;
         for(int x =row-1;x > 0;x--){  //up and to the left
             
-            
+                if(y <8 && y >0)
+                    y--;
+                else 
+                    break;
                
                 if(board[x][y] == op_color){
                     i++; 
@@ -927,15 +935,17 @@ public class GameBoard{
                     //System.out.println("Jump diag up left test ");
                     upleft = true;
                 } 
-                if(y <8 && y >0)
-                    y--;
-                else 
-                    break;
+                
              
         }
         i=0;
         y = col +1;
         for(int x =row-1;x > 0;x--){  //up and to the right
+            
+                 if(y <8 && y >0)
+                    y++;
+                else 
+                    break;
             
                 if(board[x][y] == op_color){
                     i++; 
@@ -949,10 +959,7 @@ public class GameBoard{
                     //System.out.println("Jump diag up right");
                     upright = true;
                 } 
-                if(y <8 && y >0)
-                    y++;
-                else 
-                    break;
+               
              
              
         }
@@ -960,7 +967,10 @@ public class GameBoard{
         y = col -1;
         for(int x =row+1;x < 8;x++){  //down to the left
             
-            
+                if(y <8 && y >0)
+                    y--;
+                else 
+                    break;
                
                 if(board[x][y] == op_color){
                     i++; 
@@ -974,17 +984,17 @@ public class GameBoard{
                     //System.out.println("Jump diag down left");
                     downleft=true;
                 }
-                if(y <8 && y >0)
-                    y--;
-                else 
-                    break;
+                
              
         }
         i=0;
         y = col+1;
         for(int x =row+1;x < 8;x++){  //down to the right
             
-            
+                if(y <8 && y >0)
+                    y++;
+                else 
+                    break;
                
                 if(board[x][y] == op_color){
                     i++; 
@@ -999,10 +1009,7 @@ public class GameBoard{
                     downright = true;
                 }
                 
-                if(y <8 && y >0)
-                    y++;
-                else 
-                    break;
+                
              
         }
         
@@ -1013,6 +1020,11 @@ public class GameBoard{
             
             y = col-1;
             for(int x =row-1;x > 0;x--){  //up and to the left
+                
+                if(y <8 && y >0)
+                    y--;
+                else 
+                    break;
                 
                 if(board[x][y] == pl_color && i >0){
                     break;
@@ -1027,10 +1039,7 @@ public class GameBoard{
                     break;
                 }
 
-                if(y <8 && y >0)
-                    y--;
-                else 
-                    break;
+                
              
             }
         }
@@ -1041,6 +1050,12 @@ public class GameBoard{
             y = col +1;
             for(int x =row-1;x > 0;x--){  //up and to the right
             
+                if(y <8 && y >0)
+                    y++;
+                else 
+                    break;
+             
+                
                 if(board[x][y] == pl_color && i >0){
                     break;
                 }
@@ -1054,11 +1069,7 @@ public class GameBoard{
                 }
 
                  
-                if(y <8 && y >0)
-                    y++;
-                else 
-                    break;
-             
+                
              
             }
             
@@ -1070,6 +1081,11 @@ public class GameBoard{
             y = col -1;
             for(int x =row+1;x < 8;x++){  //down to the left
 
+                if(y <8 && y >0)
+                    y--;
+                else 
+                    break;
+                
                 if(board[x][y] == pl_color && i >0){
                     break;
                 }
@@ -1084,11 +1100,7 @@ public class GameBoard{
                 }
 
                 
-                if(y <8 && y >0)
-                    y--;
-                else 
-                    break;
-             
+                
             }
             
         }
@@ -1099,7 +1111,12 @@ public class GameBoard{
               y = col+1;
             for(int x =row+1;x < 8;x++){  //down to the right
             
-            
+                
+                if(y <8 && y >0)
+                    y++;
+                else 
+                    break;
+                
                 if(board[x][y] == pl_color && i >0){
                     break;
                 }
@@ -1115,10 +1132,6 @@ public class GameBoard{
                 }
 
                 
-                if(y <8 && y >0)
-                    y++;
-                else 
-                    break;
              
             }
             
