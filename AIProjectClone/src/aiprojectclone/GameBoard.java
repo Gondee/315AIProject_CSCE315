@@ -570,7 +570,7 @@ public class GameBoard{
         
         int i =0;//Jump counter
         int y = 0;
-        y = col-1;
+        y = col;
         for(int x =row-1;x > 0;x--){  //up and to the left
             
             if(y <8 && y >0)
@@ -596,7 +596,7 @@ public class GameBoard{
              
         }
         i=0;
-        y = col +1;
+        y = col;
         for(int x =row-1;x > 0;x--){  //up and to the right
             
                 if(y <8 && y >0)
@@ -621,7 +621,7 @@ public class GameBoard{
              
         }
         i=0;
-        y = col -1;
+        y = col;
         for(int x =row+1;x < 8;x++){  //down to the left
             
                 if(y <8 && y >0)
@@ -646,7 +646,7 @@ public class GameBoard{
              
         }
         i=0;
-        y = col+1;
+        y = col;
         for(int x =row+1;x < 8;x++){  //down to the right
             
                 if(y <8 && y >0)
@@ -915,7 +915,7 @@ public class GameBoard{
         int i =0;//Jump counter
         
         int y = 0;
-        y = col-1;
+        y = col;
         for(int x =row-1;x > 0;x--){  //up and to the left
             
                 if(y <8 && y >0)
@@ -939,7 +939,7 @@ public class GameBoard{
              
         }
         i=0;
-        y = col +1;
+        y = col;
         for(int x =row-1;x > 0;x--){  //up and to the right
             
                  if(y <8 && y >0)
@@ -964,7 +964,7 @@ public class GameBoard{
              
         }
         i=0;
-        y = col -1;
+        y = col;
         for(int x =row+1;x < 8;x++){  //down to the left
             
                 if(y <8 && y >0)
@@ -988,7 +988,7 @@ public class GameBoard{
              
         }
         i=0;
-        y = col+1;
+        y = col;
         for(int x =row+1;x < 8;x++){  //down to the right
             
                 if(y <8 && y >0)
@@ -1018,7 +1018,7 @@ public class GameBoard{
         i=0;
         if(upleft){
             
-            y = col-1;
+            y = col;
             for(int x =row-1;x > 0;x--){  //up and to the left
                 
                 if(y <8 && y >0)
@@ -1047,7 +1047,7 @@ public class GameBoard{
         i=0;
         if(upright){
             
-            y = col +1;
+            y = col;
             for(int x =row-1;x > 0;x--){  //up and to the right
             
                 if(y <8 && y >0)
@@ -1078,7 +1078,7 @@ public class GameBoard{
         i=0;
         if(downleft){
             
-            y = col -1;
+            y = col;
             for(int x =row+1;x < 8;x++){  //down to the left
 
                 if(y <8 && y >0)
@@ -1108,7 +1108,7 @@ public class GameBoard{
         i=0;
         if(downright){
             
-              y = col+1;
+              y = col;
             for(int x =row+1;x < 8;x++){  //down to the right
             
                 
