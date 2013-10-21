@@ -450,6 +450,123 @@ public class GameBoard implements Serializable{
        return t; //passes back indexs of spots that are valid moves ex. [0][0] 
     }
     
+    public ArrayList<String> get_avaliable_AIindexs()//takes in move, returns index locations of avaliable moves
+    {
+        //Switch for checking
+        if(color == 'w')
+             color= 'b';
+        if(color == 'b')
+             color = 'w';
+        
+        
+        
+       ArrayList<Integer> rows = new ArrayList(); //all unchecked moves 
+       ArrayList<Integer> cols = new ArrayList();
+       ArrayList<String> valid_moves = new ArrayList();
+       char c = 'O'; //player character default client
+        
+        if(color == 'w')
+             c= '@';
+        if(color == 'b')
+             c = 'O';
+        
+        
+        for(int i =0; i<8;i++)
+        {
+            for(int x =0; x<8;x++)
+            {
+              if(board[i][x] == c)
+              {
+                  rows.add(i);
+                  cols.add(x);
+                  
+              }
+                
+            }
+        }
+        
+        
+        
+        String temp;
+        for(int i =0; i< rows.size();i++) //make funtion for find line and find cross to see if a jump is possiable. 
+        {
+            
+            //check up one
+            temp= Integer.toString(cols.get(i)-1) + Integer.toString(rows.get(i));
+            if(valid_index(temp))
+            {
+              if(jump_row_test(temp) || jump_col_test(temp))  
+                valid_moves.add(temp);  
+            }
+            //check down one
+            temp= Integer.toString(cols.get(i)+1) + Integer.toString(rows.get(i));
+            if(valid_index(temp))
+            {
+                if(jump_row_test(temp) || jump_col_test(temp))
+                    valid_moves.add(temp);  
+            }
+            //check left
+            temp= Integer.toString(cols.get(i)) + Integer.toString(rows.get(i)-1);
+            if(valid_index(temp))
+            {
+                if(jump_row_test(temp) || jump_col_test(temp))
+                    valid_moves.add(temp);  
+            }
+            // check right
+            temp= Integer.toString(cols.get(i)) + Integer.toString(rows.get(i)+1);
+            if(valid_index(temp))
+            {
+                if(jump_row_test(temp) || jump_col_test(temp))
+                    valid_moves.add(temp);  
+            }
+            
+            //Checking diagonal positions
+            //up right
+            temp= Integer.toString(cols.get(i)+1) + Integer.toString(rows.get(i)+1);
+            if(valid_index(temp))
+            {
+                if(jump_diag_test(temp))
+                    valid_moves.add(temp);  
+            }
+            
+            //up left
+            temp= Integer.toString(cols.get(i)-1) + Integer.toString(rows.get(i)+1);
+            if(valid_index(temp))
+            {
+                if(jump_diag_test(temp))
+                    valid_moves.add(temp);  
+            }
+            //down right
+            temp= Integer.toString(cols.get(i)+1) + Integer.toString(rows.get(i)-1);
+            if(valid_index(temp))
+            {
+                if(jump_diag_test(temp))
+                    valid_moves.add(temp);  
+            }
+            //down left
+            temp= Integer.toString(cols.get(i)-1) + Integer.toString(rows.get(i)-1);
+            if(valid_index(temp))
+            {
+                if(jump_diag_test(temp))
+                    valid_moves.add(temp);  
+            }
+        }
+        
+        Set<String> mySet = new HashSet<String>();   //Removes potential duplicate moves
+        for(int i =0; i < valid_moves.size(); i++){
+            mySet.add(valid_moves.get(i));
+            
+        }
+        ArrayList<String> t = new ArrayList<String>(mySet);
+
+        if(color == 'b')
+             color = 'w';
+        if(color == 'w')
+             color = 'b';
+       
+       return t; //passes back indexs of spots that are valid moves ex. [0][0] 
+    }
+    
     public boolean jump_row_test(String m){ //Checks in the X direction left and right
         
         char op_color = '@';
