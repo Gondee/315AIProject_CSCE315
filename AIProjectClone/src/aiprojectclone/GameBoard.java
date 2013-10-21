@@ -3,9 +3,7 @@
  * and open the template in the editor.
  */
 package aiprojectclone;
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.io.Serializable;
+import java.io.*;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -33,7 +31,7 @@ public class GameBoard implements Serializable{
     private char color; //working color
     
     boolean ai_active; //if AI will be needed
-    ArrayList<String> previous_moves;
+    ArrayList<char[][]> previous_boards;
     
     
     
@@ -41,7 +39,7 @@ public class GameBoard implements Serializable{
     public GameBoard(char c){         //Default constructor
         super();
         board = new char [8][8]; //setting up board 
-        previous_moves = new ArrayList(); //Initalizing new list of previous moves
+        previous_boards = new ArrayList(); //Initalizing new list of previous moves
         color = c; //
         setup_board();
     }//end of constructor
@@ -50,7 +48,7 @@ public class GameBoard implements Serializable{
     public GameBoard(GameBoard g){ //Copy constructor
         this.board = g.board;
         this.color = g.color;
-        this.previous_moves = g.previous_moves;
+        this.previous_boards = g.previous_boards;
         this.ai_active = g.ai_active;
         this.winner = g.winner;
         
@@ -450,7 +448,7 @@ public class GameBoard implements Serializable{
        return t; //passes back indexs of spots that are valid moves ex. [0][0] 
     }
     
-    public ArrayList<String> get_avaliable_AIindexs()//takes in move, returns index locations of avaliable moves
+    public ArrayList<String> get_avaliable_AIindexs()//returns all possiable AI moves on board
     {
         //Switch for checking
         if(color == 'w')
@@ -1283,6 +1281,11 @@ public class GameBoard implements Serializable{
         
     }
     
+    public void undo(){
+       int size = previous_boards.size();
+       char[][] temp = previous_boards.get(size-1); 
+       board = temp;
+    }
     
     public boolean move(String n) //interface for actully moving //F4
     {
@@ -1308,6 +1311,7 @@ public class GameBoard implements Serializable{
        //System.out.println("Move: "+m+":: "+col+","+row);
       
        if(color == 'w'){
+           previous_boards.add(board);
            board[row][col]='O';
            
            if(jump_row_test(m))
@@ -1317,10 +1321,13 @@ public class GameBoard implements Serializable{
            if(jump_diag_test(m))
                peform_diag_jump(m);
            
+           ;
+           
            return true;
        }
        
        if(color == 'b'){
+           previous_boards.add(board);
            board[row][col]='@';
            
            if(jump_row_test(m))
@@ -1329,6 +1336,8 @@ public class GameBoard implements Serializable{
                peform_col_jump(m);
            if(jump_diag_test(m))
                peform_diag_jump(m);
+           
+           
            
            return true;
        }
@@ -1362,6 +1371,7 @@ public class GameBoard implements Serializable{
        //System.out.println("Move: "+m+":: "+col+","+row);
       
        if(color == 'w'){
+           previous_boards.add(board);
            board[row][col]='O';
            
            if(jump_row_test(m))
@@ -1370,12 +1380,13 @@ public class GameBoard implements Serializable{
                peform_col_jump(m);
            if(jump_diag_test(m))
                peform_diag_jump(m);
-           
+            
            color = 'b'; //swtich back
            return true;
        }
        
        if(color == 'b'){
+           previous_boards.add(board);
            board[row][col]='@';
            
            if(jump_row_test(m))
@@ -1384,7 +1395,7 @@ public class GameBoard implements Serializable{
                peform_col_jump(m);
            if(jump_diag_test(m))
                peform_diag_jump(m);
-           
+
            color = 'w'; //swtich back
            return true;
        }
@@ -1517,7 +1528,20 @@ public class GameBoard implements Serializable{
         return ascii_board;    
     }
     
-    
+   public static Object deepClone(Object object) {
+   try {
+     ByteArrayOutputStream baos = new ByteArrayOutputStream();
+     ObjectOutputStream oos = new ObjectOutputStream(baos);
+     oos.writeObject(object);
+     ByteArrayInputStream bais = new ByteArrayInputStream(baos.toByteArray());
+     ObjectInputStream ois = new ObjectInputStream(bais);
+     return ois.readObject();
+   }
+   catch (Exception e) {
+     e.printStackTrace();
+     return null;
+   }
+ } 
     
     
 }//end of class
