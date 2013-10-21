@@ -4,13 +4,14 @@
  */
 package aiprojectclone;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
  *
  * @author joshkruger
  */
-public class Node {
+public class Node{
     
     protected Node parent;
     protected ArrayList<Node> children = new ArrayList();
@@ -23,9 +24,13 @@ public class Node {
         parent = null;
     }    
     public Node(Node sg, GameBoard g){
+        GameBoard temp = new GameBoard(g);
         parent = sg;
-        game = g;
-    }  
+        game = temp;
+    }
+    public Node(Node sg){
+        parent = sg;
+    }
     public Node get_parent(){
         return parent;
     }
@@ -43,6 +48,12 @@ public class Node {
     }
     public void set_max(int m){
         max_score = m;
+    }
+    public GameBoard get_gameboard(){
+        return game;
+    }
+    public int children_size(){
+        return children.size();
     }
     
     

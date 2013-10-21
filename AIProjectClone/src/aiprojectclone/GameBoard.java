@@ -5,9 +5,12 @@
 package aiprojectclone;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.io.Serializable;
 import java.net.Socket;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Random;
+import java.util.Set;
 
 
 /**
@@ -23,7 +26,7 @@ import java.util.Random;
  * 
  * 
  */
-public class GameBoard{
+public class GameBoard implements Serializable{
     
     private char [][] board;// actual board
     private char winner =' ';
@@ -42,6 +45,15 @@ public class GameBoard{
         color = c; //
         setup_board();
     }//end of constructor
+    
+    public GameBoard(GameBoard g){ //Copy constructor
+        this.board = g.board;
+        this.color = g.color;
+        this.previous_moves = g.previous_moves;
+        this.ai_active = g.ai_active;
+        this.winner = g.winner;
+        
+    }
         
     public void set_color(char c) //accepts 'w' or 'b'
     {
@@ -300,7 +312,7 @@ public class GameBoard{
         int row = Character.getNumericValue(r);
      
         if(board[row][col] != ' '){ //if already taken?
-          System.out.println("BoardSpace already Selected");
+          System.out.println("BoardSpace already Selected in Validate");
           return false;
         }
 
@@ -422,9 +434,16 @@ public class GameBoard{
                     valid_moves.add(temp);  
             }
         }
+        
+        Set<String> mySet = new HashSet<String>();   //Removes potential duplicate moves
+        for(int i =0; i < valid_moves.size(); i++){
+            mySet.add(valid_moves.get(i));
+            
+        }
+        ArrayList<String> t = new ArrayList<String>(mySet);
 
        
-       return valid_moves; //passes back indexs of spots that are valid moves ex. [0][0] 
+       return t; //passes back indexs of spots that are valid moves ex. [0][0] 
     }
     
     public boolean jump_row_test(String m){ //Checks in the X direction left and right

@@ -42,19 +42,20 @@ public class AIProjectClone {
         Scanner scanner = new Scanner (System.in);
         
 
-        while(true)
-        {
+        game.display_board();
+        
         System.out.print("Enter your move: ");  
         String m = scanner.next();
       
         game.set_color('w');
         game.move(m);
         game.display_board();
-        game.random_ai();
-        game.display_board();
-       
         
-        }
+        GameTree gt = new GameTree(game,2,'b');
+       
+        gt.build_tree();
+        
+        
         
         // TODO code application logic here
     }
