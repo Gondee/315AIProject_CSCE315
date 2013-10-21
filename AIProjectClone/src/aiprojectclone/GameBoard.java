@@ -54,6 +54,9 @@ public class GameBoard implements Serializable{
         this.winner = g.winner;
         
     }
+    public char get_color(){
+        return color;   
+    }
         
     public void set_color(char c) //accepts 'w' or 'b'
     {
