@@ -29,14 +29,14 @@ public class AIProjectClone {
     public static void main(String[] args) throws IOException {
     	
         
-//        int Port = 5888;
-//        Server s = new Server(Port);
-//        s.listen();
+        int Port = 5888;
+        Server s = new Server(Port);
+        s.listen();
     	
        
       
         //Local testing below
-           
+        /* 
         GameBoard game = new GameBoard('w');// initial color
         
         Scanner scanner = new Scanner (System.in);
@@ -52,10 +52,10 @@ public class AIProjectClone {
         game.display_board();
         game.random_ai();
         game.display_board();
-       
+       */
         
         }
         
         // TODO code application logic here
     }
-}
+

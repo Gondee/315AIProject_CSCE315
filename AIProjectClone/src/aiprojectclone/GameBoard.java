@@ -42,6 +42,13 @@ public class GameBoard{
         color = c; //
         setup_board();
     }//end of constructor
+    
+    public GameBoard(GameBoard b) { // Copy constructor
+    	this.board = b.board;
+    	this.winner = b.winner;
+    	this.color = b.color;
+    	this.ai_active = b.ai_active;
+    }
         
     public void set_color(char c) //accepts 'w' or 'b'
     {

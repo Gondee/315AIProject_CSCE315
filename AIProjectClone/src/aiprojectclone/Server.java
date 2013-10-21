@@ -70,7 +70,8 @@ public class Server {
 			} else if (!valid)
 				out.println("INVALID CHOICE\n");
 		} while (!valid);
-			
+		
+		AdvancedAI AI = new AdvancedAI("hard");
 		board = new GameBoard(client_color);
 		board.display_board(socket);
 		out.println("MAKE FIRST MOVE\n");
@@ -81,11 +82,10 @@ public class Server {
 			    return 0;
 			else if(!board.move(input))
 				out.println("ILLEGAL\n");
-                        else if(board.check_state())
-                            out.println("GAME OVER\n");
-			else if(!board.random_ai())
-				out.println("AI SKIP\n");
-			else if(board.check_state())
+                else if(board.check_state())
+                	out.println("GAME OVER\n");
+			out.print(AI.ai_move(board));
+			if(board.check_state())
 				out.println("GAME OVER\n");		 
 			out.println("OK");
 			board.display_board(socket);	
