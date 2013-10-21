@@ -74,17 +74,25 @@ public class AdvancedAI {
     	if(board.check_state())
     		return 0;
 	
-		List<String> indexes = board.get_avaliable_indexs();
+		
 		List<String> moves = new ArrayList<String>();
 		List<Integer> weight = new ArrayList<Integer>();
 		List<String> potential_moves = new ArrayList<String>();
         Random generator = new Random();
  		int minmax_weight = 0;
+ 		int minmax_weight_temp = 0;
+ 		List<String> indexes = board.get_avaliable_indexs();
+ 		
+ 		if(indexes.size() == 0)
+ 			return node.get_Weight();
 		
 		for(int j = 0; j < indexes.size(); j++) {
 			weight.add(index_weight(indexes.get(j)));
 			moves.add(board.index_to_move(indexes.get(j)));
+			System.out.print(moves.get(j));		
 		}
+		
+		System.out.print("\n\n");
 		
 		node.add_Children(indexes, weight);
 		List<TreeNode> children = node.get_Children();    		
@@ -94,7 +102,7 @@ public class AdvancedAI {
 		for(int j = 0; j < children.size(); j++) {
 			int temp_depth = depth;
 			temp.add(new GameBoard(board));    			
-			
+		
 			if(depth % 2 == 0) 
 				temp.get(j).ai_move(moves.get(j)); // AI moves on even depth
 			else
@@ -108,18 +116,22 @@ public class AdvancedAI {
 			if(depth % 2 == 0) {
 				if(temp.get(j).check_state() || temp_depth == 0)
 					return children.get(j).get_Weight();
-				else if(minmax_weight <= minmax(move, children.get(j), temp.get(j), temp_depth) + weight.get(j)) {
-					minmax_weight = minmax(move, children.get(j), temp.get(j), temp_depth) + weight.get(j);
-					if(node.is_root())
-						potential_moves.add(children.get(j).get_Move());
-				}
+				else 
+					minmax_weight_temp = minmax(move, children.get(j), temp.get(j), temp_depth) + weight.get(j);
+					if(minmax_weight <= minmax_weight_temp) {
+						minmax_weight = minmax_weight_temp;
+						if(node.is_root())
+							potential_moves.add(children.get(j).get_Move());
+					}
 			}
 			
 			if(depth % 2 == 1) {
 				if(temp.get(j).check_state() || temp_depth == 0)
 					return children.get(j).get_Weight();
-				else if(minmax_weight < minmax(move, children.get(j), temp.get(j), temp_depth) - weight.get(j))
-					minmax_weight = minmax(move, children.get(j), temp.get(j), temp_depth) - weight.get(j);   			
+				else
+					minmax_weight_temp = minmax(move, children.get(j), temp.get(j), temp_depth) - weight.get(j);
+					if(minmax_weight <= minmax_weight_temp) 
+						minmax_weight = minmax_weight_temp;		
     		}				
     	}
 		

@@ -59,5 +59,6 @@ public class AIProjectClone {
         
         
         // TODO code application logic here
-    
+    }
+}
 
