@@ -592,7 +592,7 @@ public class GameBoard implements Serializable{
         y = col;
         for(int x =row-1;x > 0;x--){  //up and to the left
             
-            if(y <8 && y >0)
+            if(y <7 && y >0)
                     y--;
                 else 
                     break;
@@ -618,7 +618,7 @@ public class GameBoard implements Serializable{
         y = col;
         for(int x =row-1;x > 0;x--){  //up and to the right
             
-                if(y <8 && y >0)
+                if(y <7 && y >0)
                     y++;
                 else 
                     break;
@@ -643,7 +643,7 @@ public class GameBoard implements Serializable{
         y = col;
         for(int x =row+1;x < 8;x++){  //down to the left
             
-                if(y <8 && y >0)
+                if(y <7 && y >0)
                     y--;
                 else 
                     break;
@@ -668,7 +668,7 @@ public class GameBoard implements Serializable{
         y = col;
         for(int x =row+1;x < 8;x++){  //down to the right
             
-                if(y <8 && y >0)
+                if(y <7 && y >0)
                     y++;
                 else 
                     break;
@@ -937,7 +937,7 @@ public class GameBoard implements Serializable{
         y = col;
         for(int x =row-1;x > 0;x--){  //up and to the left
             
-                if(y <8 && y >0)
+                if(y <7 && y >0)
                     y--;
                 else 
                     break;
@@ -961,7 +961,7 @@ public class GameBoard implements Serializable{
         y = col;
         for(int x =row-1;x > 0;x--){  //up and to the right
             
-                 if(y <8 && y >0)
+                 if(y <7 && y >0)
                     y++;
                 else 
                     break;
@@ -986,7 +986,7 @@ public class GameBoard implements Serializable{
         y = col;
         for(int x =row+1;x < 8;x++){  //down to the left
             
-                if(y <8 && y >0)
+                if(y <7 && y >0)
                     y--;
                 else 
                     break;
@@ -1010,7 +1010,7 @@ public class GameBoard implements Serializable{
         y = col;
         for(int x =row+1;x < 8;x++){  //down to the right
             
-                if(y <8 && y >0)
+                if(y <7 && y >0)
                     y++;
                 else 
                     break;
@@ -1040,7 +1040,7 @@ public class GameBoard implements Serializable{
             y = col;
             for(int x =row-1;x > 0;x--){  //up and to the left
                 
-                if(y <8 && y >0)
+                if(y <7 && y >0)
                     y--;
                 else 
                     break;
@@ -1069,7 +1069,7 @@ public class GameBoard implements Serializable{
             y = col;
             for(int x =row-1;x > 0;x--){  //up and to the right
             
-                if(y <8 && y >0)
+                if(y <7 && y >0)
                     y++;
                 else 
                     break;
@@ -1100,7 +1100,7 @@ public class GameBoard implements Serializable{
             y = col;
             for(int x =row+1;x < 8;x++){  //down to the left
 
-                if(y <8 && y >0)
+                if(y <7 && y >0)
                     y--;
                 else 
                     break;
@@ -1131,7 +1131,7 @@ public class GameBoard implements Serializable{
             for(int x =row+1;x < 8;x++){  //down to the right
             
                 
-                if(y <8 && y >0)
+                if(y <7 && y >0)
                     y++;
                 else 
                     break;
