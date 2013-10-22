@@ -51,11 +51,11 @@ public class AdvancedAI {
         int depth = 0;
         String move = "";
         
-        if(difficulty == "hard")
+        if(difficulty.equalsIgnoreCase("hard"))
         	depth = 6;   
-        else if(difficulty == "medium")
+        else if(difficulty.equalsIgnoreCase("medium"))
             depth = 4;
-        else if(difficulty == "easy")
+        else if(difficulty.equalsIgnoreCase("easy"))
             depth = 2;
         
         minmax(move, root, board, depth);
