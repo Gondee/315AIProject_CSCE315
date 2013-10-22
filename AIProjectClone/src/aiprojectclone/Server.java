@@ -66,11 +66,13 @@ public class Server {
 			input = in.readLine();
 		    if (input.equals("EXIT\n"))
 			    return 0;
-			else if(!board.move(input))
+			else if(!board.move(input)) 
 				out.println("ILLEGAL\n");
-                else if(board.check_state())
-                	out.println("GAME OVER\n");
-			out.print(AI.ai_move(board));
+            else {
+            	if(board.check_state())
+            		out.println("GAME OVER\n");   
+            	out.print(AI.ai_move(board));	             
+			}			
 			if(board.check_state())
 				out.println("GAME OVER\n");		 
 			out.println("OK");
@@ -108,6 +110,7 @@ public class Server {
                         else if ((input.substring(0,5)).equalsIgnoreCase("AI-AI"))
                         {
                                 remote_hostname = input.substring(input.indexOf("<")+1,input.indexOf(">"));
+
                                 String afterhost = input.substring(input.indexOf(">"));
 
                                 String portstring = afterhost.substring(afterhost.indexOf("<")+1,afterhost.indexOf(">"));

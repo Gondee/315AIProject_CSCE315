@@ -1378,8 +1378,8 @@ public class GameBoard implements Serializable{
        //System.out.println("Move: "+m+":: "+col+","+row);
       
        if(color == 'w'){
-           previous_boards.add(board);
-           board[row][col]='O';
+           board[row][col]='@';
+
            
            if(jump_row_test(m))
                peform_row_jump(m);
@@ -1393,8 +1393,7 @@ public class GameBoard implements Serializable{
        }
        
        if(color == 'b'){
-           previous_boards.add(board);
-           board[row][col]='@';
+           board[row][col]='O';
            
            if(jump_row_test(m))
                peform_row_jump(m);
