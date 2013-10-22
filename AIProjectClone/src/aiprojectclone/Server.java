@@ -54,29 +54,39 @@ public class Server {
 		
 		out.println("WELCOME\n");
                 
+                
 		in = beginning_sequence(in, out);
-    
-		
-		AdvancedAI AI = new AdvancedAI("easy");
+
+		AdvancedAI AI = new AdvancedAI(local_ai_diff);
+
 		board = new GameBoard(client_color);
+                
 		board.display_board(socket);
+                
+                
 		out.println("MAKE FIRST MOVE\n");
+                
 		
+                boolean display = true;
 		while (true) {
-			input = in.readLine();
-		    if (input.equals("EXIT\n"))
+                    input = in.readLine();
+		    if (input.equalsIgnoreCase("EXIT"))
 			    return 0;
-			else if(!board.move(input)) 
-				out.println("ILLEGAL\n");
-            else {
-            	if(board.check_state())
-            		out.println("GAME OVER\n");   
-            	out.print(AI.ai_move(board));	             
-			}			
-			if(board.check_state())
-				out.println("GAME OVER\n");		 
-			out.println("OK");
-			board.display_board(socket);	
+                    else if (input.equalsIgnoreCase("DISPLAY"))
+                        display = !display;
+                    else if (input.equalsIgnoreCase("UNDO"))
+                        board.undo();
+                    else if (input.charAt(0)==';')
+                        out.println(input.substring(1));
+                    else if(!board.move(input))
+			out.println("ILLEGAL\n");
+                    else
+                        out.println(AI.ai_move(board));
+                    if(board.check_state())
+                            out.println("GAME OVER\n");		 
+                    out.println("OK");
+                    if (display)
+                        board.display_board(socket);	
 		}
 		               
 	}
@@ -85,10 +95,19 @@ public class Server {
                 String input;
                 BufferedReader newin;
       		boolean valid = false; 
-		do {			
+		do {		
+                        
 			out.println("CHOOSE SIDE (WHITE OR BLACK)\n");
+            
 			input = in.readLine();
-                  
+                        boolean found = false;
+                        for (int i = 0; i < input.length()&&!found; i = i +1)
+                        {
+                            if ((int) input.charAt(i) >= 65 &&(int) input.charAt(i) <= 122){
+                                input = input.substring(i);
+                                found = true;
+                            }
+                        }
 			if (input.equalsIgnoreCase("WHITE")) {
 				client_color = 'w';
 				server_color = 'b';
@@ -110,7 +129,6 @@ public class Server {
                         else if ((input.substring(0,5)).equalsIgnoreCase("AI-AI"))
                         {
                                 remote_hostname = input.substring(input.indexOf("<")+1,input.indexOf(">"));
-
                                 String afterhost = input.substring(input.indexOf(">"));
 
                                 String portstring = afterhost.substring(afterhost.indexOf("<")+1,afterhost.indexOf(">"));
