@@ -3,9 +3,7 @@
  * and open the template in the editor.
  */
 package aiprojectclone;
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.io.Serializable;
+import java.io.*;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -33,7 +31,7 @@ public class GameBoard implements Serializable{
     private char color; //working color
     
     boolean ai_active; //if AI will be needed
-    ArrayList<String> previous_moves;
+    ArrayList<char[][]> previous_boards;
     
     
     
@@ -41,7 +39,7 @@ public class GameBoard implements Serializable{
     public GameBoard(char c){         //Default constructor
         super();
         board = new char [8][8]; //setting up board 
-        previous_moves = new ArrayList(); //Initalizing new list of previous moves
+        previous_boards = new ArrayList(); //Initalizing new list of previous moves
         color = c; //
         setup_board();
     }//end of constructor
@@ -50,7 +48,7 @@ public class GameBoard implements Serializable{
     public GameBoard(GameBoard g){ //Copy constructor
         this.board = g.board;
         this.color = g.color;
-        this.previous_moves = g.previous_moves;
+        this.previous_boards = g.previous_boards;
         this.ai_active = g.ai_active;
         this.winner = g.winner;
         
@@ -446,6 +444,123 @@ public class GameBoard implements Serializable{
         }
         ArrayList<String> t = new ArrayList<String>(mySet);
 
+       
+       return t; //passes back indexs of spots that are valid moves ex. [0][0] 
+    }
+    
+    public ArrayList<String> get_avaliable_AIindexs()//returns all possiable AI moves on board
+    {
+        //Switch for checking
+        if(color == 'w')
+             color= 'b';
+        if(color == 'b')
+             color = 'w';
+        
+        
+        
+       ArrayList<Integer> rows = new ArrayList(); //all unchecked moves 
+       ArrayList<Integer> cols = new ArrayList();
+       ArrayList<String> valid_moves = new ArrayList();
+       char c = 'O'; //player character default client
+        
+        if(color == 'w')
+             c= '@';
+        if(color == 'b')
+             c = 'O';
+        
+        
+        for(int i =0; i<8;i++)
+        {
+            for(int x =0; x<8;x++)
+            {
+              if(board[i][x] == c)
+              {
+                  rows.add(i);
+                  cols.add(x);
+                  
+              }
+                
+            }
+        }
+        
+        
+        
+        String temp;
+        for(int i =0; i< rows.size();i++) //make funtion for find line and find cross to see if a jump is possiable. 
+        {
+            
+            //check up one
+            temp= Integer.toString(cols.get(i)-1) + Integer.toString(rows.get(i));
+            if(valid_index(temp))
+            {
+              if(jump_row_test(temp) || jump_col_test(temp))  
+                valid_moves.add(temp);  
+            }
+            //check down one
+            temp= Integer.toString(cols.get(i)+1) + Integer.toString(rows.get(i));
+            if(valid_index(temp))
+            {
+                if(jump_row_test(temp) || jump_col_test(temp))
+                    valid_moves.add(temp);  
+            }
+            //check left
+            temp= Integer.toString(cols.get(i)) + Integer.toString(rows.get(i)-1);
+            if(valid_index(temp))
+            {
+                if(jump_row_test(temp) || jump_col_test(temp))
+                    valid_moves.add(temp);  
+            }
+            // check right
+            temp= Integer.toString(cols.get(i)) + Integer.toString(rows.get(i)+1);
+            if(valid_index(temp))
+            {
+                if(jump_row_test(temp) || jump_col_test(temp))
+                    valid_moves.add(temp);  
+            }
+            
+            //Checking diagonal positions
+            //up right
+            temp= Integer.toString(cols.get(i)+1) + Integer.toString(rows.get(i)+1);
+            if(valid_index(temp))
+            {
+                if(jump_diag_test(temp))
+                    valid_moves.add(temp);  
+            }
+            
+            //up left
+            temp= Integer.toString(cols.get(i)-1) + Integer.toString(rows.get(i)+1);
+            if(valid_index(temp))
+            {
+                if(jump_diag_test(temp))
+                    valid_moves.add(temp);  
+            }
+            //down right
+            temp= Integer.toString(cols.get(i)+1) + Integer.toString(rows.get(i)-1);
+            if(valid_index(temp))
+            {
+                if(jump_diag_test(temp))
+                    valid_moves.add(temp);  
+            }
+            //down left
+            temp= Integer.toString(cols.get(i)-1) + Integer.toString(rows.get(i)-1);
+            if(valid_index(temp))
+            {
+                if(jump_diag_test(temp))
+                    valid_moves.add(temp);  
+            }
+        }
+        
+        Set<String> mySet = new HashSet<String>();   //Removes potential duplicate moves
+        for(int i =0; i < valid_moves.size(); i++){
+            mySet.add(valid_moves.get(i));
+            
+        }
+        ArrayList<String> t = new ArrayList<String>(mySet);
+
+        if(color == 'b')
+             color = 'w';
+        if(color == 'w')
+             color = 'b';
        
        return t; //passes back indexs of spots that are valid moves ex. [0][0] 
     }
@@ -1166,6 +1281,11 @@ public class GameBoard implements Serializable{
         
     }
     
+    public void undo(){
+       int size = previous_boards.size();
+       char[][] temp = previous_boards.get(size-1); 
+       board = temp;
+    }
     
     public boolean move(String n) //interface for actully moving //F4
     {
@@ -1191,6 +1311,7 @@ public class GameBoard implements Serializable{
        //System.out.println("Move: "+m+":: "+col+","+row);
       
        if(color == 'w'){
+           previous_boards.add(board);
            board[row][col]='O';
            
            if(jump_row_test(m))
@@ -1200,10 +1321,13 @@ public class GameBoard implements Serializable{
            if(jump_diag_test(m))
                peform_diag_jump(m);
            
+           ;
+           
            return true;
        }
        
        if(color == 'b'){
+           previous_boards.add(board);
            board[row][col]='@';
            
            if(jump_row_test(m))
@@ -1212,6 +1336,8 @@ public class GameBoard implements Serializable{
                peform_col_jump(m);
            if(jump_diag_test(m))
                peform_diag_jump(m);
+           
+           
            
            return true;
        }
@@ -1246,6 +1372,7 @@ public class GameBoard implements Serializable{
       
        if(color == 'w'){
            board[row][col]='@';
+
            
            if(jump_row_test(m))
                peform_row_jump(m);
@@ -1253,7 +1380,7 @@ public class GameBoard implements Serializable{
                peform_col_jump(m);
            if(jump_diag_test(m))
                peform_diag_jump(m);
-           
+            
            color = 'b'; //swtich back
            return true;
        }
@@ -1267,7 +1394,7 @@ public class GameBoard implements Serializable{
                peform_col_jump(m);
            if(jump_diag_test(m))
                peform_diag_jump(m);
-           
+
            color = 'w'; //swtich back
            return true;
        }
@@ -1400,7 +1527,20 @@ public class GameBoard implements Serializable{
         return ascii_board;    
     }
     
-    
+   public static Object deepClone(Object object) {
+   try {
+     ByteArrayOutputStream baos = new ByteArrayOutputStream();
+     ObjectOutputStream oos = new ObjectOutputStream(baos);
+     oos.writeObject(object);
+     ByteArrayInputStream bais = new ByteArrayInputStream(baos.toByteArray());
+     ObjectInputStream ois = new ObjectInputStream(bais);
+     return ois.readObject();
+   }
+   catch (Exception e) {
+     e.printStackTrace();
+     return null;
+   }
+ } 
     
     
 }//end of class

@@ -4,6 +4,11 @@
  */
 package aiprojectclone;
 import java.util.*;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+
 /**
  *
  * @author joshkruger
@@ -24,7 +29,20 @@ public class AdvancedAI {
         difficulty = d;
     }
     
-    
+    public static Object deepClone(Object object) {
+    	   try {
+    	     ByteArrayOutputStream baos = new ByteArrayOutputStream();
+    	     ObjectOutputStream oos = new ObjectOutputStream(baos);
+    	     oos.writeObject(object);
+    	     ByteArrayInputStream bais = new ByteArrayInputStream(baos.toByteArray());
+    	     ObjectInputStream ois = new ObjectInputStream(bais);
+    	     return ois.readObject();
+    	   }
+    	   catch (Exception e) {
+    	     e.printStackTrace();
+    	     return null;
+    	   }
+    }
     
     public String ai_move(GameBoard board){
         //Just an idea, but take in the board, or a copy of the board
@@ -88,20 +106,18 @@ public class AdvancedAI {
 		
 		for(int j = 0; j < indexes.size(); j++) {
 			weight.add(index_weight(indexes.get(j)));
-			moves.add(board.index_to_move(indexes.get(j)));
-			System.out.print(moves.get(j));		
+			moves.add(board.index_to_move(indexes.get(j)));	
 		}
 		
 		System.out.print("\n\n");
 		
 		node.add_Children(indexes, weight);
 		List<TreeNode> children = node.get_Children();    		
-		List<GameBoard> temp = new ArrayList<GameBoard>();
-		
+		List<GameBoard> temp = new ArrayList<GameBoard>();		
 		
 		for(int j = 0; j < children.size(); j++) {
 			int temp_depth = depth;
-			temp.add(new GameBoard(board));    			
+			temp.add((GameBoard)deepClone(board));    			
 		
 			if(depth % 2 == 0) 
 				temp.get(j).ai_move(moves.get(j)); // AI moves on even depth

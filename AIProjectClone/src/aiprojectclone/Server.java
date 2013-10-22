@@ -6,6 +6,7 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.net.InetAddress;
 
 public class Server {
 	
@@ -52,24 +53,9 @@ public class Server {
 		String input;
 		
 		out.println("WELCOME\n");
-        
-		boolean valid = false; 
-		do {			
-			out.println("CHOOSE SIDE (WHITE OR BLACK)\n");
-			input = in.readLine();
-			if (input.equals("WHITE") || input.equals("white") || input.equals("White")) {
-				valid = true;
-				client_color = 'w';
-				server_color = 'b';
-				out.println("OK\n");
-			} else if (input.equals("BLACK") || input.equals("black") || input.equals("Black")) {
-				valid = true;
-				client_color = 'b';
-				server_color = 'w';	
-				out.println("OK\n");
-			} else if (!valid)
-				out.println("INVALID CHOICE\n");
-		} while (!valid);
+                
+		in = beginning_sequence(in, out);
+    
 		
 		AdvancedAI AI = new AdvancedAI("hard");
 		board = new GameBoard(client_color);
@@ -95,6 +81,88 @@ public class Server {
 		               
 	}
 
+ BufferedReader beginning_sequence(BufferedReader in, PrintWriter out){
+                String input;
+                BufferedReader newin;
+      		boolean valid = false; 
+		do {			
+			out.println("CHOOSE SIDE (WHITE OR BLACK)\n");
+			input = in.readLine();
+                  
+			if (input.equalsIgnoreCase("WHITE")) {
+				client_color = 'w';
+				server_color = 'b';
+				out.println("OK\n");
+			} else if (input.equalsIgnoreCase("BLACK")) {
+				client_color = 'b';
+				server_color = 'w';	
+				out.println("OK\n");
+			} else{
+                            out.println("INVALID CHOICE\n");
+                            newin = beginning_sequence(in, out);
+                            return newin;
+                        }
+                        out.println("CHOOSE GAME TYPE (HUMAN-AI OR AI-AI)\n");
+                        input = in.readLine();
+                        
+                        if (input.equalsIgnoreCase("HUMAN-AI"))
+                            newin = in;
+                        else if ((input.substring(0,5)).equalsIgnoreCase("AI-AI"))
+                        {
+                            try{
+                                remote_hostname = input.substring(input.indexOf("<")+1,input.indexOf(">"));
+                       //         InetAddress address = new InetAddress.getByName("hostIP");
+                                String afterhost = input.substring(input.indexOf(">"));
+
+                                String portstring = afterhost.substring(afterhost.indexOf("<")+1,afterhost.indexOf(">"));
+                                remote_port = Integer.parseInt(portstring);
+
+                                Socket opponent = new Socket(address, port);
+
+                                newin = new BufferedReader(new InputStreamReader(opponent.getInputStream()));
+
+                                String afterport = afterhost.substring(afterhost.indexOf(">")+1);
+                                
+                                String arr[] = afterport.split(" ",2);
+                                if (arr[0].equalsIgnoreCase("EASY"))
+                                    local_ai_diff = 0;
+                                    
+                                else if (arr[0].equalsIgnoreCase("MEDIUM"))
+                                    local_ai_diff = 1;
+                                
+                                else if (arr[0].equalsIgnoreCase("HARD"))
+                                    local_ai_diff = 2;
+                                
+                                if (arr[1].equalsIgnoreCase("EASY"))
+                                    remote_ai_diff = 0;
+                                
+                                if (arr[1].equalsIgnoreCase("MEDIUM"))
+                                    remote_ai_diff = 1;
+                                
+                                if (arr[1].equalsIgnoreCase("HARD"))
+                                    remote_ai_diff = 2;
+                            }
+                            
+                        }
+                        else{
+                            out.println("INVALID CHOICE\n");
+                            newin = beginning_sequence(in, out);
+                            return newin;
+                        }
+                        
+                        out.println("CHOOSE GAME DIFFICULTY (EASY, MEDIUM, HARD)\n");
+                        input = in.readLine();
+                        
+                        if (input.equalsIgnoreCase("EASY"))
+                            local_ai_diff = 0;
+                        
+                        if (input.equalsIgnoreCase("MEDIUM"))
+                            local_ai_diff = 1;
+                    
+                        
+		} while (!valid);
+      
+      
+  }
+  }  
     
-    
-}
