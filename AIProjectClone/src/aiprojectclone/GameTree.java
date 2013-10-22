@@ -300,7 +300,7 @@ public class GameTree {
         for(int i=0; i<moves.size();i++){
             
 
-            GameBoard temp =(GameBoard)deepClone(g);
+            GameBoard  temp =(GameBoard)deepClone(g);
             temp.set_color(c);
             //System.out.println("Potential Move: "+ g.index_to_move(moves.get(i)));
             String m = g.index_to_move(moves.get(i));
