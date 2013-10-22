@@ -92,15 +92,19 @@ public class AdvancedAI {
     	if(board.check_state())
     		return 0;
 	
-		
+    	List<String> indexes = new ArrayList<String>();
 		List<String> moves = new ArrayList<String>();
 		List<Integer> weight = new ArrayList<Integer>();
 		List<String> potential_moves = new ArrayList<String>();
         Random generator = new Random();
  		int minmax_weight = 0;
  		int minmax_weight_temp = 0;
- 		List<String> indexes = board.get_avaliable_indexs();
  		
+ 		if(depth % 2 == 0)
+ 			indexes = board.get_avaliable_AIindexs();
+ 		else 
+ 			indexes = board.get_avaliable_indexs();
+ 		 		
  		if(indexes.size() == 0)
  			return node.get_Weight();
 		
@@ -108,8 +112,6 @@ public class AdvancedAI {
 			weight.add(index_weight(indexes.get(j)));
 			moves.add(board.index_to_move(indexes.get(j)));	
 		}
-		
-		System.out.print("\n\n");
 		
 		node.add_Children(indexes, weight);
 		List<TreeNode> children = node.get_Children();    		
