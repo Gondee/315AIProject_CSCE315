@@ -57,7 +57,7 @@ public class Server {
 		in = beginning_sequence(in, out);
     
 		
-		AdvancedAI AI = new AdvancedAI("hard");
+		AdvancedAI AI = new AdvancedAI("easy");
 		board = new GameBoard(client_color);
 		board.display_board(socket);
 		out.println("MAKE FIRST MOVE\n");

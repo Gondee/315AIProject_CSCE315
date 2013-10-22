@@ -91,6 +91,9 @@ public class AdvancedAI {
     	
     	if(board.check_state())
     		return 0;
+    	
+    	if(depth == 1)
+    		return -1*node.get_Weight();
 	
     	List<String> indexes = new ArrayList<String>();
 		List<String> moves = new ArrayList<String>();
@@ -100,10 +103,15 @@ public class AdvancedAI {
  		int minmax_weight = 0;
  		int minmax_weight_temp = 0;
  		
- 		if(depth % 2 == 0)
+ 		if(depth % 2 == 0) {
  			indexes = board.get_avaliable_AIindexs();
+ 			System.out.print("test");
+ 		}
  		else 
  			indexes = board.get_avaliable_indexs();
+ 			
+ 		
+
  		 		
  		if(indexes.size() == 0)
  			return node.get_Weight();
@@ -111,20 +119,31 @@ public class AdvancedAI {
 		for(int j = 0; j < indexes.size(); j++) {
 			weight.add(index_weight(indexes.get(j)));
 			moves.add(board.index_to_move(indexes.get(j)));	
+			System.out.print(moves.get(j));
 		}
+		
+		System.out.print("\n\n");
 		
 		node.add_Children(indexes, weight);
 		List<TreeNode> children = node.get_Children();    		
 		List<GameBoard> temp = new ArrayList<GameBoard>();		
+		System.out.print(children.size());
+		System.out.print("\n"+depth);
+		System.out.print("\n\n");
 		
 		for(int j = 0; j < children.size(); j++) {
+
 			int temp_depth = depth;
 			temp.add((GameBoard)deepClone(board));    			
 		
-			if(depth % 2 == 0) 
+			if(depth % 2 == 0) {
 				temp.get(j).ai_move(moves.get(j)); // AI moves on even depth
-			else
+				temp.get(j).display_board();
+			}
+			else {
 				temp.get(j).move(moves.get(j)); // Human moves on odd depth
+				temp.get(j).display_board();
+			}
 			
 			temp_depth--;
 			
@@ -132,7 +151,7 @@ public class AdvancedAI {
 				minmax_weight = minmax(move, children.get(j), temp.get(j), temp_depth);
 			
 			if(depth % 2 == 0) {
-				if(temp.get(j).check_state() || temp_depth == 0)
+				if(temp.get(j).check_state())
 					return children.get(j).get_Weight();
 				else 
 					minmax_weight_temp = minmax(move, children.get(j), temp.get(j), temp_depth) + weight.get(j);
@@ -144,8 +163,8 @@ public class AdvancedAI {
 			}
 			
 			if(depth % 2 == 1) {
-				if(temp.get(j).check_state() || temp_depth == 0)
-					return children.get(j).get_Weight();
+				if(temp.get(j).check_state())
+					return -1*children.get(j).get_Weight();
 				else
 					minmax_weight_temp = minmax(move, children.get(j), temp.get(j), temp_depth) - weight.get(j);
 					if(minmax_weight <= minmax_weight_temp) 
