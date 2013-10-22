@@ -19,8 +19,8 @@ public class Server {
     char server_color;
     
     static private boolean ai_flag; //activate this copy of AI?
-    private int remote_ai_diff; //Difficulty of AI of remote AI
-    private int local_ai_diff; //Difficulty of AI of local AI
+    private String remote_ai_diff; //Difficulty of AI of remote AI
+    private String local_ai_diff; //Difficulty of AI of local AI
     
 
     
@@ -79,7 +79,7 @@ public class Server {
 		               
 	}
 
- BufferedReader beginning_sequence(BufferedReader in, PrintWriter out){
+ BufferedReader beginning_sequence(BufferedReader in, PrintWriter out) throws IOException{
                 String input;
                 BufferedReader newin;
       		boolean valid = false; 
@@ -107,40 +107,19 @@ public class Server {
                             newin = in;
                         else if ((input.substring(0,5)).equalsIgnoreCase("AI-AI"))
                         {
-                            try{
                                 remote_hostname = input.substring(input.indexOf("<")+1,input.indexOf(">"));
-                                InetAddress address = new InetAddress.getByName("hostIP");
                                 String afterhost = input.substring(input.indexOf(">"));
 
                                 String portstring = afterhost.substring(afterhost.indexOf("<")+1,afterhost.indexOf(">"));
                                 remote_port = Integer.parseInt(portstring);
 
-                                Socket opponent = new Socket(address, port);
+                                Socket opponent = new Socket(remote_hostname, remote_port);
 
                                 newin = new BufferedReader(new InputStreamReader(opponent.getInputStream()));
-
-                                String afterport = afterhost.substring(afterhost.indexOf(">")+1);
                                 
-                                String arr[] = afterport.split(" ",2);
-                                if (arr[0].equalsIgnoreCase("EASY"))
-                                    local_ai_diff = 0;
-                                    
-                                else if (arr[0].equalsIgnoreCase("MEDIUM"))
-                                    local_ai_diff = 1;
+                                local_ai_diff = "hard";
                                 
-                                else if (arr[0].equalsIgnoreCase("HARD"))
-                                    local_ai_diff = 2;
-                                
-                                if (arr[1].equalsIgnoreCase("EASY"))
-                                    remote_ai_diff = 0;
-                                
-                                if (arr[1].equalsIgnoreCase("MEDIUM"))
-                                    remote_ai_diff = 1;
-                                
-                                if (arr[1].equalsIgnoreCase("HARD"))
-                                    remote_ai_diff = 2;
-                            }
-                            
+                                return newin;
                         }
                         else{
                             out.println("INVALID CHOICE\n");
@@ -151,15 +130,20 @@ public class Server {
                         out.println("CHOOSE GAME DIFFICULTY (EASY, MEDIUM, HARD)\n");
                         input = in.readLine();
                         
-                        if (input.equalsIgnoreCase("EASY"))
-                            local_ai_diff = 0;
+                        if (input.equalsIgnoreCase("EASY")||input.equalsIgnoreCase("MEDIUM")||input.equalsIgnoreCase("HARD"))
+                            local_ai_diff = input;
+                       
+                        else{
+                            out.println("INVALID CHOICE\n");
+                            newin = beginning_sequence(in, out);
+                            return newin;
+                        }
                         
-                        if (input.equalsIgnoreCase("MEDIUM"))
-                            local_ai_diff = 1;
-                    
+                      valid = true;
                         
 		} while (!valid);
-      
+                
+                return newin;
       
   }
   }  
