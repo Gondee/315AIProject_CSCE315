@@ -15,8 +15,7 @@ public class Node{
     
     protected Node parent;
     protected ArrayList<Node> children = new ArrayList();
-    protected int min_score;
-    protected int max_score;
+    protected int score;
     protected GameBoard game;
     
     
@@ -43,17 +42,17 @@ public class Node{
     public void set_board(GameBoard g){
         game = g;
     } 
-    public void set_min(int m){
-        min_score = m;
-    }
-    public void set_max(int m){
-        max_score = m;
+    public void set_score(int m){
+        score = m;
     }
     public GameBoard get_gameboard(){
         return game;
     }
     public int children_size(){
         return children.size();
+    }
+    public int get_score(){
+        return score;
     }
     
     
