@@ -1349,7 +1349,14 @@ public class GameBoard implements Serializable{
     
     public boolean ai_move(String n) //interface for actully moving //F4
     {
+        
+        
         String m = move_to_index(n);
+        
+        if(color == 'w')
+             color= 'b';
+        if(color == 'b')
+             color = 'w';
         
        if("NO".equals(m)){
            System.out.println("Invalid move");
