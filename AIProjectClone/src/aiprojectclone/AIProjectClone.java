@@ -35,27 +35,28 @@ public class AIProjectClone {
     
     	
        
- /*     
+     
         //Local testing below
-        /* 
-        GameBoard game = new GameBoard('w');// initial color
-        
-        Scanner scanner = new Scanner (System.in);
-        
-
-        game.display_board();
-        
-        System.out.print("Enter your move: ");  
-        String m = scanner.next();
-      
-        game.set_color('w');
-        game.move(m);
-        game.display_board();
-
-        GameTree gt = new GameTree(game,2,'b');
-       
-        gt.build_tree();
-*/       
+         
+//        GameBoard game = new GameBoard('w');// initial color
+//        
+//        Scanner scanner = new Scanner (System.in);
+//        
+//
+//        game.display_board();
+//        
+//        System.out.print("Enter your move: ");  
+//        String m = scanner.next();
+//      
+//        game.set_color('w');
+//        game.move(m);
+//        game.display_board();
+//
+//        GameTree gt = new GameTree(game,2,'b');
+//       
+//        gt.build_tree();
+//        gt.get_move();
+//       
 
         
         
