@@ -54,6 +54,7 @@ public class Server {
 		
 		out.println("WELCOME\n");
                 
+                
 		in = beginning_sequence(in, out);
     
 		
@@ -64,6 +65,7 @@ public class Server {
                 
                 
 		out.println("MAKE FIRST MOVE\n");
+                
 		
                 boolean display = true;
 		while (true) {
@@ -93,10 +95,19 @@ public class Server {
                 String input;
                 BufferedReader newin;
       		boolean valid = false; 
-		do {			
+		do {		
+                        
 			out.println("CHOOSE SIDE (WHITE OR BLACK)\n");
+            
 			input = in.readLine();
-                  
+                        boolean found = false;
+                        for (int i = 0; i < input.length()&&!found; i = i +1)
+                        {
+                            if ((int) input.charAt(i) >= 65 &&(int) input.charAt(i) <= 122){
+                                input = input.substring(i);
+                                found = true;
+                            }
+                        }
 			if (input.equalsIgnoreCase("WHITE")) {
 				client_color = 'w';
 				server_color = 'b';
