@@ -451,10 +451,15 @@ public class GameBoard implements Serializable{
     public ArrayList<String> get_avaliable_AIindexs()//returns all possiable AI moves on board
     {
         //Switch for checking
-        if(color == 'w')
+        
+        if(color == 'w'){
+            
              color= 'b';
-        if(color == 'b')
+             
+        }
+        else if(color == 'b'){
              color = 'w';
+        }
         
         
         
@@ -559,7 +564,7 @@ public class GameBoard implements Serializable{
 
         if(color == 'b')
              color = 'w';
-        if(color == 'w')
+        else if(color == 'w')
              color = 'b';
        
        return t; //passes back indexs of spots that are valid moves ex. [0][0] 
@@ -1355,7 +1360,7 @@ public class GameBoard implements Serializable{
         
         if(color == 'w')
              color= 'b';
-        if(color == 'b')
+        else if(color == 'b')
              color = 'w';
         
        if("NO".equals(m)){
