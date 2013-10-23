@@ -100,7 +100,7 @@ public class AdvancedAI {
 		List<Integer> weight = new ArrayList<Integer>();
 		List<String> potential_moves = new ArrayList<String>();
         Random generator = new Random();
- 		int minmax_weight = 0;
+ 		int minmax_weight = -100;
  		int minmax_weight_temp = 0;
  		
  		if(depth % 2 == 0) {

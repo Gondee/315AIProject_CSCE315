@@ -57,7 +57,8 @@ public class Server {
                 
 		in = beginning_sequence(in, out);
 
-		AdvancedAI AI = new AdvancedAI(local_ai_diff);
+		//AdvancedAI AI = new AdvancedAI(local_ai_diff);
+		AdvancedAI AI = new AdvancedAI("easy");
 
 		board = new GameBoard(client_color);
                 
