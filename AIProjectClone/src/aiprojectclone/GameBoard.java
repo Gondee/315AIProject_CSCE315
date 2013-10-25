@@ -16,7 +16,7 @@ import java.util.Set;
  * @author joshkruger
  * 
  * if something is labled with move in the name, it means it accepts user style
- * move commands like 3d
+ * move commands like d3
  * 
  * if something has the label index in the name, it means it accepts index locations
  * like 22 or 33
