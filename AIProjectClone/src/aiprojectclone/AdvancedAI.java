@@ -45,21 +45,46 @@ public class AdvancedAI {
     }
     
     public String ai_move(GameBoard board){
-        //Just an idea, but take in the board, or a copy of the board
-        game = board; // copy of gameboard
         TreeNode root = new TreeNode();
-        int depth = 0;
+        List<TreeNode> children = new ArrayList<TreeNode>();
+        
+        int minmax_weight = -100;
+        int children_weight = 0;
+        int height = 0;
+        
+        List<String> indexes = new ArrayList<String>();
+        String index = "";
         String move = "";
+        Random generator = new Random();
         
         if(difficulty.equalsIgnoreCase("hard"))
-        	depth = 6;   
+        	height = 6;   
         else if(difficulty.equalsIgnoreCase("medium"))
-            depth = 4;
+            height = 4;
         else if(difficulty.equalsIgnoreCase("easy"))
-            depth = 2;
+            height = 2;
         
-        minmax(move, root, board, depth);
-        return move;          
+        simulate_moves(board, root, height);
+        if(root.is_leaf())
+        	return "";
+        
+        children = root.get_Children();
+        
+        for(int i = 0; i < children.size(); i++) {
+        	children_weight = minmax(children.get(i), height);
+        	if(minmax_weight < children_weight) {
+        		minmax_weight = children_weight;
+        		indexes.clear();
+        		indexes.add(children.get(i).get_Index());
+        	}        		
+        	if(minmax_weight == children_weight) 
+        		indexes.add(children.get(i).get_Index());
+        }
+      
+        index = indexes.get(generator.nextInt(indexes.size()));
+        move = board.index_to_move(index);  
+        board.ai_move(move);
+        return move;
     }
     
     public int index_weight(String index){
@@ -78,109 +103,86 @@ public class AdvancedAI {
     	else if(((row == '0' || row == '7') && (col == '2' || col == '3' || col == '4' || col == '5'))) 
     		weight = 5;
     	else if(((col == '1' || col == '6') && (row == '2' || row == '3' || row == '4' || row == '5'))) // Moves that give up edges
-    		weight = -2;  	
+    		weight = -3;  	
     	else if(((row == '1' || row == '6') && (col == '2' || col == '3' || col == '4' || col == '5'))) 
-    		weight = -2;
+    		weight = -3;
     	else 
     		weight = 1;
     	
     	return weight;
     }
     
-    public int minmax(String move, TreeNode node, GameBoard board, int depth) {  
-    	
-    	if(board.check_state())
-    		return 0;
-    	
-    	if(depth == 1)
-    		return -1*node.get_Weight();
-	
+    public void simulate_moves(GameBoard board, TreeNode node, int height)
+    {
     	List<String> indexes = new ArrayList<String>();
-		List<String> moves = new ArrayList<String>();
+    	List<String> moves = new ArrayList<String>();
 		List<Integer> weight = new ArrayList<Integer>();
-		List<String> potential_moves = new ArrayList<String>();
-        Random generator = new Random();
- 		int minmax_weight = -100;
- 		int minmax_weight_temp = 0;
- 		
- 		if(depth % 2 == 0) {
- 			indexes = board.get_avaliable_AIindexs();
- 			System.out.print("test");
- 		}
- 		else 
- 			indexes = board.get_avaliable_indexs();
- 			
- 		
-
- 		 		
- 		if(indexes.size() == 0)
- 			return node.get_Weight();
+		List<TreeNode> children = new ArrayList<TreeNode>();    		
+		List<GameBoard> temp_boards = new ArrayList<GameBoard>();	
 		
-		for(int j = 0; j < indexes.size(); j++) {
-			weight.add(index_weight(indexes.get(j)));
-			moves.add(board.index_to_move(indexes.get(j)));	
-			System.out.print(moves.get(j));
+    	if(board.check_state() || height == 0)
+    		return; 
+    	
+ 		if(height % 2 == 0) // Even height represents AI moves
+ 			indexes = board.get_avaliable_AIindexs();
+ 		else  // Odd height represents human moves
+ 			indexes = board.get_avaliable_indexs();
+ 		
+ 		if(indexes.size() == 0)
+ 			return;
+ 		
+		for(int i = 0; i < indexes.size(); i++) {
+			weight.add(index_weight(indexes.get(i)));
+			moves.add(board.index_to_move(indexes.get(i)));	
 		}
 		
-		System.out.print("\n\n");
-		
 		node.add_Children(indexes, weight);
-		List<TreeNode> children = node.get_Children();    		
-		List<GameBoard> temp = new ArrayList<GameBoard>();		
-		System.out.print(children.size());
-		System.out.print("\n"+depth);
-		System.out.print("\n\n");
+		children = node.get_Children();
 		
-		for(int j = 0; j < children.size(); j++) {
 
-			int temp_depth = depth;
-			temp.add((GameBoard)deepClone(board));    			
+		for(int i = 0; i < children.size(); i++) {
+			int temp_height = height;
+			temp_height--;
+			
+			temp_boards.add((GameBoard)deepClone(board));    			
 		
-			if(depth % 2 == 0) {
-				temp.get(j).ai_move(moves.get(j)); // AI moves on even depth
-				temp.get(j).display_board();
-			}
-			else {
-				temp.get(j).move(moves.get(j)); // Human moves on odd depth
-				temp.get(j).display_board();
-			}
+			if(height % 2 == 0) 
+				temp_boards.get(i).ai_move(moves.get(i)); 
+			else 
+				temp_boards.get(i).move(moves.get(i)); 
 			
-			temp_depth--;
-			
-			if(node.is_root())    				
-				minmax_weight = minmax(move, children.get(j), temp.get(j), temp_depth);
-			
-			if(depth % 2 == 0) {
-				if(temp.get(j).check_state())
-					return children.get(j).get_Weight();
-				else 
-					minmax_weight_temp = minmax(move, children.get(j), temp.get(j), temp_depth) + weight.get(j);
-					if(minmax_weight <= minmax_weight_temp) {
-						minmax_weight = minmax_weight_temp;
-						if(node.is_root())
-							potential_moves.add(children.get(j).get_Move());
-					}
-			}
-			
-			if(depth % 2 == 1) {
-				if(temp.get(j).check_state())
-					return -1*children.get(j).get_Weight();
-				else
-					minmax_weight_temp = minmax(move, children.get(j), temp.get(j), temp_depth) - weight.get(j);
-					if(minmax_weight <= minmax_weight_temp) 
-						minmax_weight = minmax_weight_temp;		
-    		}				
+			simulate_moves(temp_boards.get(i), children.get(i), temp_height);
+		}
+    }
+    
+    public int minmax(TreeNode node, int height) {
+    	List<TreeNode> children = new ArrayList<TreeNode>();
+    	int minmax_weight = -100;
+    	int children_weight = 0;
+    	
+    	if(node.is_leaf()) {
+    		if(height % 2 == 0)
+    			return node.get_Weight();
+    		else 
+    			return -1*node.get_Weight();
     	}
-		
-		int rand_num;
-		if(!node.is_root())
-			return minmax_weight;
-		else 
-		   	rand_num = generator.nextInt(potential_moves.size()); 		
-			move = board.index_to_move(potential_moves.get(rand_num));
-			board.ai_move(move);
-			return 0;		
-	}    
+    	
+    	else {
+    		int temp_height = height - 1;
+    		children = node.get_Children();
+    		
+    		for(int i = 0; i < children.size(); i++) {
+    			children_weight = minmax(children.get(i), temp_height);
+    			if(children_weight > minmax_weight)
+    				minmax_weight = children_weight;
+    		}
+    		
+    		if(height % 2 == 0)
+    			return minmax_weight + node.get_Weight();
+    		else
+    			return minmax_weight - node.get_Weight();
+    	}
+    }
 }
 
 

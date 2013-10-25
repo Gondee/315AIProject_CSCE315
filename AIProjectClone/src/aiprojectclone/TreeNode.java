@@ -7,20 +7,20 @@ import java.util.List;
 
 public class TreeNode {
 	
-    private String move;
+    private String index;
     private int weight;
     private TreeNode parent;
     private List<TreeNode> children;
     
     public TreeNode() {
-    	move = "root";
+    	index = "root";
     	weight = 0;
         parent = null;
         children = new ArrayList<TreeNode>();
     }
         
     public TreeNode(String m, int w) {
-    	move = m;
+    	index = m;
     	weight = w;
     	children = new ArrayList<TreeNode>();
     }
@@ -44,8 +44,8 @@ public class TreeNode {
     	return true;
     }
     
-    public String get_Move() {
-    	return move;
+    public String get_Index() {
+    	return index;
     }
     
     public int get_Weight() {
@@ -67,6 +67,7 @@ public class TreeNode {
     	else
     		return false;
     }
+    
     
 }
 
