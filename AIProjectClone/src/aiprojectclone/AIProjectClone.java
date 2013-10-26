@@ -29,50 +29,52 @@ public class AIProjectClone {
      */
     public static void main(String[] args) throws IOException {
     	
+        Scanner scanner = new Scanner (System.in);
+        System.out.println("For test purpoes, start server 's' or client 'c' or 'l' for local play");
+        String c = scanner.next();
         
-        //int Port = 5888;
-        //Server s = new Server(Port);
-        //s.listen();
-    
+        //I will create a seperate branch later for client code
+        //for now we can just use this swtich below 
+        
+        
+        if("s".equals(c)){
+            int Port = 5888;
+            Server s = new Server(Port);
+            s.listen();
+              
+            
+        }
+        else if ("c".equals(c)){
+            
     	SetupGUI test = new SetupGUI();
         test.start();
        
-     
+        }
+        else if("l".equals(c)){
         //Local testing below
          
         GameBoard game = new GameBoard('w');// initial color
-        
-        Scanner scanner = new Scanner (System.in);
-        
 
-        game.display_board();
-        
-        System.out.print("Enter your move: ");  
-        String m = scanner.next();
-      
-        game.set_color('w');
-        game.move(m);
-        game.display_board();
+            game.display_board();
 
-        ArrayList<String> s = game.get_avaliable_AIindexs();
-        for(int i=0;i<s.size();i++)
-        {
-            System.out.println("Move: "+s.get(i));
-            
+            System.out.print("Enter your move: ");  
+            String m = scanner.next();
+
+            game.set_color('w');
+            game.move(m);
+            game.display_board();
+
+            ArrayList<String> s = game.get_avaliable_AIindexs();
+            for(int i=0;i<s.size();i++)
+            {
+                System.out.println("Move: "+s.get(i));
+
+            }
+            game.ai_move("d3");
+            game.display_board();
+        
         }
-        game.ai_move("d3");
-        game.display_board();
-        
-        
-        //GameTree gt = new GameTree(game,2,'b');
-       
-        //gt.build_tree();
-        //gt.get_move();
-       
 
-        
-        
-        // TODO code application logic here
 
     }
 }
