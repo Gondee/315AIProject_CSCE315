@@ -150,7 +150,7 @@ public class SetupGUI extends JFrame implements ActionListener {
             }
             else{
                 
-                JOptionPane.showOptionDialog(null, source, sip, WIDTH, WIDTH, null, serverop, source);
+                
                 
                 //--------------------------------------------
                 //-Return these elements in string form to command parser 
