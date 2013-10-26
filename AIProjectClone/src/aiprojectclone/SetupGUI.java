@@ -66,9 +66,7 @@ public class SetupGUI extends JFrame implements ActionListener {
 
        clientoptions.setSelectedIndex(0);
        clientoptions.addActionListener(this);
-       
-       
-       serveroptions.setSelectedIndex(0);
+        serveroptions.setSelectedIndex(0);
        //serveroptions.addActionListener(this);
 
        plset.add(client);
@@ -117,7 +115,7 @@ public class SetupGUI extends JFrame implements ActionListener {
        GridLayout colorstart = new GridLayout(2,0);
        c.setLayout(colorstart);
        JLabel note = new JLabel(" Note: Server will be opposite color.");
-
+       coloroptions.setSelectedIndex(0);
        c.add(coloroptions);
        c.add(note);
        
@@ -145,6 +143,7 @@ public class SetupGUI extends JFrame implements ActionListener {
             String serversetup = (String)serveroptions.getSelectedItem();  
             String sip = ip.getText();
             String spo = port.getText();
+            String col = (String)coloroptions.getSelectedItem();
             
             if("".equals(ip.getText()) || "".equals(port.getText())){
                 JOptionPane.showMessageDialog(null, "You must enter both IP and Port "); 
@@ -156,14 +155,13 @@ public class SetupGUI extends JFrame implements ActionListener {
                 //--------------------------------------------
                 //-Return these elements in string form to command parser 
                 // to be validated
-                //Need some place to send commands, need dedicated command parser class
+                
+                
+                Client startclient = new Client(clientsetup,serversetup,sip,spo,col); //Example
             
             
-                //send string of stuff somewhere
             
-            
-            
-            //-------------------------------------------- 
+             //-------------------------------------------- 
                 
                 
                 
