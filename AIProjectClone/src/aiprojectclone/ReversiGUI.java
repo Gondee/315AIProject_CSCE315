@@ -56,7 +56,7 @@ public class ReversiGUI extends JFrame implements ActionListener {
        
        
        
-       TitledBorder gameboarder = new TitledBorder("Playing game as: White"); //+ get_color_name());
+       TitledBorder gameboarder = new TitledBorder("Playing game as: " + get_color_name());
        
         JMenuBar Tools = new JMenuBar();
         JMenu File = new JMenu("  File  ");
