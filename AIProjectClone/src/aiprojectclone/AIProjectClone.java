@@ -60,8 +60,9 @@ public class AIProjectClone {
         }
         else if("l".equals(c)){
         //Local testing below
-        ReversiGUI go = new ReversiGUI(); 
-        GameBoard game = new GameBoard('w');// initial color
+        GameBoard game = new GameBoard('w');
+        ReversiGUI go = new ReversiGUI(game); 
+        // initial color
 
             game.display_board();
             AdvancedAI a = new AdvancedAI("hard");
