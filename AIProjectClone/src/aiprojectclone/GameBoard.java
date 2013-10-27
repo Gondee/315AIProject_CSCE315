@@ -91,7 +91,7 @@ public class GameBoard implements Serializable{
     }
         
     
-    private String move_to_index(String m) //Converts the move charcter to int and usable index, internal use
+    public String move_to_index(String m) //Converts the move charcter to int and usable index, internal use
     {
         int row = 0;
         int col = 0;

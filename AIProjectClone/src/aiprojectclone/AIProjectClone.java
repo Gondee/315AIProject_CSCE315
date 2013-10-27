@@ -29,8 +29,13 @@ public class AIProjectClone {
      */
     public static void main(String[] args) throws IOException {
     	
+        
+        
+        
+        
+        
         Scanner scanner = new Scanner (System.in);
-        System.out.println("For test purpoes, start server 's' or client 'c' or 'l' for local play");
+        System.out.println("For test purpoes, (start server 's') or (client 'c') or ('l' for local play)");
         String c = scanner.next();
         
         //I will create a seperate branch later for client code
@@ -46,32 +51,32 @@ public class AIProjectClone {
         }
         else if ("c".equals(c)){
             
-    	SetupGUI test = new SetupGUI();
+    	SetupGUI test = new SetupGUI(); //Not functinoal yet
         test.start();
+        
+        
+        
        
         }
         else if("l".equals(c)){
         //Local testing below
-         
+        ReversiGUI go = new ReversiGUI(); 
         GameBoard game = new GameBoard('w');// initial color
 
             game.display_board();
+            AdvancedAI a = new AdvancedAI("hard");
 
+            while(true)
+            {
             System.out.print("Enter your move: ");  
             String m = scanner.next();
-
-            game.set_color('w');
             game.move(m);
             game.display_board();
-
-            ArrayList<String> s = game.get_avaliable_AIindexs();
-            for(int i=0;i<s.size();i++)
-            {
-                System.out.println("Move: "+s.get(i));
-
+            go.update_board(game);
+            a.ai_move(game);
+            go.update_board(game);
+            
             }
-            game.ai_move("d3");
-            game.display_board();
         
         }
 

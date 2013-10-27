@@ -16,14 +16,35 @@ public class Client {
     String port;
     String client;
     String server;
-    String color;
+    char color;
     
     public Client(String cli,String ser,String ipp, String ppo,String col){
         client = cli;
         server = ser;
         ip = ipp;
         port = ppo;
-        color = col;
+        
+        if("Black".equals(col))
+            color = 'b';
+        else if("White".equals(col))
+            color = 'w';
+        
+        
+        start_client();
+        
+        
+    }
+    
+    private void start_client(){
+        clientBoard = new GameBoard(color);
+        ReversiGUI gui = new ReversiGUI(clientBoard);
+        gui.update_board(clientBoard);
+        
+        
+    }
+    
+    public void send_move(String m){
+        
         
     }
             

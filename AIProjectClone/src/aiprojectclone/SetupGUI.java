@@ -156,7 +156,7 @@ public class SetupGUI extends JFrame implements ActionListener {
                 //-Return these elements in string form to command parser 
                 // to be validated
                 
-                
+                dispose();
                 Client startclient = new Client(clientsetup,serversetup,sip,spo,col); //Example
             
             
