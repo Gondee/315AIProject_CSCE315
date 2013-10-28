@@ -34,7 +34,7 @@ public class ReversiGUI extends JFrame implements ActionListener {
     
     String black_image_path = "black_trans.png";
     String white_image_path = "white_trans.png";
-    
+    String recent_move = "NULL";
     
     public ReversiGUI(GameBoard g){
        game =g;//reference to original gameboard  
@@ -223,6 +223,9 @@ public class ReversiGUI extends JFrame implements ActionListener {
         return "UNDEFINED";
     }
     
+    public String get_move(){
+        return recent_move;
+    }
 
     @Override
     public void actionPerformed(ActionEvent ae) {
@@ -275,10 +278,11 @@ public class ReversiGUI extends JFrame implements ActionListener {
                  if(!game.validate_move(game.move_to_index(move1)))
                      JOptionPane.showMessageDialog(null, "Invalid move");
                  else{
+                     recent_move =move1;
                      
                      //Move has to go somewhere
-                     JOptionPane.showMessageDialog(null, "Move: "+ move1+" - the GUI is not hooked up to any client code-josh"
-                             + ". To test use the 'l' in main, text entry only");
+                     //JOptionPane.showMessageDialog(null, "Move: "+ move1+" - the GUI is not hooked up to any client code-josh"
+                     //        + ". To test use the 'l' in main, text entry only");
                  }
                  //----------------------
                  //testing board
