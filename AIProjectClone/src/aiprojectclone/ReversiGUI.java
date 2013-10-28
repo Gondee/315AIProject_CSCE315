@@ -9,6 +9,7 @@ import java.awt.Image;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.net.URL;
 import java.util.ArrayList;
 import javax.swing.*;
 import javax.swing.border.LineBorder;
@@ -23,6 +24,12 @@ public class ReversiGUI extends JFrame implements ActionListener {
     GameBoard game; //Board that is the same by referance as client or server
     ArrayList<JButton> buttons = new ArrayList();
     JMenuItem undo = new JMenuItem("  Undo  ");
+    JMenuItem set_black = new JMenuItem("  Set black image");
+    JMenuItem set_white = new JMenuItem("  Set white image");
+    JMenuItem update_g = new JMenuItem("  Update_Graphics");
+    
+    String black_image_path = "black_trans.png";
+    String white_image_path = "white_trans.png";
     
     
     public ReversiGUI(GameBoard g){
@@ -54,14 +61,21 @@ public class ReversiGUI extends JFrame implements ActionListener {
        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
        setLocationRelativeTo(null);
        
-       
+       set_black.addActionListener(this);
+       set_white.addActionListener(this);
+       update_g.addActionListener(this);
        
        TitledBorder gameboarder = new TitledBorder("Playing game as: " + get_color_name());
        
         JMenuBar Tools = new JMenuBar();
         JMenu File = new JMenu("  File  ");
+        JMenu Edit = new JMenu("  Edit  ");
         File.add(undo);
+        Edit.add(set_black);
+        Edit.add(set_white);
+        Edit.add(update_g);
         Tools.add(File);
+        Tools.add(Edit);
         setJMenuBar(Tools);
         undo.addActionListener(this);
        
@@ -92,6 +106,8 @@ public class ReversiGUI extends JFrame implements ActionListener {
     
     public void update_board(GameBoard g){
         
+        
+        
         game =g;
         char[][] b = game.get_board();
         ArrayList<Character> col = new ArrayList();
@@ -103,10 +119,13 @@ public class ReversiGUI extends JFrame implements ActionListener {
             
         }
         
+       //URL loadURL = ReversiGUI.class.getResource("black_trans.png"); 
         
-       ImageIcon black = new ImageIcon("black_trans.png");
-       ImageIcon white = new ImageIcon("white_trans.png");
+       ImageIcon black = new ImageIcon(black_image_path);
+       ImageIcon white = new ImageIcon(white_image_path);
 
+       System.out.println("TEST: "+ black.getImageLoadStatus());
+       
        Image img = black.getImage();  
        Image newimg = img.getScaledInstance(70, 66,  java.awt.Image.SCALE_SMOOTH);  
        ImageIcon nblack = new ImageIcon(newimg); 
@@ -169,6 +188,24 @@ public class ReversiGUI extends JFrame implements ActionListener {
          
          if(source == undo){
              //undo code here
+             
+         }
+         
+         if(source == set_black){
+             Background getimg = new Background();
+             getimg.setBackground("BLACK");
+             
+         }
+         
+         if(source == update_g){
+             Background getimg = new Background();
+             white_image_path =getimg.getBackgroundURL("WHITE");
+             black_image_path =getimg.getBackgroundURL("BLACK");
+         }
+         
+         if(source == set_white){
+            Background getimg = new Background();
+            getimg.setBackground("WHITE");
              
          }
          
