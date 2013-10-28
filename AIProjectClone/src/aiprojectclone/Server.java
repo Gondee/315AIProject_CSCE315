@@ -135,6 +135,8 @@ public class Server {
                                 remote_port = Integer.parseInt(portstring);
 
                                 Socket opponent = new Socket(remote_hostname, remote_port);
+                                
+                                // Need to add options for AI difficulty settings
 
                                 newin = new BufferedReader(new InputStreamReader(opponent.getInputStream()));
                                 
