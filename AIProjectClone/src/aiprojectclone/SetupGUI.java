@@ -10,6 +10,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
+import javax.swing.UIManager;
 
 /**
  *
@@ -24,19 +25,29 @@ public class SetupGUI extends JFrame implements ActionListener {
         
         
     }
+    boolean serverVSserver = false;
     
     String[] serverop = {"AI-Easy", "AI-Medium","AI-Hard"};
     JComboBox serveroptions = new JComboBox(serverop);
-    String[] clientop = {"Human", "AI-Hard"};
+    String[] clientop = {"Human", "AI-Easy","AI-Medium","AI-Hard"};
     JComboBox clientoptions = new JComboBox(clientop);
     JTextField port = new JTextField(20);
     JTextField ip = new JTextField(20);
+    JTextField porttwo = new JTextField(20);
+    JTextField iptwo = new JTextField(20);
+    JLabel ipd = new JLabel(" Enter IP Adress:");
+    JLabel ipp = new JLabel(" Enter Port:");
+    JLabel ipdtwo = new JLabel(" Enter IP Adress(2):");
+    JLabel ipptwo = new JLabel(" Enter Port(2):");
+    
     
     JButton cancel = new JButton("Cancel");
     JButton start = new JButton("Start");
     
     String[] cerop = {"Black", "White"};
     JComboBox coloroptions = new JComboBox(cerop);
+    
+    JPanel cset = new JPanel();
     
     private void build_gui(){
        setTitle("Reversi Game Setup");
@@ -76,7 +87,6 @@ public class SetupGUI extends JFrame implements ActionListener {
        
        //Connection Setup
        TitledBorder networkboarder = new TitledBorder("Step 2: Setup game connection!");
-       JPanel cset = new JPanel();
        cset.setBorder(networkboarder);
        GridLayout gridconnection = new GridLayout(0,2);
        cset.setLayout(gridconnection);
@@ -85,8 +95,7 @@ public class SetupGUI extends JFrame implements ActionListener {
        ip.addActionListener(this);
        port.addActionListener(this);
        
-       JLabel ipd = new JLabel(" Enter IP Adress:");
-       JLabel ipp = new JLabel(" Enter Port:");
+       
 
        cset.add(ipd);
        cset.add(ip);
@@ -178,12 +187,30 @@ public class SetupGUI extends JFrame implements ActionListener {
             String clientsetup = (String)clientoptions.getSelectedItem();  
             String serversetup = (String)serveroptions.getSelectedItem();  
 
-            if("AI-Hard".equals(clientsetup)){
-                serveroptions.setSelectedIndex(2);
-                serveroptions.setEnabled(false);
+            if("AI-Easy".equals(clientsetup) || "AI-Medium".equals(clientsetup) || "AI-Hard".equals(clientsetup)){
+              
+              if(!serverVSserver){
+              setSize(300,500);
+              cset.add(ipdtwo);
+              cset.add(iptwo);
+              cset.add(ipptwo);
+              cset.add(porttwo);
+              }
+              serverVSserver=true;
+  
             }
-            else
-                serveroptions.setEnabled(true);
+            else{
+                serverVSserver=false;
+                setSize(300,400);
+                cset.remove(iptwo);
+                cset.remove(porttwo);
+                cset.remove(ipdtwo);
+                cset.remove(ipptwo);
+                
+                porttwo.setText("");
+                iptwo.setText("");
+            }
+                
             
                    
             
