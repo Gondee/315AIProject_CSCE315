@@ -8,6 +8,9 @@ import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
+import java.net.UnknownHostException;
+
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
 
@@ -157,7 +160,15 @@ public class SetupGUI extends JFrame implements ActionListener {
                 // to be validated
                 
                 dispose();
-                Client startclient = new Client(clientsetup,serversetup,sip,spo,col); //Example
+                try {
+					Client startclient = new Client(clientsetup,serversetup,sip,spo,col);
+				} catch (UnknownHostException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} //Example
             
             
             
