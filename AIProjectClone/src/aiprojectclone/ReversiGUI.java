@@ -38,8 +38,11 @@ public class ReversiGUI extends JFrame implements ActionListener {
     String white_image_path = "white_trans.png";
     String recent_move = "NULL";
     
-    public ReversiGUI(GameBoard g){
+    Object SyncObj;
+    
+    public ReversiGUI(GameBoard g, Object syncobject){
        game =g;//reference to original gameboard  
+       SyncObj = syncobject;
        setup_window();
         
     }
@@ -287,9 +290,12 @@ public class ReversiGUI extends JFrame implements ActionListener {
                  if(!game.validate_move(game.move_to_index(move1)))
                      JOptionPane.showMessageDialog(null, "Invalid move");
                  else{
+                     
+                     synchronized(SyncObj){
                      recent_move =move1;
-                     
-                     
+                     SyncObj.notify();
+                    }
+   
                  }
                  //----------------------
                  //testing board
