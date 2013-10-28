@@ -90,6 +90,7 @@ public class ReversiGUI extends JFrame implements ActionListener {
        {
            buttons.add(new JButton());
            pane.add(buttons.get(i));
+           buttons.get(i).setOpaque(true);
            buttons.get(i).setMargin(new Insets(0, 0, 0, 0));
            buttons.get(i).setBorder(new LineBorder(Color.gray, 2));
            buttons.get(i).addActionListener(this);
