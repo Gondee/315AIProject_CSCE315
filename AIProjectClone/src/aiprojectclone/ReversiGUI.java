@@ -11,6 +11,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.*;
 import javax.swing.border.LineBorder;
 import javax.swing.border.TitledBorder;
@@ -59,7 +61,10 @@ public class ReversiGUI extends JFrame implements ActionListener {
         return "Undefined";
     }
     
-    private void setup_window(){    
+    private void setup_window(){  
+        
+       //UIManager.setLookAndFeel(javax.swing.UIManager.getSystemLookAndFeelClassName());
+       System.out.println(UIManager.getInstalledLookAndFeels()); 
        setTitle("Reversi Game ");
        setSize(710,710);
        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
