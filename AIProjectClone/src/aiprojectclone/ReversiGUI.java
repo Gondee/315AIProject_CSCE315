@@ -86,7 +86,7 @@ public class ReversiGUI extends JFrame implements ActionListener {
         Edit.add(set_white);
         Edit.add(update_g);
         Tools.add(File);
-        Tools.add(Edit);
+        //Tools.add(Edit);
         setJMenuBar(Tools);
         undo.addActionListener(this);
        
@@ -168,8 +168,8 @@ public class ReversiGUI extends JFrame implements ActionListener {
         
        //URL loadURL = ReversiGUI.class.getResource("black_trans.png"); 
         
-       ImageIcon black = new ImageIcon(black_image_path);
-       ImageIcon white = new ImageIcon(white_image_path);
+       ImageIcon black = new ImageIcon(getClass().getResource("black_trans.png"));
+       ImageIcon white = new ImageIcon(getClass().getResource("white_trans.png"));
 
        //System.out.println("TEST: "+ black.getImageLoadStatus());
        
@@ -288,9 +288,7 @@ public class ReversiGUI extends JFrame implements ActionListener {
                  else{
                      recent_move =move1;
                      
-                     //Move has to go somewhere
-                     //JOptionPane.showMessageDialog(null, "Move: "+ move1+" - the GUI is not hooked up to any client code-josh"
-                     //        + ". To test use the 'l' in main, text entry only");
+                     
                  }
                  //----------------------
                  //testing board
