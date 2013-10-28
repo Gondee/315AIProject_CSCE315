@@ -226,6 +226,9 @@ public class ReversiGUI extends JFrame implements ActionListener {
     public String get_move(){
         return recent_move;
     }
+    public void set_move_null(){
+        recent_move = "NULL";
+    }
 
     @Override
     public void actionPerformed(ActionEvent ae) {
