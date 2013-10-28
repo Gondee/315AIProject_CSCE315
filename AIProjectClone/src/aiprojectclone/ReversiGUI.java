@@ -26,7 +26,7 @@ public class ReversiGUI extends JFrame implements ActionListener {
     JMenuItem undo = new JMenuItem("  Undo  ");
     JMenuItem set_black = new JMenuItem("  Set black image");
     JMenuItem set_white = new JMenuItem("  Set white image");
-    JMenuItem update_g = new JMenuItem("  Update_Graphics");
+    JMenuItem update_g = new JMenuItem("  Update_Graphics (use custom)");
     
     String black_image_path = "black_trans.png";
     String white_image_path = "white_trans.png";
