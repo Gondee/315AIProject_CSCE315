@@ -93,8 +93,8 @@ public class ReversiGUI extends JFrame implements ActionListener {
        JPanel pane = new JPanel();
        GridLayout grid = new GridLayout(8,0);//Java ignores y comp when x is present
        pane.setLayout(grid);
-       
-       
+       //205-192-176
+       Color backgroun = new Color(205,192,176);
        
        
        for(int i=0; i<64;i++)
@@ -102,6 +102,7 @@ public class ReversiGUI extends JFrame implements ActionListener {
            buttons.add(new JButton());
            pane.add(buttons.get(i));
            buttons.get(i).setOpaque(true);
+           buttons.get(i).setBackground(backgroun);
            buttons.get(i).setMargin(new Insets(0, 0, 0, 0));
            buttons.get(i).setBorder(new LineBorder(Color.gray, 2));
            buttons.get(i).addActionListener(this);
