@@ -64,7 +64,7 @@ public class ReversiGUI extends JFrame implements ActionListener {
     private void setup_window(){  
         
        //UIManager.setLookAndFeel(javax.swing.UIManager.getSystemLookAndFeelClassName());
-       System.out.println(UIManager.getInstalledLookAndFeels()); 
+       //System.out.println(UIManager.getInstalledLookAndFeels()); 
        setTitle("Reversi Game ");
        setSize(710,710);
        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
