@@ -23,10 +23,14 @@ public class ReversiGUI extends JFrame implements ActionListener {
     
     GameBoard game; //Board that is the same by referance as client or server
     ArrayList<JButton> buttons = new ArrayList();
-    JMenuItem undo = new JMenuItem("  Undo  ");
-    JMenuItem set_black = new JMenuItem("  Set black image");
-    JMenuItem set_white = new JMenuItem("  Set white image");
-    JMenuItem update_g = new JMenuItem("  Update_Graphics (use custom)");
+    JMenuItem undo = new JMenuItem("  Undo Last Move  ");
+    JMenuItem show_a = new JMenuItem("   Toggle: Show Avaliable Moves");
+    JMenuItem show_aa = new JCheckBoxMenuItem("  Show Avaliable Moves");
+    
+    JMenuItem set_black = new JMenuItem("  Set Black Image");
+    JMenuItem set_white = new JMenuItem("  Set White Image");
+    JMenuItem update_g = new JCheckBoxMenuItem("  Use Custom");
+    boolean show_moves = false;
     
     String black_image_path = "black_trans.png";
     String white_image_path = "white_trans.png";
@@ -64,6 +68,7 @@ public class ReversiGUI extends JFrame implements ActionListener {
        set_black.addActionListener(this);
        set_white.addActionListener(this);
        update_g.addActionListener(this);
+       show_aa.addActionListener(this);
        
        TitledBorder gameboarder = new TitledBorder("Playing game as: " + get_color_name());
        
@@ -71,6 +76,7 @@ public class ReversiGUI extends JFrame implements ActionListener {
         JMenu File = new JMenu("  File  ");
         JMenu Edit = new JMenu("  Edit  ");
         File.add(undo);
+        File.add(show_aa);
         Edit.add(set_black);
         Edit.add(set_white);
         Edit.add(update_g);
@@ -107,7 +113,13 @@ public class ReversiGUI extends JFrame implements ActionListener {
     
     public void update_board(GameBoard g){
         
-        
+       if(show_moves){
+            for(int i=0; i<64;i++)
+            {
+            buttons.get(i).setBorder(new LineBorder(Color.gray, 2));
+
+            }
+       }
         
         game =g;
         char[][] b = game.get_board();
@@ -120,12 +132,41 @@ public class ReversiGUI extends JFrame implements ActionListener {
             
         }
         
+        if(show_moves){
+            ArrayList<String> m = game.get_avaliable_indexs();
+            
+            for(int i = 0; i < m.size(); i++ ){
+                char co = m.get(i).charAt(0);
+                char ro = m.get(i).charAt(1);
+                int colo = Character.getNumericValue(co);
+                int rowo = Character.getNumericValue(ro);
+                
+                int z = 0;
+                for(int x=0;x<8;x++){
+                    for(int y=0;y<8;y++){
+                        
+                        if(x ==rowo && y == colo){
+                        buttons.get(z).setBorder(new LineBorder(Color.yellow, 2));
+                        }
+                     z++;   
+                    }
+            
+                }
+                
+                
+                
+            }
+            
+        }
+        
+        
+        
        //URL loadURL = ReversiGUI.class.getResource("black_trans.png"); 
         
        ImageIcon black = new ImageIcon(black_image_path);
        ImageIcon white = new ImageIcon(white_image_path);
 
-       System.out.println("TEST: "+ black.getImageLoadStatus());
+       //System.out.println("TEST: "+ black.getImageLoadStatus());
        
        Image img = black.getImage();  
        Image newimg = img.getScaledInstance(70, 66,  java.awt.Image.SCALE_SMOOTH);  
@@ -195,6 +236,20 @@ public class ReversiGUI extends JFrame implements ActionListener {
          if(source == set_black){
              Background getimg = new Background();
              getimg.setBackground("BLACK");
+             
+         }
+         
+         if(source == show_aa)
+         {
+             show_moves= !show_moves;
+            
+            if(!show_moves){
+            for(int i=0; i<64;i++)
+            {
+            buttons.get(i).setBorder(new LineBorder(Color.gray, 2));
+
+            }
+       }
              
          }
          
