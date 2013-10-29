@@ -77,13 +77,20 @@ public class SelectTask extends JFrame implements ActionListener{
             int p = Integer.parseInt (theport); 
             Server s = new Server(p);
             try {
+                dispose();
+                JOptionPane.showMessageDialog(null, "Runnging in background...");
+                System.out.println("Listening...");
                 s.listen();
+                //System.out.println("Listening...");
             } catch (IOException ex) {
                 Logger.getLogger(SelectTask.class.getName()).log(Level.SEVERE, null, ex);
             }
             
         }
         if(source == StartClient){
+            SetupGUI begin = new SetupGUI();
+            begin.start();
+            dispose();
             
         }
         
