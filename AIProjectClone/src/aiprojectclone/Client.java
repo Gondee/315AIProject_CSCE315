@@ -58,28 +58,40 @@ public class Client {
        BufferedReader in = new BufferedReader(new InputStreamReader(Server.getInputStream()));      
        PrintWriter out = new PrintWriter(Server.getOutputStream(), true);
        String input;
+       String client_move;
        
        input = in.readLine();
        gui.show_message(input);
+      // input = in.readLine();
        
        out.println("gui");
        out.println(color);
        out.println(server);
-       out.println("display");
+      // input = in.readLine();
+    //   gui.show_message(input);
+   //    out.println("display");
        
        while ((input = in.readLine()) != null) {
+    	   if(input == "OK")
+    		   input = in.readLine();
            gui.show_message(input);
            synchronized(syncObj){
                 while (gui.get_move().equalsIgnoreCase("NULL"))
                     syncObj.wait();
-                input = gui.get_move();
-                out.println(input);
+                client_move = gui.get_move();
+                out.println(client_move);
                 gui.set_move_null();
        }
-           clientBoard.move(input);
-           gui.update_board(clientBoard);
-           clientBoard.ai_move(in.readLine());
-           gui.update_board(clientBoard);
+           input = in.readLine();
+           if(input == "ILLEGAL")
+        	   gui.show_message("ILLEGAL MOVE");          
+
+           else {
+        	   clientBoard.move(client_move);
+	           gui.update_board(clientBoard);
+	           clientBoard.ai_move(input);
+	           gui.update_board(clientBoard);
+           }
     }
     }
     

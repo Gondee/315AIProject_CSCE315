@@ -18,6 +18,8 @@ public class Server {
     char client_color;
     char server_color;
     
+    
+    private boolean gui_flag;
     static private boolean ai_flag; //activate this copy of AI?
     private String remote_ai_diff; //Difficulty of AI of remote AI
     private String local_ai_diff; //Difficulty of AI of local AI
@@ -52,7 +54,7 @@ public class Server {
 		PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
 		String input;
 		
-		out.println("WELCOME\n");
+		out.println("WELCOME");
                 
                 
 		in = beginning_sequence(in, out);
@@ -60,14 +62,15 @@ public class Server {
 		AdvancedAI AI = new AdvancedAI(local_ai_diff);
 
 		board = new GameBoard(client_color);
+        
+	//	board.display_board(socket);
                 
-		board.display_board(socket);
                 
-                
-		out.println("MAKE FIRST MOVE\n");
-                
+		out.println("MAKE FIRST MOVE");
+        boolean display = true;    
+		if(gui_flag)
+            display = false;
 		
-                boolean display = true;
 		while (true) {
                     input = in.readLine();
 		    if (input.equalsIgnoreCase("EXIT"))
@@ -79,11 +82,11 @@ public class Server {
                     else if (input.charAt(0)==';')
                         out.println(input.substring(1));
                     else if(!board.move(input))
-			out.println("ILLEGAL\n");
+                    	out.println("ILLEGAL");
                     else
                         out.println(AI.ai_move(board));
                     if(board.check_state())
-                            out.println("GAME OVER\n");		 
+                            out.println("GAME OVER");		 
                     out.println("OK");
                     if (display)
                         board.display_board(socket);	
@@ -96,11 +99,14 @@ public class Server {
                 BufferedReader newin;
       		boolean valid = false; 
 		do {	
-                        out.println("Press any key and enter");
+                    //   out.println("Press any key and enter");
                         input = in.readLine();
                         
-                        if (input.equals("gui"))
-                            return gui_handler(in);
+                        if (input.equals("gui")) {
+                        	gui_flag = true;
+                        	return gui_handler(in);
+                        }
+                            
                             
                    
                         
