@@ -304,10 +304,10 @@ public class GameBoard implements Serializable{ //Implements serialiazable so de
        
         if(color == 'b'){
             
-            ArrayList<String> mov1 = get_avaliable_indexs();
-            set_color('w'); //Checking opp moves
+            ArrayList<String> mov1 = get_avaliable_AIindexs();
+            //set_color('w'); //Checking opp moves
             ArrayList<String> mov2 = get_avaliable_indexs();
-            set_color('b'); //Checking player moves
+            //set_color('b'); //Checking player moves
             
             if(mov1.isEmpty() && mov2.isEmpty()){
                 winner = peice_count();
@@ -316,10 +316,10 @@ public class GameBoard implements Serializable{ //Implements serialiazable so de
             
         }
         if(color == 'w'){
-            ArrayList<String> mov1 = get_avaliable_indexs();
-            set_color('b'); //Checking opp moves
+            ArrayList<String> mov1 = get_avaliable_AIindexs();
+            //set_color('b'); //Checking opp moves
             ArrayList<String> mov2 = get_avaliable_indexs();
-            set_color('w'); //Checking player moves
+            //set_color('w'); //Checking player moves
             
             if(mov1.isEmpty() && mov2.isEmpty()){
                 winner = peice_count();
