@@ -25,14 +25,18 @@ public class Client {
     int port;
     String client;
     String server;
+    String remote_ip;
+    int remote_port;
     char color;
     final Object syncObj = new Object();
     
-    public Client(String cli,String ser,String ipp, int ppo,String col) throws UnknownHostException, IOException, InterruptedException{
+    public Client(String cli,String ser,String ipp, int ppo,String col, String r_ip, int r_p) throws UnknownHostException, IOException, InterruptedException{
         client = cli;
         server = ser;
         ip = ipp;
         port = ppo;
+        remote_ip = r_ip;
+        remote_port = r_p;
         String server_difficulty = "";
         
         if("Black".equals(col))
