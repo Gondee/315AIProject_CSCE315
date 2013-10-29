@@ -20,10 +20,9 @@ public class Server {
     
     
     private boolean gui_flag;
-    static private boolean ai_flag; //activate this copy of AI?
+    private boolean human_ai; //activate this copy of AI?
     private String remote_ai_diff; //Difficulty of AI of remote AI
     private String local_ai_diff; //Difficulty of AI of local AI
-    private boolean gui;
 
     
     public Server(int p) {
@@ -49,8 +48,7 @@ public class Server {
     }
     
     public int connection_handler(Socket socket) throws IOException {
- 	   
-                gui = false;
+ 	  
 		BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));      
 		PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
 		String input;
@@ -84,10 +82,11 @@ public class Server {
                         out.println(input.substring(1));
                     else if(!board.move(input))
                     	out.println("ILLEGAL");
+                    else if(board.check_state())
+                    	out.println("GAME OVER");          
                     else
-                        out.println(AI.ai_move(board));
+                    	out.println(AI.ai_move(board));
                     if(board.check_state())
-
                             out.println("GAME OVER");		 
                     out.println("OK");
                     if (display)
@@ -108,6 +107,7 @@ public class Server {
                     //   out.println("Press any key and enter");
                         input = in.readLine();
                         
+
                         if (input.equals("gui")) {
                         	gui_flag = true;
                         	return gui_handler(in);
@@ -115,7 +115,7 @@ public class Server {
                                            
                    
                         
-			out.println("CHOOSE SIDE (WHITE OR BLACK)\n");
+			out.println("CHOOSE SIDE (WHITE OR BLACK)");
             
 			input = in.readLine();
                         boolean found = false;
@@ -135,11 +135,11 @@ public class Server {
 				server_color = 'w';	
 				out.println("OK\n");
 			} else{
-                            out.println("INVALID CHOICE\n");
+                            out.println("INVALID CHOICE");
                             newin = beginning_sequence(in, out);
                             return newin;
                         }
-                        out.println("CHOOSE GAME TYPE (HUMAN-AI OR AI-AI)\n");
+                        out.println("CHOOSE GAME TYPE (HUMAN-AI OR AI-AI)");
                         input = in.readLine();
                         
                         if (input.equalsIgnoreCase("HUMAN-AI"))
@@ -163,7 +163,7 @@ public class Server {
                                 return newin;
                         }
                         else{
-                            out.println("INVALID CHOICE\n");
+                            out.println("INVALID CHOICE");
                             newin = beginning_sequence(in, out);
                             return newin;
                         }
@@ -175,7 +175,7 @@ public class Server {
                             local_ai_diff = input;
                        
                         else{
-                            out.println("INVALID CHOICE\n");
+                            out.println("INVALID CHOICE");
                             newin = beginning_sequence(in, out);
                             return newin;
                         }
@@ -203,6 +203,20 @@ public class Server {
         
         input = in.readLine();
         local_ai_diff = input.substring(3);
+        
+        input = in.readLine();
+        
+        if (input.equalsIgnoreCase("HUMAN-AI"))
+            human_ai = true;
+        else {
+        		human_ai = false;
+        		input = in.readLine();
+                remote_hostname = input;
+                input = in.readLine();
+                remote_port = Integer.parseInt(input);
+                input = in.readLine();
+                remote_ai_diff = input;
+        }
         return in;
         
     }

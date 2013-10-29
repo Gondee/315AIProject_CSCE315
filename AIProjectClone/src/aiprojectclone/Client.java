@@ -33,15 +33,29 @@ public class Client {
         server = ser;
         ip = ipp;
         port = ppo;
+        String server_difficulty = "";
         
         if("Black".equals(col))
             color = 'b';
         else if("White".equals(col))
             color = 'w';
         
-        
-        start_client();
-        
+        if(client == "Human")
+        	client = "HUMAN-AI";
+        else if(client == "AI-Easy") {
+        	client = "AI-AI";
+        	server_difficulty = "EASY";
+        } else if(client == "AI-Medium") {
+        	client = "AI-AI";
+        	server_difficulty = "MEDIUM";
+        } else if(client == "AI-Hard") {
+        	client = "AI-AI";
+        	server_difficulty = "HARD";
+        }
+        	
+        	
+                
+        start_client();       
         
     }
     
@@ -67,34 +81,42 @@ public class Client {
        out.println("gui");
        out.println(color);
        out.println(server);
+       if(client == "HUMAN_AI") {
+    	   out.println(client);
       // input = in.readLine();
     //   gui.show_message(input);
    //    out.println("display");
        
-       while ((input = in.readLine()) != null) {
-    	   if(input == "OK")
-    		   input = in.readLine();
-           gui.show_message(input);
-           synchronized(syncObj){
-                while (gui.get_move().equalsIgnoreCase("NULL"))
-                    syncObj.wait();
-                client_move = gui.get_move();
-                out.println(client_move);
-                gui.set_move_null();
+	       while ((input = in.readLine()) != null) {
+	    	   if(input == "OK")
+	    		   input = in.readLine();
+	           gui.show_message(input);
+	           synchronized(syncObj){
+	                while (gui.get_move().equalsIgnoreCase("NULL"))
+	                    syncObj.wait();
+	                client_move = gui.get_move();
+	                out.println(client_move);
+	                gui.set_move_null();
+	           }
+	           input = in.readLine();
+	           if(input == "ILLEGAL")
+	        	   gui.show_message("ILLEGAL MOVE");          
+	
+	           else {
+	        	   clientBoard.move(client_move);
+		           gui.update_board(clientBoard);
+		           clientBoard.ai_move(input);
+		           gui.update_board(clientBoard);
+	           }
+	
+	      }
+      }
+       else {
+    	   out.println(client);
        }
-           input = in.readLine();
-           if(input == "ILLEGAL")
-        	   gui.show_message("ILLEGAL MOVE");          
-
-           else {
-        	   clientBoard.move(client_move);
-	           gui.update_board(clientBoard);
-	           clientBoard.ai_move(input);
-	           gui.update_board(clientBoard);
-           }
-
+     
     }
-    }
+  
     
 public void send_move(String m){
         
