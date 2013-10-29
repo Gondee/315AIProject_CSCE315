@@ -45,8 +45,8 @@ public class AIProjectClone {
         if("s".equals(c)){
             int Port = 5888;
             Server s = new Server(Port);
-//            SetupGUI test = new SetupGUI(); //Not functinoal yet
-//            test.start();
+            SetupGUI test = new SetupGUI(); //Not functinoal yet
+            test.start();
             s.listen();
         }
         else if ("c".equals(c)){
