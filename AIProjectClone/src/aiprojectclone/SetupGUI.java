@@ -117,7 +117,8 @@ public class SetupGUI extends JFrame implements ActionListener {
        start.addActionListener(this);
        cancel.addActionListener(this);
        
-       
+       iptwo.setText("");
+       porttwo.setText("");
        
        sset.add(cancel);
        sset.add(start);
@@ -146,22 +147,26 @@ public class SetupGUI extends JFrame implements ActionListener {
     
     public class ClientRunnable implements Runnable { 
 
-        String clientsetup, serversetup, sip, col;
-        int portt;
+        String clientsetup, serversetup, sip, col,iptwo;
+        int portt, porttwo;
         
-        public ClientRunnable(String clientsetup, String serversetup, String sip, int portt, String col)
+        
+        
+        public ClientRunnable(String clientsetup, String serversetup, String sip, int portt, String col,String iptwo, int porttwo)
         {
             this.clientsetup = clientsetup;
             this.serversetup = serversetup;
             this.sip = sip;
             this.portt = portt;
             this.col = col;
+            this.porttwo = porttwo;
+            this.iptwo = iptwo;
         }
         
         @Override
         public void run() {
             try {
-                 Client startclient = new Client(clientsetup,serversetup,sip,portt,col);
+                 Client startclient = new Client(clientsetup,serversetup,sip,portt,col,iptwo,porttwo);
              } catch (UnknownHostException ex) {
                  Logger.getLogger(SetupGUI.class.getName()).log(Level.SEVERE, null, ex);
              } catch (IOException ex) {
@@ -184,6 +189,8 @@ public class SetupGUI extends JFrame implements ActionListener {
             String sip = ip.getText();
             String spo = port.getText();
             String col = (String)coloroptions.getSelectedItem();
+            String porttwoo = porttwo.getText();
+            String ipptwo = iptwo.getText();
             
             if("".equals(ip.getText()) || "".equals(port.getText())){
                 JOptionPane.showMessageDialog(null, "You must enter both IP and Port "); 
@@ -192,7 +199,8 @@ public class SetupGUI extends JFrame implements ActionListener {
                 
                dispose();
                int portt = Integer.parseInt(spo);
-               Thread clientThread = new Thread(new ClientRunnable(clientsetup,serversetup,sip,portt,col), "client thread");
+               int porttnumber2 = Integer.parseInt(porttwoo);
+               Thread clientThread = new Thread(new ClientRunnable(clientsetup,serversetup,sip,portt,col,ipptwo,porttnumber2), "client thread");
                clientThread.start();
                 
                
