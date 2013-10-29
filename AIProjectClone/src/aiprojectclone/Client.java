@@ -26,7 +26,7 @@ public class Client {
     String client;
     String server;
     char color;
-    Object syncObj;
+    Object syncObj = new Object();
     
     public Client(String cli,String ser,String ipp, int ppo,String col) throws UnknownHostException, IOException, InterruptedException{
         client = cli;
@@ -70,12 +70,14 @@ public class Client {
        while ((input = in.readLine()) != null) {
            gui.show_message(input);
            synchronized(syncObj){
-                while (gui.get_move().equalsIgnoreCase("null"))
+                while (gui.get_move().equalsIgnoreCase("NULL"))
                     syncObj.wait();
                 input = gui.get_move();
                 out.println(input);
                 gui.set_move_null();
        }
+           clientBoard.move(input);
+           gui.update_board(clientBoard);
            clientBoard.ai_move(in.readLine());
            gui.update_board(clientBoard);
     }
