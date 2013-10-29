@@ -71,7 +71,7 @@ public class Client {
        while((str = in.readLine()) != null){ 
        System.out.println(str); 
     }
-       
+      System.out.println("testing"); 
        while ((input = in.readLine()).equals("GAME OVER") ) {
            System.out.println("testing");
            synchronized(syncObj){
@@ -82,7 +82,7 @@ public class Client {
                 out.println(input);
                 
                 gui.set_move_null();
-       }
+           }
            clientBoard.move(input);
            gui.update_board(clientBoard);
            input = in.readLine();
