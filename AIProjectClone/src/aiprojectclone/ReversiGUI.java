@@ -239,6 +239,12 @@ public class ReversiGUI extends JFrame implements ActionListener {
         recent_move = "NULL";
     }
 
+    public void show_message(String s)
+    {
+        JOptionPane.showMessageDialog(null, s);
+    }
+    
+    
     @Override
     public void actionPerformed(ActionEvent ae) {
          Object source = ae.getSource();

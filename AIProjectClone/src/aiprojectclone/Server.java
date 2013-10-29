@@ -95,7 +95,14 @@ public class Server {
                 String input;
                 BufferedReader newin;
       		boolean valid = false; 
-		do {		
+		do {	
+                        out.println("Press any key and enter");
+                        input = in.readLine();
+                        
+                        if (input.equals("gui"))
+                            return gui_handler(in);
+                            
+                   
                         
 			out.println("CHOOSE SIDE (WHITE OR BLACK)\n");
             
@@ -169,5 +176,24 @@ public class Server {
                 return newin;
       
   }
+ 
+    private BufferedReader gui_handler(BufferedReader in) throws IOException
+    {
+        String input;
+        input = in.readLine();
+        
+        if (input.equalsIgnoreCase("w")) {
+            client_color = 'w';
+            server_color = 'b';
+        } 
+        else if (input.equalsIgnoreCase("b")) {
+                client_color = 'b';
+                server_color = 'w';	}
+        
+        input = in.readLine();
+        local_ai_diff = input.substring(3);
+        return in;
+        
+    }
   }  
     
