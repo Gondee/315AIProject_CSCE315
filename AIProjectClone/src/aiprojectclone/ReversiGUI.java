@@ -33,12 +33,14 @@ public class ReversiGUI extends JFrame implements ActionListener {
     JMenuItem set_white = new JMenuItem("  Set White Image");
     JMenuItem update_g = new JCheckBoxMenuItem("  Use Custom");
     boolean show_moves = false;
+    boolean showundo = false;
     
     String black_image_path = "black_trans.png";
     String white_image_path = "white_trans.png";
     String recent_move = "NULL";
     
     final Object SyncObj;
+    
     
     public ReversiGUI(GameBoard g, Object syncobject){
        game =g;//reference to original gameboard  
@@ -243,6 +245,13 @@ public class ReversiGUI extends JFrame implements ActionListener {
     public void set_move_null(){
         recent_move = "NULL";
     }
+    
+    public boolean get_undo(){
+        return showundo;
+    }
+    public void reset_undo(){
+        showundo = !showundo;
+    }
   
     public void show_message(String s)
     {
@@ -255,6 +264,11 @@ public class ReversiGUI extends JFrame implements ActionListener {
          
          if(source == undo){
              //undo code here
+             //showundo = true;
+             synchronized(SyncObj){
+                    showundo = true;
+                     SyncObj.notify();
+                    }
              
          }
          
