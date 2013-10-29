@@ -118,7 +118,7 @@ public class SetupGUI extends JFrame implements ActionListener {
        cancel.addActionListener(this);
        
        iptwo.setText("");
-       porttwo.setText("");
+       porttwo.setText("0000");
        
        sset.add(cancel);
        sset.add(start);

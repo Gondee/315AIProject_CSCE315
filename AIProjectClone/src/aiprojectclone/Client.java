@@ -97,7 +97,18 @@ public class Client {
 	           gui.show_message(input);
 	           synchronized(syncObj){
 	                while (gui.get_move().equalsIgnoreCase("NULL"))
+                        {
 	                    syncObj.wait();
+                            
+                            if(gui.get_move().equalsIgnoreCase("NULL") && gui.get_undo())
+                            {
+                                clientBoard.undo();
+                                gui.update_board(clientBoard);
+                                gui.reset_undo();
+                            }
+                            
+                        }
+                        //System.out.println("MOVE");
 	                client_move = gui.get_move();
 	                out.println(client_move);
 	                gui.set_move_null();
