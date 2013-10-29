@@ -19,6 +19,11 @@ import javax.swing.UIManager;
 
 /**
  *
+ * This class just esists so that the user can choose between hosting a server on 
+ * his or her local machine, and connecting to an existing server
+ * 
+ * 
+ * 
  * @author joshkruger
  */
 public class SetupGUI extends JFrame implements ActionListener {
@@ -30,14 +35,14 @@ public class SetupGUI extends JFrame implements ActionListener {
         
         
     }
-    boolean serverVSserver = false;
+    boolean serverVSserver = false; //Determins if UI needs to open additinoal settings options
     
     String[] serverop = {"AI-Easy", "AI-Medium","AI-Hard"};
-    JComboBox serveroptions = new JComboBox(serverop);
+    JComboBox serveroptions = new JComboBox(serverop); //server drop down menu
     String[] clientop = {"Human", "AI-Easy","AI-Medium","AI-Hard"};
-    JComboBox clientoptions = new JComboBox(clientop);
+    JComboBox clientoptions = new JComboBox(clientop); //client drop down menu
     JTextField port = new JTextField(20);
-    JTextField ip = new JTextField(20);
+    JTextField ip = new JTextField(20);     //Entry fields of ip and ports of servers
     JTextField porttwo = new JTextField(20);
     JTextField iptwo = new JTextField(20);
     JLabel ipd = new JLabel(" Enter IP Adress:");
@@ -54,7 +59,7 @@ public class SetupGUI extends JFrame implements ActionListener {
     
     JPanel cset = new JPanel();
     
-    private void build_gui(){
+    private void build_gui(){       //Build the GUI and display on awt/swing thread
        setTitle("Reversi Game Setup");
        setSize(300,400);
        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -179,10 +184,10 @@ public class SetupGUI extends JFrame implements ActionListener {
     
     
     @Override
-    public void actionPerformed(ActionEvent ae) {
+    public void actionPerformed(ActionEvent ae) {       
         Object source = ae.getSource();
         
-        if(source == start){
+        if(source == start){        //Begin game process
             
             String clientsetup = (String)clientoptions.getSelectedItem();  
             String serversetup = (String)serveroptions.getSelectedItem();  
@@ -219,24 +224,27 @@ public class SetupGUI extends JFrame implements ActionListener {
 
             if("AI-Easy".equals(clientsetup) || "AI-Medium".equals(clientsetup) || "AI-Hard".equals(clientsetup)){
               
-              if(!serverVSserver){
+              if(!serverVSserver){      //open additional settings to user
               setSize(300,500);
               cset.add(ipdtwo);
               cset.add(iptwo);
               cset.add(ipptwo);
               cset.add(porttwo);
+              coloroptions.setSelectedIndex(1);
+              coloroptions.setEnabled(false);
+              
               }
               serverVSserver=true;
   
             }
-            else{
+            else{       //Close additional settings if open
                 serverVSserver=false;
                 setSize(300,400);
                 cset.remove(iptwo);
                 cset.remove(porttwo);
                 cset.remove(ipdtwo);
                 cset.remove(ipptwo);
-                
+                coloroptions.setEnabled(true);
                 porttwo.setText("");
                 iptwo.setText("");
             }

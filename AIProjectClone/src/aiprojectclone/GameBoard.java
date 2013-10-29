@@ -15,6 +15,11 @@ import java.util.Set;
  *
  * @author joshkruger
  * 
+ * This class is the GameBoard and all of the ecopanying functions
+ * it handels the board, moving on the board, and jumping on the board
+ * it also assits with simulating moves 
+ * 
+ * 
  * if something is labled with move in the name, it means it accepts user style
  * move commands like d3
  * 
@@ -24,7 +29,7 @@ import java.util.Set;
  * 
  * 
  */
-public class GameBoard implements Serializable{
+public class GameBoard implements Serializable{ //Implements serialiazable so deep copys can be made
     
     private char [][] board;// actual board
     private char winner =' ';
@@ -71,7 +76,7 @@ public class GameBoard implements Serializable{
     }
     
     //-------------------------------------Functions Below
-    private void setup_board()
+    private void setup_board() //Sets up the inital board
     {
         
         for(int i=0; i<8; i++)
@@ -166,7 +171,7 @@ public class GameBoard implements Serializable{
        return ret;
     }
     
-    public String index_to_move(String m) //For external use
+    public String index_to_move(String m) //converts a board index to usuable move
     {
         
         char c = m.charAt(0);
@@ -630,7 +635,7 @@ public class GameBoard implements Serializable{
         return false;
     } //to be done
     
-    public boolean jump_col_test(String m){
+    public boolean jump_col_test(String m){ //Checks for jumps in vertical direction
         
         char op_color = '@';
         char pl_color = 'O';
@@ -691,7 +696,7 @@ public class GameBoard implements Serializable{
         
     } //to do 
     
-    public boolean jump_diag_test(String m){
+    public boolean jump_diag_test(String m){ //Checks for diagonal jumps
         
         char op_color = '@';
         char pl_color = 'O';
@@ -819,7 +824,7 @@ public class GameBoard implements Serializable{
         return false;
     } // to do
     
-    public boolean peform_row_jump(String m){
+    public boolean peform_row_jump(String m){//Peforms jumps in row direction if avaliable
         
         char op_color = '@';
         char pl_color = 'O';
@@ -926,7 +931,7 @@ public class GameBoard implements Serializable{
  
         return false;
     }
-    public boolean peform_col_jump(String m){
+    public boolean peform_col_jump(String m){ //Peforms jumps in vertical direction if avaliable
         
         char op_color = '@';
         char pl_color = 'O';
@@ -1030,7 +1035,7 @@ public class GameBoard implements Serializable{
         
         return true;
     }
-    public boolean peform_diag_jump(String m){
+    public boolean peform_diag_jump(String m){ //peforms jumps in diagonal direction if avaliable
     
         char op_color = '@';
         char pl_color = 'O';
@@ -1286,10 +1291,14 @@ public class GameBoard implements Serializable{
         
     }
     
-    public void undo(){
+    public void undo(){     //Gets a previous copy of the baord from the player (saved in Move()
        int size = previous_boards.size();
        char[][] temp = previous_boards.get(size-1); 
+       //display_board();
        board = temp;
+       //display_board();
+       
+       
     }
     
     public boolean move(String n) //interface for actully moving //F4
@@ -1316,7 +1325,8 @@ public class GameBoard implements Serializable{
        //System.out.println("Move: "+m+":: "+col+","+row);
       
        if(color == 'w'){
-           previous_boards.add(board);
+           
+           previous_boards.add((char[][])deepClone(board));
            board[row][col]='O';
            
            if(jump_row_test(m))
@@ -1332,7 +1342,7 @@ public class GameBoard implements Serializable{
        }
        
        if(color == 'b'){
-           previous_boards.add(board);
+           previous_boards.add((char[][])deepClone(board));
            board[row][col]='@';
            
            if(jump_row_test(m))
@@ -1416,14 +1426,14 @@ public class GameBoard implements Serializable{
       return false;  
     }
      
-    public char [][] get_board() //Returns copy of current board state
+    public char [][] get_board() //Returns copy of current raw board state char array
     {
         char [][] temp_board = board; //protection
         
         return temp_board;
     }
     
-    public void display_board()
+    public void display_board() //Displays board in terminal 
     {
 		
 		
@@ -1437,7 +1447,7 @@ public class GameBoard implements Serializable{
         System.out.println("\t  a b c d e f g h");       
     }
     
-    public void display_board(Socket socket) throws IOException
+    public void display_board(Socket socket) throws IOException //Returns board to scoket for remote printing
     {
 		PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
 		
@@ -1452,8 +1462,8 @@ public class GameBoard implements Serializable{
     }
     
         
-     //validates index locations, different than validate internal use
-    public boolean valid_index(String m)
+     
+    public boolean valid_index(String m)    //validates index locations, different than validate internal use
     {
     
         
@@ -1494,7 +1504,7 @@ public class GameBoard implements Serializable{
     
     
     
-    public boolean random_ai()
+    public boolean random_ai()  //Chooses and moves according to random avaliable move
     {
         //char c = game.color; //Getting color for this instance
         Random generator = new Random(); //Random instance
@@ -1522,7 +1532,7 @@ public class GameBoard implements Serializable{
         return false;
     }
     
-    public String get_ASCII_board()
+    public String get_ASCII_board() //returns board formated for single string return;
     {
         
         String ascii_board ="";
@@ -1539,7 +1549,7 @@ public class GameBoard implements Serializable{
         return ascii_board;    
     }
     
-   public static Object deepClone(Object object) {
+   public static Object deepClone(Object object) {      //Deep Copys objects, only used in undo
    try {
      ByteArrayOutputStream baos = new ByteArrayOutputStream();
      ObjectOutputStream oos = new ObjectOutputStream(baos);

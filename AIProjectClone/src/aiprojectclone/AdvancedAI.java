@@ -13,6 +13,10 @@ import java.io.ObjectOutputStream;
  *
  * @author joshkruger
  * 
+ * Advanced aI is the launching class for using the MinMax tree AI
+ * It handels all functionality of the AI, makes the AI move, and returns the AI move
+ * so that it can be sent over the server
+ * 
  *      HOW TO INTERFACE WITH GAMEBOARD
  *      FUNCTIONS IN GAMEBOARD TAKE [A-F][1-8] (in index)
  *      IF YOU HAVE MOVE F3 CALL move_to_index() to change
@@ -29,7 +33,7 @@ public class AdvancedAI {
         difficulty = d;
     }
     
-    public static Object deepClone(Object object) {
+    public static Object deepClone(Object object) { //Deep copy of board to avoid reference errors
     	   try {
     	     ByteArrayOutputStream baos = new ByteArrayOutputStream();
     	     ObjectOutputStream oos = new ObjectOutputStream(baos);
@@ -44,7 +48,7 @@ public class AdvancedAI {
     	   }
     }
     
-    public String ai_move(GameBoard board){
+    public String ai_move(GameBoard board){     //AI move interface, also builds MinMax Tree
         TreeNode root = new TreeNode();
         List<TreeNode> children = new ArrayList<TreeNode>();
         
@@ -87,7 +91,7 @@ public class AdvancedAI {
         return move;
     }
     
-    public int index_weight(String index){
+    public int index_weight(String index){      //Assignes the worth of places on the board for evaluating by AI
     	int weight = 0;
     	char col = index.charAt(0);
     	char row = index.charAt(1);
@@ -112,7 +116,7 @@ public class AdvancedAI {
     	return weight;
     }
     
-    public void simulate_moves(GameBoard board, TreeNode node, int height)
+    public void simulate_moves(GameBoard board, TreeNode node, int height)  //Simulates board moves and srotes them in tree
     {
     	List<String> indexes = new ArrayList<String>();
     	List<String> moves = new ArrayList<String>();
@@ -155,7 +159,7 @@ public class AdvancedAI {
 		}
     }
     
-    public int minmax(TreeNode node, int height) {
+    public int minmax(TreeNode node, int height) {          //Peforms minMax algorthem on tree
     	List<TreeNode> children = new ArrayList<TreeNode>();
     	int minmax_weight = -100;
     	int children_weight = 0;

@@ -19,7 +19,7 @@ import javax.swing.border.TitledBorder;
  *
  * @author joshkruger
  */
-public class SelectTask extends JFrame implements ActionListener{
+public class SelectTask extends JFrame implements ActionListener{   //Chooses the two avaliable functions of our game
        
        public SelectTask(){
            start();
@@ -28,7 +28,7 @@ public class SelectTask extends JFrame implements ActionListener{
        JButton StartServer = new JButton("Host a Reversi Server");
        JButton StartClient = new JButton("Connect to a Reversi Server");
     
-       private void start(){
+       private void start(){        //Builds GUI on swing/awt thread
            
        setTitle("Start a Server or connecto to one");
        setSize(400,400);
