@@ -27,6 +27,7 @@ public class SelectTask extends JFrame implements ActionListener{   //Chooses th
        
        JButton StartServer = new JButton("Host a Reversi Server");
        JButton StartClient = new JButton("Connect to a Reversi Server");
+       JButton EndServer = new JButton("End Server");
     
        private void start(){        //Builds GUI on swing/awt thread
            
@@ -42,22 +43,27 @@ public class SelectTask extends JFrame implements ActionListener{   //Chooses th
        
        StartServer.setOpaque(true);
        StartClient.setOpaque(true);
+       EndServer.setOpaque(true);
        
        StartServer.setBackground(backgroun);
        StartClient.setBackground(backgroun);
+       EndServer.setBackground(backgroun);
        
        StartServer.addActionListener(this);
        StartClient.addActionListener(this);
+       EndServer.addActionListener(this);
        
        
        JPanel pane = new JPanel();
        TitledBorder plb= new TitledBorder("Choose a task");
        pane.setBorder(plb);
-       GridLayout g = new GridLayout(2,0);
+       GridLayout g = new GridLayout(0,2);
        pane.setLayout(g);
        
        pane.add(StartServer);
+       pane.add(EndServer);
        pane.add(StartClient);
+       
        
        add(pane); 
        setVisible(true);
@@ -70,16 +76,28 @@ public class SelectTask extends JFrame implements ActionListener{   //Chooses th
     public void actionPerformed(ActionEvent ae) {
         Object source = ae.getSource();
         
-        if(source == StartServer){
-            String theport = JOptionPane.showInputDialog ( "Enter a valid Port to host on:" ); 
+        if(source == EndServer){
+            System.exit(0);
             
-            int p = Integer.parseInt (theport); 
+        }
+        
+        if(source == StartServer){
+            StartClient.setEnabled(false);
+            final String theport = JOptionPane.showInputDialog ( "Enter a valid Port to host on:" ); 
+            
+            Thread t = new Thread() {
+            public void run() {
+                
+                int p = Integer.parseInt (theport); 
             Server s = new Server(p);
+            
+            
             try {
-                dispose();
-                JOptionPane.showMessageDialog(null, "Runnging in background...");
+                
                 System.out.println("Listening...");
                 s.listen();
+
+               
                 //System.out.println("Listening...");
             } catch (IOException ex) {
                 Logger.getLogger(SelectTask.class.getName()).log(Level.SEVERE, null, ex);
@@ -87,6 +105,15 @@ public class SelectTask extends JFrame implements ActionListener{   //Chooses th
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
+                
+                
+        
+            }
+            };
+            t.start();
+            
+            
+            
             
         }
         if(source == StartClient){
