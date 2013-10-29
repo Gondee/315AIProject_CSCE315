@@ -88,6 +88,7 @@ public class Server {
 	                    else if(!board.move(input))
 	                    	out.println("ILLEGAL");
 	                    else if(board.check_state()) {
+                                System.out.println("GameREALLYOVER");
 	                    	out.println("GAME OVER"); 
 	                    	TimeUnit.SECONDS.sleep(10);
 	                    }
@@ -95,6 +96,7 @@ public class Server {
 	                    	System.out.println(input);
 	                    	out.println(AI.ai_move(board));
 	                    if(board.check_state()) {
+                                System.out.println("GameREALLYOVER");
 	                    	out.println("GAME OVER"); 
 	                    	TimeUnit.SECONDS.sleep(10);
 	                    }	 
@@ -148,19 +150,21 @@ public class Server {
 			
 			while (true) {
                 remote_ai_move = in_opp.readLine();
-            	if(remote_ai_move == "GAME OVER") {
+            	if("GAME OVER".equals(remote_ai_move)) {
+                    System.out.println("GameREALLYOVER");
             		out.println(remote_ai_move);
             		TimeUnit.SECONDS.sleep(10);
             		return 0;
             	}
             	
                 System.out.println("remote"+remote_ai_move);
-                if(remote_ai_move != "") 
+                if(!"".equals(remote_ai_move)) 
                 	board.move(remote_ai_move);
                 
                 out.println(remote_ai_move);               
             	input = in_opp.readLine(); // Take in OK
-            	if(input == "GAME OVER") {
+            	if("GAME OVER".equals(input)) {
+                    System.out.println("GameREALLYOVER");
             		out.println(input);
             		TimeUnit.SECONDS.sleep(10);
             		return 0;
