@@ -10,6 +10,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.net.UnknownHostException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
@@ -162,30 +164,19 @@ public class SetupGUI extends JFrame implements ActionListener {
             }
             else{
                 
-                
-                
-                //--------------------------------------------
-                //-Return these elements in string form to command parser 
-                // to be validated
-                
-                dispose();
+               dispose();
+               int portt = Integer.parseInt(spo);
                 try {
-					Client startclient = new Client(clientsetup,serversetup,sip,spo,col);
-				} catch (UnknownHostException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} //Example
-            
-            
-            
-             //-------------------------------------------- 
-                
-                
-                
-                
+                    Client startclient = new Client(clientsetup,serversetup,sip,portt,col);
+                } catch (UnknownHostException ex) {
+                    Logger.getLogger(SetupGUI.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (IOException ex) {
+                    Logger.getLogger(SetupGUI.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (InterruptedException ex) {
+                    Logger.getLogger(SetupGUI.class.getName()).log(Level.SEVERE, null, ex);
+                }
+               
+               
                 
             }
               

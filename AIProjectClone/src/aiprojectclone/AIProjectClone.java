@@ -61,7 +61,7 @@ public class AIProjectClone {
         else if("l".equals(c)){
         //Local testing below
         GameBoard game = new GameBoard('w');
-        ReversiGUI go = new ReversiGUI(game); 
+        ReversiGUI go = new ReversiGUI(game,new Object()); 
         go.update_board(game);
         // initial color
 
