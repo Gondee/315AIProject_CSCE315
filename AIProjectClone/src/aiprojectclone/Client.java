@@ -162,20 +162,11 @@ public class Client {
     	   
 	       while ((input = in.readLine()) != null) {
 	    	   if(input != "") {
-	    		   if(input == "GAME OVER") {
-	    			   gui.show_message("GAME OVER");
-	    			   break;
-	    		   }
 	    		   clientBoard.ai_move(input);
 	    	   	   gui.update_board(clientBoard);
 	    	   }
-	    	   
 	    	   input = in.readLine();
 	    	   if(input != "") {
-	    		   if(input == "GAME OVER") {
-	    			   gui.show_message("GAME OVER");
-	    			   break;
-	    		   }
 	    		   clientBoard.move(input);
 	    		   gui.update_board(clientBoard); 
 	    	   }
