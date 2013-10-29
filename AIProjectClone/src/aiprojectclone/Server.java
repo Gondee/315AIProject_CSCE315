@@ -59,17 +59,17 @@ public class Server {
                 
                 
 		in = beginning_sequence(in, out);
-		System.out.println("GOTHERE");
+		
 		
 		if(human_ai) {
-			System.out.println("DID YOU FUCKINGS TART");
+			
 			AdvancedAI AI = new AdvancedAI(local_ai_diff);
 	
 			board = new GameBoard(client_color);
 	        
 		//	board.display_board(socket);
 	                
-			System.out.println("GOTHERE");        
+			        
 			out.println("MAKE FIRST MOVE");
 	        boolean display = false;    
 			
@@ -93,7 +93,7 @@ public class Server {
 	                    else if(!board.move(input))
 	                    	out.println("ILLEGAL");
 	                    else if(board.check_state()) {
-                                System.out.println("GameREALLYOVER");
+                                //System.out.println("GameREALLYOVER");
 	                    	out.println("GAME OVER"); 
 	                    	TimeUnit.SECONDS.sleep(10);
 	                    	return 0;
@@ -102,7 +102,7 @@ public class Server {
 	                    	System.out.println(input);
 	                    	out.println(AI.ai_move(board));
 	                    if(board.check_state()) {
-                                System.out.println("GameREALLYOVER");
+                                //System.out.println("GameREALLYOVER");
 	                    	out.println("GAME OVER"); 
 	                    	TimeUnit.SECONDS.sleep(10);
 	                    	return 0;
@@ -133,22 +133,22 @@ public class Server {
 			out_opp.println("junk"); // test for gui
 			
 			input = in_opp.readLine(); // Take in CHOOSE WHITE OR BLACK
-			out.println(input);
+			//out.println(input);
 			out_opp.println("WHITE");
 			
 			input = in_opp.readLine(); // Take in OK
-			out.println(input);
+			//out.println(input);
 			
 			input = in_opp.readLine(); // Take in HUMAN-AI or AI-AI
-			out.println(input);
+			//out.println(input);
 			out_opp.println("HUMAN-AI");
 			
 			input = in_opp.readLine(); // Take in CHOOSE SERVER DIFFICULTY
-			out.println(input);
+			//out.println(input);
 			out_opp.println(remote_ai_diff);
 			
 			input = in_opp.readLine(); // Take in MAKE FIRST MOVE
-			out.println(input);
+			//out.println(input);
 			
 			local_ai_move = AI.ai_move(board);
 			System.out.println(local_ai_move);
@@ -158,27 +158,27 @@ public class Server {
 			while (true) {
                 remote_ai_move = in_opp.readLine();
             	if("GAME OVER".equals(remote_ai_move)) {
-                    System.out.println("GameREALLYOVER");
+                    //System.out.println("GameREALLYOVER");
             		out.println(remote_ai_move);
             		TimeUnit.SECONDS.sleep(10);
             		return 0;
             	}
             	
-                System.out.println("remote"+remote_ai_move);
+                //System.out.println("remote"+remote_ai_move);
                 if(!"".equals(remote_ai_move)) 
                 	board.move(remote_ai_move);
                 
                 out.println(remote_ai_move);               
             	input = in_opp.readLine(); // Take in OK
             	if("GAME OVER".equals(input)) {
-                    System.out.println("GameREALLYOVER");
+                    //System.out.println("GameREALLYOVER");
             		out.println(input);
             		TimeUnit.SECONDS.sleep(10);
             		return 0;
             	}
             	
             	local_ai_move = AI.ai_move(board);
-            	System.out.println("local"+local_ai_move);
+            	//System.out.println("local"+local_ai_move);
             	out_opp.println(local_ai_move);
             	out.println(local_ai_move);                    
 			}			
@@ -205,7 +205,7 @@ public class Server {
 			out.println("CHOOSE SIDE (WHITE OR BLACK)");
             
 			input = in.readLine();
-			System.out.println(input);
+			//System.out.println(input);
 
 			if (input.equalsIgnoreCase("WHITE")) {
 				client_color = 'w';
@@ -222,7 +222,7 @@ public class Server {
                         }
                         out.println("CHOOSE GAME TYPE (HUMAN-AI OR AI-AI)");
                         input = in.readLine();
-                        System.out.println(input);
+                        //System.out.println(input);
                         
                         if (input.equalsIgnoreCase("HUMAN-AI")) {
                         	human_ai = true;
@@ -254,7 +254,7 @@ public class Server {
                         
                         out.println("CHOOSE GAME DIFFICULTY (EASY, MEDIUM, HARD)");
                         input = in.readLine();
-                        System.out.println(input);
+                        //System.out.println(input);
                         
                         if (input.equalsIgnoreCase("EASY")||input.equalsIgnoreCase("MEDIUM")||input.equalsIgnoreCase("HARD"))
                             local_ai_diff = input;

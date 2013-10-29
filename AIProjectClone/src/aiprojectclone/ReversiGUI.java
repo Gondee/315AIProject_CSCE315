@@ -7,8 +7,7 @@ import java.awt.Color;
 import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.Insets;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.event.*;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.logging.Level;
@@ -31,6 +30,7 @@ public class ReversiGUI extends JFrame implements ActionListener {
     JMenuItem undo = new JMenuItem("  Undo Last Move  ");
     JMenuItem show_a = new JMenuItem("   Toggle: Show Avaliable Moves");
     JMenuItem show_aa = new JCheckBoxMenuItem("  Show Avaliable Moves");
+    JMenuItem QUIT = new JMenuItem(" Quit All");
     
     JMenuItem set_black = new JMenuItem("  Set Black Image");
     JMenuItem set_white = new JMenuItem("  Set White Image");
@@ -93,12 +93,16 @@ public class ReversiGUI extends JFrame implements ActionListener {
         JMenuBar Tools = new JMenuBar();
         JMenu File = new JMenu("  File  ");
         JMenu Edit = new JMenu("  Edit  ");
+        QUIT.addActionListener(this);
         File.add(undo);
         File.add(show_aa);
+        File.add(QUIT);
         Edit.add(set_black);
         Edit.add(set_white);
         Edit.add(update_g);
+        
         Tools.add(File);
+        Tools.add(QUIT);
         //Tools.add(Edit);
         setJMenuBar(Tools);
         undo.addActionListener(this);
@@ -311,6 +315,10 @@ public class ReversiGUI extends JFrame implements ActionListener {
              
          }
          
+         if(source == QUIT){
+             System.exit(0);
+         }
+         
          for(int i=0;i<buttons.size();i++){
              
              if(source == buttons.get(i))
@@ -339,5 +347,5 @@ public class ReversiGUI extends JFrame implements ActionListener {
         
     }
     
-    
+
 }

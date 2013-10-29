@@ -140,20 +140,20 @@ public class Client {
     	   input = in.readLine();
     	   gui.show_message(input);
     	   
-    	   input = in.readLine();
-    	   gui.show_message(input);
-    	   
-    	   input = in.readLine();
-    	   gui.show_message(input);
-    	   
-    	   input = in.readLine();
-    	   gui.show_message(input);
-    	   
-    	   input = in.readLine();
-    	   gui.show_message(input);
-    	   
-    	   input = in.readLine();
-    	   gui.show_message(input);
+//    	   input = in.readLine();
+//    	   //gui.show_message(input);
+//    	   
+//    	   input = in.readLine();
+//    	   //gui.show_message(input);
+//    	   
+//    	   input = in.readLine();
+//    	   //gui.show_message(input);
+//    	   
+//    	   input = in.readLine();
+//    	   //gui.show_message(input);
+//    	   
+//    	   input = in.readLine();
+//    	   //gui.show_message(input);
     	   
     	   input = in.readLine();
     	   System.out.println(input);
