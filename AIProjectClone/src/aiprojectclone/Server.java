@@ -76,7 +76,7 @@ public class Server {
 			while (true) {
 	            input = in.readLine();
 			    if (input.equalsIgnoreCase("EXIT"))
-				    
+				    return 0;
 	                    else if (input.equalsIgnoreCase("DISPLAY"))
 	                        display = !display;
 	                    else if (input.equalsIgnoreCase("UNDO"))
