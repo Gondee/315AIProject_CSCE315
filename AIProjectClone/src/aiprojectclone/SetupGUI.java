@@ -165,15 +165,15 @@ public class SetupGUI extends JFrame implements ActionListener {
         
         @Override
         public void run() {
-            try {
-                 Client startclient = new Client(clientsetup,serversetup,sip,portt,col,iptwo,porttwo);
-             } catch (UnknownHostException ex) {
-                 Logger.getLogger(SetupGUI.class.getName()).log(Level.SEVERE, null, ex);
-             } catch (IOException ex) {
-                 Logger.getLogger(SetupGUI.class.getName()).log(Level.SEVERE, null, ex);
-             } catch (InterruptedException ex) {
-                 Logger.getLogger(SetupGUI.class.getName()).log(Level.SEVERE, null, ex);
-             }
+//            try {
+//                 Client startclient = new Client(clientsetup,serversetup,sip,portt,col,iptwo,porttwo);
+//             } catch (UnknownHostException ex) {
+//                 Logger.getLogger(SetupGUI.class.getName()).log(Level.SEVERE, null, ex);
+//             } catch (IOException ex) {
+//                 Logger.getLogger(SetupGUI.class.getName()).log(Level.SEVERE, null, ex);
+//             } catch (InterruptedException ex) {
+//                 Logger.getLogger(SetupGUI.class.getName()).log(Level.SEVERE, null, ex);
+//             }
         }
     }
     
