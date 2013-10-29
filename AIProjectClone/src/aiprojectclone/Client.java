@@ -26,7 +26,7 @@ public class Client {
     String client;
     String server;
     char color;
-    Object syncObj = new Object();
+    final Object syncObj = new Object();
     
     public Client(String cli,String ser,String ipp, int ppo,String col) throws UnknownHostException, IOException, InterruptedException{
         client = cli;
@@ -92,6 +92,7 @@ public class Client {
 	           clientBoard.ai_move(input);
 	           gui.update_board(clientBoard);
            }
+
     }
     }
     

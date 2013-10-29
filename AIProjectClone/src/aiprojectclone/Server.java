@@ -23,7 +23,7 @@ public class Server {
     static private boolean ai_flag; //activate this copy of AI?
     private String remote_ai_diff; //Difficulty of AI of remote AI
     private String local_ai_diff; //Difficulty of AI of local AI
-    
+    private boolean gui;
 
     
     public Server(int p) {
@@ -50,6 +50,7 @@ public class Server {
     
     public int connection_handler(Socket socket) throws IOException {
  	   
+                gui = false;
 		BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));      
 		PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
 		String input;
@@ -86,10 +87,15 @@ public class Server {
                     else
                         out.println(AI.ai_move(board));
                     if(board.check_state())
+
                             out.println("GAME OVER");		 
                     out.println("OK");
                     if (display)
-                        board.display_board(socket);	
+                    {
+                        System.out.println("displayed");
+                        board.display_board(socket);
+                    }
+                        	
 		}
 		               
 	}
@@ -106,8 +112,7 @@ public class Server {
                         	gui_flag = true;
                         	return gui_handler(in);
                         }
-                            
-                            
+                                           
                    
                         
 			out.println("CHOOSE SIDE (WHITE OR BLACK)\n");
