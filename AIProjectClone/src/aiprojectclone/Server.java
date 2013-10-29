@@ -18,10 +18,11 @@ public class Server {
     char client_color;
     char server_color;
     
-    static private boolean ai_flag; //activate this copy of AI?
+    
+    private boolean gui_flag;
+    private boolean human_ai; //activate this copy of AI?
     private String remote_ai_diff; //Difficulty of AI of remote AI
     private String local_ai_diff; //Difficulty of AI of local AI
-    private boolean gui;
 
     
     public Server(int p) {
@@ -47,13 +48,12 @@ public class Server {
     }
     
     public int connection_handler(Socket socket) throws IOException {
- 	   
-                gui = false;
+ 	  
 		BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));      
 		PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
 		String input;
 		
-		out.println("WELCOME\n");
+		out.println("WELCOME");
                 
                 
 		in = beginning_sequence(in, out);
@@ -61,14 +61,15 @@ public class Server {
 		AdvancedAI AI = new AdvancedAI(local_ai_diff);
 
 		board = new GameBoard(client_color);
+        
+	//	board.display_board(socket);
                 
-		board.display_board(socket);
                 
-                
-		out.println("MAKE FIRST MOVE\n");
-                
+		out.println("MAKE FIRST MOVE");
+        boolean display = true;    
+		if(gui_flag)
+            display = false;
 		
-                boolean display = true;
 		while (true) {
                     input = in.readLine();
 		    if (input.equalsIgnoreCase("EXIT"))
@@ -80,13 +81,14 @@ public class Server {
                     else if (input.charAt(0)==';')
                         out.println(input.substring(1));
                     else if(!board.move(input))
-			out.println("ILLEGAL\n");
+                    	out.println("ILLEGAL");
+                    else if(board.check_state())
+                    	out.println("GAME OVER");          
                     else
-                        out.println(AI.ai_move(board));
+                    	out.println(AI.ai_move(board));
                     if(board.check_state())
-                            out.println("GAME OVER\n");	
-                    if (!gui)
-                        out.println("OK");
+                            out.println("GAME OVER");		 
+                    out.println("OK");
                     if (display)
                     {
                         System.out.println("displayed");
@@ -102,16 +104,18 @@ public class Server {
                 BufferedReader newin;
       		boolean valid = false; 
 		do {	
-                        out.println("Press any key and enter");
+                    //   out.println("Press any key and enter");
                         input = in.readLine();
                         
-                        if (input.equals("gui")){
-                            gui = true;
-                            return gui_handler(in);}
-                            
+
+                        if (input.equals("gui")) {
+                        	gui_flag = true;
+                        	return gui_handler(in);
+                        }
+                                           
                    
                         
-			out.println("CHOOSE SIDE (WHITE OR BLACK)\n");
+			out.println("CHOOSE SIDE (WHITE OR BLACK)");
             
 			input = in.readLine();
                         boolean found = false;
@@ -131,11 +135,11 @@ public class Server {
 				server_color = 'w';	
 				out.println("OK\n");
 			} else{
-                            out.println("INVALID CHOICE\n");
+                            out.println("INVALID CHOICE");
                             newin = beginning_sequence(in, out);
                             return newin;
                         }
-                        out.println("CHOOSE GAME TYPE (HUMAN-AI OR AI-AI)\n");
+                        out.println("CHOOSE GAME TYPE (HUMAN-AI OR AI-AI)");
                         input = in.readLine();
                         
                         if (input.equalsIgnoreCase("HUMAN-AI"))
@@ -159,7 +163,7 @@ public class Server {
                                 return newin;
                         }
                         else{
-                            out.println("INVALID CHOICE\n");
+                            out.println("INVALID CHOICE");
                             newin = beginning_sequence(in, out);
                             return newin;
                         }
@@ -171,7 +175,7 @@ public class Server {
                             local_ai_diff = input;
                        
                         else{
-                            out.println("INVALID CHOICE\n");
+                            out.println("INVALID CHOICE");
                             newin = beginning_sequence(in, out);
                             return newin;
                         }
@@ -199,6 +203,20 @@ public class Server {
         
         input = in.readLine();
         local_ai_diff = input.substring(3);
+        
+        input = in.readLine();
+        
+        if (input.equalsIgnoreCase("HUMAN-AI"))
+            human_ai = true;
+        else {
+        		human_ai = false;
+        		input = in.readLine();
+                remote_hostname = input;
+                input = in.readLine();
+                remote_port = Integer.parseInt(input);
+                input = in.readLine();
+                remote_ai_diff = input;
+        }
         return in;
         
     }

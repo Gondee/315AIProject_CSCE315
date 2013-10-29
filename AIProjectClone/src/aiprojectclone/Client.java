@@ -33,15 +33,29 @@ public class Client {
         server = ser;
         ip = ipp;
         port = ppo;
+        String server_difficulty = "";
         
         if("Black".equals(col))
             color = 'b';
         else if("White".equals(col))
             color = 'w';
         
-        
-        start_client();
-        
+        if(client == "Human")
+        	client = "HUMAN-AI";
+        else if(client == "AI-Easy") {
+        	client = "AI-AI";
+        	server_difficulty = "EASY";
+        } else if(client == "AI-Medium") {
+        	client = "AI-AI";
+        	server_difficulty = "MEDIUM";
+        } else if(client == "AI-Hard") {
+        	client = "AI-AI";
+        	server_difficulty = "HARD";
+        }
+        	
+        	
+                
+        start_client();       
         
     }
     
@@ -58,39 +72,51 @@ public class Client {
        BufferedReader in = new BufferedReader(new InputStreamReader(Server.getInputStream()));      
        PrintWriter out = new PrintWriter(Server.getOutputStream(), true);
        String input;
+       String client_move;
        
        input = in.readLine();
        gui.show_message(input);
+      // input = in.readLine();
        
        out.println("gui");
        out.println(color);
        out.println(server);
-       out.println("display");
+       if(client == "HUMAN_AI") {
+    	   out.println(client);
+      // input = in.readLine();
+    //   gui.show_message(input);
+   //    out.println("display");
        
-       String str = null; 
-       while((str = in.readLine()) != null){ 
-       System.out.println(str); 
+	       while ((input = in.readLine()) != null) {
+	    	   if(input == "OK")
+	    		   input = in.readLine();
+	           gui.show_message(input);
+	           synchronized(syncObj){
+	                while (gui.get_move().equalsIgnoreCase("NULL"))
+	                    syncObj.wait();
+	                client_move = gui.get_move();
+	                out.println(client_move);
+	                gui.set_move_null();
+	           }
+	           input = in.readLine();
+	           if(input == "ILLEGAL")
+	        	   gui.show_message("ILLEGAL MOVE");          
+	
+	           else {
+	        	   clientBoard.move(client_move);
+		           gui.update_board(clientBoard);
+		           clientBoard.ai_move(input);
+		           gui.update_board(clientBoard);
+	           }
+	
+	      }
+      }
+       else {
+    	   out.println(client);
+       }
+     
     }
-      System.out.println("testing"); 
-       while ((input = in.readLine()).equals("GAME OVER") ) {
-           System.out.println("testing");
-           synchronized(syncObj){
-                while (gui.get_move().equalsIgnoreCase("NULL"))
-                    syncObj.wait();
-                
-                input = gui.get_move();
-                out.println(input);
-                
-                gui.set_move_null();
-           }
-           clientBoard.move(input);
-           gui.update_board(clientBoard);
-           input = in.readLine();
-           System.out.println(input);
-           clientBoard.ai_move(input);
-           gui.update_board(clientBoard);
-    }
-    }
+  
     
 public void send_move(String m){
         
