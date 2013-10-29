@@ -94,7 +94,30 @@ public class GameBoard implements Serializable{ //Implements serialiazable so de
         
         
     }
+    public char peice_count(){
         
+        int bp=0;
+        int wp=0;
+        
+        for(int i=0; i<8; i++)
+        {
+            for(int x=0; x<8;x++)
+            {
+                if(board[i][x]=='@')
+                    bp++;
+                else if(board[i][x] == 'O')
+                    wp=0;
+                
+            }
+        }
+        
+        if(bp>wp)
+            return 'b';
+        else if(wp>bp)
+            return 'w';
+        else
+        return 't';
+    }    
     
     public String move_to_index(String m) //Converts the move charcter to int and usable index, internal use
     {
@@ -286,8 +309,10 @@ public class GameBoard implements Serializable{ //Implements serialiazable so de
             ArrayList<String> mov2 = get_avaliable_indexs();
             set_color('b'); //Checking player moves
             
-            if(mov1.isEmpty() && mov2.isEmpty())
+            if(mov1.isEmpty() && mov2.isEmpty()){
+                winner = peice_count();
                 return true; //game over, no one had moves
+            }
             
         }
         if(color == 'w'){
@@ -296,8 +321,10 @@ public class GameBoard implements Serializable{ //Implements serialiazable so de
             ArrayList<String> mov2 = get_avaliable_indexs();
             set_color('w'); //Checking player moves
             
-            if(mov1.isEmpty() && mov2.isEmpty())
-                return false; //game over, no one has moves
+            if(mov1.isEmpty() && mov2.isEmpty()){
+                winner = peice_count();
+                return true; //game over, no one has moves
+            }
             
         }
         
