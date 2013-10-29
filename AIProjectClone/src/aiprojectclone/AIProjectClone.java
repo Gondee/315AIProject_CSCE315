@@ -30,7 +30,7 @@ public class AIProjectClone {
     public static void main(String[] args) throws IOException {
     	
         
-        
+        SelectTask begin = new SelectTask();
         
         
         
@@ -47,6 +47,7 @@ public class AIProjectClone {
             Server s = new Server(Port);
             SetupGUI test = new SetupGUI(); //Not functinoal yet
             test.start();
+            
             s.listen();
         }
         else if ("c".equals(c)){
