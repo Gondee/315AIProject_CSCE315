@@ -76,14 +76,14 @@ public class Server {
 			while (true) {
 	            input = in.readLine();
 			    if (input.equalsIgnoreCase("EXIT"))
-				    return 0;
+				    
 	                    else if (input.equalsIgnoreCase("DISPLAY"))
 	                        display = !display;
 	                    else if (input.equalsIgnoreCase("UNDO"))
 	                        board.undo();
 	                    else if(board.check_state()) {
 	                    	out.println("GAME OVER"); 
-	                    	TimeUnit.SECONDS.sleep(10);
+	                    	TimeUnit.SECONDS.sleep(8);
 	                    	return 0;
 	                    }
 	                    else if("".equals(input))
@@ -173,7 +173,7 @@ public class Server {
             	if("GAME OVER".equals(input)) {
                     //System.out.println("GameREALLYOVER");
             		out.println(input);
-            		TimeUnit.SECONDS.sleep(10);
+            		TimeUnit.SECONDS.sleep(8);
             		return 0;
             	}
             	
@@ -304,6 +304,10 @@ public class Server {
         }
         return in;
         
+    }
+    
+    private void kill_server() {
+    	System.exit(0);
     }
   }  
     
