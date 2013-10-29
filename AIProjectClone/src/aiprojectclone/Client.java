@@ -85,7 +85,7 @@ public class Client {
        out.println("gui");
        out.println(color);
        out.println(server);
-       if(client == "HUMAN_AI") {
+       if(client == "HUMAN-AI") {
     	   out.println(client);
       // input = in.readLine();
     //   gui.show_message(input);
@@ -94,7 +94,7 @@ public class Client {
 	       while ((input = in.readLine()) != null) {
 	    	   if(input == "OK")
 	    		   input = in.readLine();
-	           gui.show_message(input);
+	           //gui.show_message(input);
 	           synchronized(syncObj){
 	                while (gui.get_move().equalsIgnoreCase("NULL"))
                         {
@@ -102,6 +102,7 @@ public class Client {
                             
                             if(gui.get_move().equalsIgnoreCase("NULL") && gui.get_undo())
                             {
+                                System.out.println("UNDO");
                                 clientBoard.undo();
                                 gui.update_board(clientBoard);
                                 gui.reset_undo();
