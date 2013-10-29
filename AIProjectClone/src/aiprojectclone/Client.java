@@ -137,14 +137,35 @@ public class Client {
     	   gui.show_message(input);
     	   
     	   input = in.readLine();
+    	   gui.show_message(input);
+    	   
+    	   input = in.readLine();
+    	   gui.show_message(input);
+    	   
+    	   input = in.readLine();
+    	   gui.show_message(input);
+    	   
+    	   input = in.readLine();
+    	   gui.show_message(input);
+    	   
+    	   input = in.readLine();
+    	   gui.show_message(input);
+    	   
+    	   input = in.readLine();
+    	   System.out.println(input);
     	   clientBoard.move(input);
     	   gui.update_board(clientBoard);
     	   
 	       while ((input = in.readLine()) != null) {
-	    	   clientBoard.ai_move(input);
-	    	   gui.update_board(clientBoard);
-	    	   clientBoard.move(input);
-	    	   gui.update_board(clientBoard);    	   
+	    	   if(input != "") {
+	    		   clientBoard.ai_move(input);
+	    	   	   gui.update_board(clientBoard);
+	    	   }
+	    	   input = in.readLine();
+	    	   if(input != "") {
+	    		   clientBoard.move(input);
+	    		   gui.update_board(clientBoard); 
+	    	   }
 	       }   	   
        }
      

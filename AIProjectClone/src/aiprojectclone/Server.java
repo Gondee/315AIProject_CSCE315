@@ -7,6 +7,7 @@ import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.InetAddress;
+import java.util.concurrent.TimeUnit;
 
 public class Server {
 	
@@ -29,13 +30,14 @@ public class Server {
     	port = p;
     }
     
-    public void listen() throws IOException {
+    public void listen() throws IOException, InterruptedException {
  	   
  	   ServerSocket listener = new ServerSocket(port);
         try {
             while (true) {
                 Socket socket = listener.accept();
                 try {
+                	System.out.println("SUCCESS\n");
                     connection_handler(socket);
                 } finally {
                     socket.close();
@@ -47,7 +49,7 @@ public class Server {
         }
     }
     
-    public int connection_handler(Socket socket) throws IOException {
+    public int connection_handler(Socket socket) throws IOException, InterruptedException {
  	  
 		BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));      
 		PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
@@ -57,19 +59,19 @@ public class Server {
                 
                 
 		in = beginning_sequence(in, out);
+		System.out.println("GOTHERE");
 		
 		if(human_ai) {
+			System.out.println("DID YOU FUCKINGS TART");
 			AdvancedAI AI = new AdvancedAI(local_ai_diff);
 	
 			board = new GameBoard(client_color);
 	        
 		//	board.display_board(socket);
 	                
-	                
+			System.out.println("GOTHERE");        
 			out.println("MAKE FIRST MOVE");
-	        boolean display = true;    
-			if(gui_flag)
-	            display = false;
+	        boolean display = false;    
 			
 			while (true) {
 	            input = in.readLine();
@@ -81,18 +83,25 @@ public class Server {
 	                        board.undo();
 	                    else if (input.charAt(0)==';')
 	                        out.println(input.substring(1));
+	                    else if(input == "")
+	                    	{}
 	                    else if(!board.move(input))
 	                    	out.println("ILLEGAL");
-	                    else if(board.check_state())
-	                    	out.println("GAME OVER");          
+	                    else if(board.check_state()) {
+	                    	out.println("GAME OVER"); 
+	                    	TimeUnit.SECONDS.sleep(10);
+	                    }
 	                    else
+	                    	System.out.println(input);
 	                    	out.println(AI.ai_move(board));
-	                    if(board.check_state())
-	                            out.println("GAME OVER");		 
+	                    if(board.check_state()) {
+	                    	out.println("GAME OVER"); 
+	                    	TimeUnit.SECONDS.sleep(10);
+	                    }	 
 	                    out.println("OK");
 	                    if (display)
 	                    {
-	                        System.out.println("displayed");
+	                       // System.out.println("displayed");
 	                        board.display_board(socket);
 	                    }
 	                        	
@@ -110,39 +119,57 @@ public class Server {
 			String remote_ai_move = "";
 			
 			input = in_opp.readLine();
-			out.println(input);
+			out.println("CONNECTED TO OTHER SERVER");
+			
+			out_opp.println("junk"); // test for gui
 			
 			input = in_opp.readLine(); // Take in CHOOSE WHITE OR BLACK
-			out_opp.print("WHITE");
+			out.println(input);
+			out_opp.println("WHITE");
+			
+			input = in_opp.readLine(); // Take in OK
+			out.println(input);
 			
 			input = in_opp.readLine(); // Take in HUMAN-AI or AI-AI
-			out_opp.print("HUMAN-AI");
+			out.println(input);
+			out_opp.println("HUMAN-AI");
 			
 			input = in_opp.readLine(); // Take in CHOOSE SERVER DIFFICULTY
-			out_opp.print(remote_ai_diff);
+			out.println(input);
+			out_opp.println(remote_ai_diff);
 			
 			input = in_opp.readLine(); // Take in MAKE FIRST MOVE
+			out.println(input);
 			
-			remote_ai_move = AI.ai_move(board);
-			out.print(remote_ai_move);
-			out_opp.print(remote_ai_move);
+			local_ai_move = AI.ai_move(board);
+			System.out.println(local_ai_move);
+			out.println(local_ai_move);
+			out_opp.println(local_ai_move);
 			
 			while (true) {
-                remote_ai_move = in_opp.readLine();                
-                board.move(remote_ai_move);
-                out.print(remote_ai_move);
-                if(board.check_state()) {
-                	out.println("GAME OVER"); 
-                	return 0;
-                }
-                else
-                	local_ai_move = AI.ai_move(board);
-                	out_opp.println(local_ai_move);
-                	out.println(local_ai_move);
-                	if(board.check_state()) {
-                        out.println("GAME OVER");
-                        return 0;
-                	}
+                remote_ai_move = in_opp.readLine();
+            	if(remote_ai_move == "GAME OVER") {
+            		out.println(remote_ai_move);
+            		TimeUnit.SECONDS.sleep(10);
+            		return 0;
+            	}
+            	
+                System.out.println("remote"+remote_ai_move);
+                if(remote_ai_move != "") 
+                	board.move(remote_ai_move);
+                
+                out.println(remote_ai_move);               
+            	input = in_opp.readLine(); // Take in OK
+            	if(input == "GAME OVER") {
+            		out.println(input);
+            		TimeUnit.SECONDS.sleep(10);
+            		return 0;
+            	}
+            	
+            	local_ai_move = AI.ai_move(board);
+            	System.out.println("local"+local_ai_move);
+            	out_opp.println(local_ai_move);
+            	out.println(local_ai_move);                    
 			}			
 		}
 		               
@@ -167,22 +194,16 @@ public class Server {
 			out.println("CHOOSE SIDE (WHITE OR BLACK)");
             
 			input = in.readLine();
-                        boolean found = false;
-                        for (int i = 0; i < input.length()&&!found; i = i +1)
-                        {
-                            if ((int) input.charAt(i) >= 65 &&(int) input.charAt(i) <= 122){
-                                input = input.substring(i);
-                                found = true;
-                            }
-                        }
+			System.out.println(input);
+
 			if (input.equalsIgnoreCase("WHITE")) {
 				client_color = 'w';
 				server_color = 'b';
-				out.println("OK\n");
+				out.println("OK");
 			} else if (input.equalsIgnoreCase("BLACK")) {
 				client_color = 'b';
 				server_color = 'w';	
-				out.println("OK\n");
+				out.println("OK");
 			} else{
                             out.println("INVALID CHOICE");
                             newin = beginning_sequence(in, out);
@@ -190,9 +211,12 @@ public class Server {
                         }
                         out.println("CHOOSE GAME TYPE (HUMAN-AI OR AI-AI)");
                         input = in.readLine();
+                        System.out.println(input);
                         
-                        if (input.equalsIgnoreCase("HUMAN-AI"))
+                        if (input.equalsIgnoreCase("HUMAN-AI")) {
+                        	human_ai = true;
                             newin = in;
+                        }
                         else if ((input.substring(0,5)).equalsIgnoreCase("AI-AI"))
                         {
                                 remote_hostname = input.substring(input.indexOf("<")+1,input.indexOf(">"));
@@ -217,8 +241,9 @@ public class Server {
                             return newin;
                         }
                         
-                        out.println("CHOOSE GAME DIFFICULTY (EASY, MEDIUM, HARD)\n");
+                        out.println("CHOOSE GAME DIFFICULTY (EASY, MEDIUM, HARD)");
                         input = in.readLine();
+                        System.out.println(input);
                         
                         if (input.equalsIgnoreCase("EASY")||input.equalsIgnoreCase("MEDIUM")||input.equalsIgnoreCase("HARD"))
                             local_ai_diff = input;

@@ -12,7 +12,6 @@ import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.JFrame;
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
 
@@ -84,7 +83,10 @@ public class SelectTask extends JFrame implements ActionListener{
                 //System.out.println("Listening...");
             } catch (IOException ex) {
                 Logger.getLogger(SelectTask.class.getName()).log(Level.SEVERE, null, ex);
-            }
+            } catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
             
         }
         if(source == StartClient){
