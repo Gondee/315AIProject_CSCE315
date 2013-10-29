@@ -306,7 +306,7 @@ public class Server {
         
     }
     
-    private void kill_server() {
+    public void kill_server() {
     	System.exit(0);
     }
   }  
