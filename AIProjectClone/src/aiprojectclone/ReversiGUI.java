@@ -53,6 +53,11 @@ public class ReversiGUI extends JFrame implements ActionListener {
 //    }
     
     
+    public void kill_gui()
+    {
+        dispose();
+    }
+    
     private String get_color_name(){
         char temp = game.get_color();
         
