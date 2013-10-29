@@ -8,11 +8,11 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
+import java.net.ServerSocket;
 import java.net.Socket;
+import java.net.InetAddress;
 import java.net.UnknownHostException;
-
-import javax.swing.JOptionPane;
-
+import java.util.concurrent.CountDownLatch;
 /**
  *
  * @author joshkruger
@@ -23,71 +23,70 @@ public class Client {
                            //I will have the GUI updating copys of this gameboard
     String ip;
     int port;
-    String human_ai;
-    String client_difficulty;
-    String server_difficulty;
+    String client;
+    String server;
     char color;
+    Object syncObj;
     
-    public Client(String humanai,String server_diff,String ipp, String ppo,String col) throws UnknownHostException, IOException{
-        human_ai = humanai;
-        server_difficulty = server_diff;
+    public Client(String cli,String ser,String ipp, int ppo,String col) throws UnknownHostException, IOException, InterruptedException{
+        client = cli;
+        server = ser;
         ip = ipp;
-        port = Integer.parseInt(ppo);
+        port = ppo;
         
         if("Black".equals(col))
             color = 'b';
         else if("White".equals(col))
             color = 'w';
         
-        if(human_ai == "AI-Easy") {
-        	human_ai = "AI-AI";
-        	client_difficulty = "EASY";
-        } else if(human_ai == "AI-Medium") {
-        	human_ai = "AI-AI";
-        	client_difficulty = "MEDIUM";
-        } else if(human_ai == "AI-Hard") {
-        	human_ai = "AI-AI";
-        	client_difficulty = "HARD";
-        } else if(human_ai == "Human")
-        	human_ai = "HUMAN-AI";
         
-        start_client();       
+        start_client();
+        
+        
     }
     
-    private void start_client() throws UnknownHostException, IOException{
+    private void start_client() throws UnknownHostException, IOException, InterruptedException{
         clientBoard = new GameBoard(color);
-        ReversiGUI gui = new ReversiGUI(clientBoard);
+        ReversiGUI gui = new ReversiGUI(clientBoard, syncObj);
         gui.update_board(clientBoard);
+        play_game(gui);
         
-        Socket s = new Socket(ip, port);
-        BufferedReader input =
-            new BufferedReader(new InputStreamReader(s.getInputStream()));
-		PrintWriter out = new PrintWriter(s.getOutputStream(), true);
-
-        String answer = input.readLine();        
-        JOptionPane.showMessageDialog(null, answer);
-        out.println(color);
-        answer = input.readLine();
-        JOptionPane.showMessageDialog(null, answer);
-        
-        if(human_ai == "HUMAN-AI") {
-        	out.println(human_ai);
-            answer = input.readLine();
-            JOptionPane.showMessageDialog(null, answer);
-        }
-            
+    }
+    private void play_game(ReversiGUI gui) throws UnknownHostException, IOException, InterruptedException
+    {
+       Socket Server = new Socket(ip, port);
+       BufferedReader in = new BufferedReader(new InputStreamReader(Server.getInputStream()));      
+       PrintWriter out = new PrintWriter(Server.getOutputStream(), true);
+       String input;
        
-        
-        
-        System.exit(0);        
+       input = in.readLine();
+       gui.show_message(input);
+       
+       out.println("gui");
+       out.println(color);
+       out.println(server);
+       out.println("display");
+       
+       while ((input = in.readLine()) != null) {
+           gui.show_message(input);
+           synchronized(syncObj){
+                while (gui.get_move().equalsIgnoreCase("null"))
+                    syncObj.wait();
+                input = gui.get_move();
+                out.println(input);
+                gui.set_move_null();
+       }
+           clientBoard.ai_move(in.readLine());
+           gui.update_board(clientBoard);
+    }
     }
     
-    public void send_move(String m){
+public void send_move(String m){
         
         
     }
             
-    
-    
-    
 }
+    
+    
+
