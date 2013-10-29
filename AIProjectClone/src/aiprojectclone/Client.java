@@ -67,7 +67,12 @@ public class Client {
        out.println(server);
        out.println("display");
        
-       while ((input = in.readLine()) != null) {
+       String str = null; 
+       while((str = in.readLine()) != null){ 
+       System.out.println(str); 
+    }
+       int i = 0;
+       while ((input = in.readLine()) != null || i == 0) {
            gui.show_message(input);
            synchronized(syncObj){
                 while (gui.get_move().equalsIgnoreCase("NULL"))
@@ -78,8 +83,11 @@ public class Client {
        }
            clientBoard.move(input);
            gui.update_board(clientBoard);
-           clientBoard.ai_move(in.readLine());
+           input = in.readLine();
+           System.out.println(input);
+           clientBoard.ai_move(input);
            gui.update_board(clientBoard);
+           i = 1;
     }
     }
     
