@@ -282,7 +282,7 @@ public class GameBoard implements Serializable{ //Implements serialiazable so de
         }
         if(space_count >63)
         {
-            System.out.println("Game Over...");
+       //     System.out.println("Game Over...");
             if(white_count > black_count)
             {
                 winner = 'w';

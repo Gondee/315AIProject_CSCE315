@@ -81,6 +81,11 @@ public class Server {
 	                        display = !display;
 	                    else if (input.equalsIgnoreCase("UNDO"))
 	                        board.undo();
+	                    else if(board.check_state()) {
+	                    	out.println("GAME OVER"); 
+	                    	TimeUnit.SECONDS.sleep(10);
+	                    	return 0;
+	                    }
 	                    else if(input == "")
                     	{}
 	                    else if (input.charAt(0)==';')
