@@ -105,17 +105,25 @@ public class GameBoard implements Serializable{ //Implements serialiazable so de
             {
                 if(board[i][x]=='@')
                     bp++;
-                else if(board[i][x] == 'O')
-                    wp=0;
+                if(board[i][x]=='O')
+                    wp++;
                 
             }
         }
         
-        if(bp>wp)
+        
+        if(bp>wp){
+            System.out.println("BLACK WINS");
             return 'b';
-        else if(wp>bp)
+        }
+        if(wp>bp){
+            System.out.println("BLACK WINS");
             return 'w';
-        else
+            
+        }
+            
+        
+        
         return 't';
     }    
     
@@ -280,25 +288,25 @@ public class GameBoard implements Serializable{ //Implements serialiazable so de
             }
             
         }
-        if(space_count >63)
-        {
-       //     System.out.println("Game Over...");
-            if(white_count > black_count)
-            {
-                winner = 'w';
-                return true;
-            }
-            else if(white_count < black_count)
-            {
-                winner = 'b';
-                return true;
-            }
-            else
-            {
-                winner = 't'; //tie
-                return true;
-            }
-        }
+//        if(space_count >63)
+//        {
+//       //     System.out.println("Game Over...");
+//            if(white_count > black_count)
+//            {
+//                winner = 'w';
+//                return true;
+//            }
+//            else if(white_count < black_count)
+//            {
+//                winner = 'b';
+//                return true;
+//            }
+//            else
+//            {
+//                winner = 't'; //tie
+//                return true;
+//            }
+//        }
         
         
        
@@ -332,7 +340,7 @@ public class GameBoard implements Serializable{ //Implements serialiazable so de
         
         //check for overtakes 
         
-        System.out.println("Not Game Over");    
+        //System.out.println("Not Game Over");    
         return false;
     }
     

@@ -86,7 +86,7 @@ public class Server {
 	                    	TimeUnit.SECONDS.sleep(10);
 	                    	return 0;
 	                    }
-	                    else if(input == "")
+	                    else if("".equals(input))
                     	{}
 	                    else if (input.charAt(0)==';')
 	                        out.println(input.substring(1));

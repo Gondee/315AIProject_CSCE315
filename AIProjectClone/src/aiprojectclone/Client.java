@@ -119,7 +119,7 @@ public class Client {
 	                gui.set_move_null();
 	           }
 	           input = in.readLine();
-	           if(input == "ILLEGAL")
+	           if("ILLEGAL".equals(input))
 	        	   gui.show_message("ILLEGAL MOVE");          
 	
 	           else {
@@ -161,19 +161,36 @@ public class Client {
     	   gui.update_board(clientBoard);
     	   
 	       while ((input = in.readLine()) != null) {
-	    	   if(input != "") {
-	    		   if(input == "GAME OVER") {
-	    			   gui.show_message("GAME OVER");
-	    			   break;
+	    	   if(!"".equals(input)) {
+                       //System.out.println("INPUT: "+input);
+	    		   if("GAME OVER".equals(input)) {
+	    			   String Win ="";
+                                    if(clientBoard.peice_count() =='b')
+                                        Win = "Black";
+                                    else if(clientBoard.peice_count()=='w')
+                                        Win = "White";
+                                    else if(clientBoard.peice_count() == 't')
+                                        Win = "Tie";
+                                    
+	    			   gui.show_message("GAME OVER: Winner: "+Win);
 	    		   }
 	    		   clientBoard.ai_move(input);
 	    	   	   gui.update_board(clientBoard);
 	    	   }
 	    	   
 	    	   input = in.readLine();
-	    	   if(input != "") {
-	    		   if(input == "GAME OVER") {
-	    			   gui.show_message("GAME OVER");
+	    	   if(!"".equals(input)) {
+                        //System.out.println("INPUT: "+input);
+	    		   if("GAME OVER".equals(input)) {
+                                    String Win ="";
+                                    if(clientBoard.peice_count() =='b')
+                                        Win = "Black";
+                                    else if(clientBoard.peice_count()=='w')
+                                        Win = "White";
+                                    else if(clientBoard.peice_count() == 't')
+                                        Win = "Tie";
+                                    
+	    			   gui.show_message("GAME OVER: Winner: "+Win);
 	    			   break;
 	    		   }
 	    		   clientBoard.move(input);
