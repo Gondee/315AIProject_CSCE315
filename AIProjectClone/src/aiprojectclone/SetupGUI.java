@@ -225,6 +225,9 @@ public class SetupGUI extends JFrame implements ActionListener {
               cset.add(iptwo);
               cset.add(ipptwo);
               cset.add(porttwo);
+              coloroptions.setSelectedIndex(1);
+              coloroptions.setEnabled(false);
+              
               }
               serverVSserver=true;
   
@@ -236,7 +239,7 @@ public class SetupGUI extends JFrame implements ActionListener {
                 cset.remove(porttwo);
                 cset.remove(ipdtwo);
                 cset.remove(ipptwo);
-                
+                coloroptions.setEnabled(true);
                 porttwo.setText("");
                 iptwo.setText("");
             }
