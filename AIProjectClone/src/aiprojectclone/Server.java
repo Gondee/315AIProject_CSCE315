@@ -57,44 +57,93 @@ public class Server {
                 
                 
 		in = beginning_sequence(in, out);
-
-		AdvancedAI AI = new AdvancedAI(local_ai_diff);
-
-		board = new GameBoard(client_color);
-        
-	//	board.display_board(socket);
-                
-                
-		out.println("MAKE FIRST MOVE");
-        boolean display = true;    
-		if(gui_flag)
-            display = false;
 		
-		while (true) {
-                    input = in.readLine();
-		    if (input.equalsIgnoreCase("EXIT"))
-			    return 0;
-                    else if (input.equalsIgnoreCase("DISPLAY"))
-                        display = !display;
-                    else if (input.equalsIgnoreCase("UNDO"))
-                        board.undo();
-                    else if (input.charAt(0)==';')
-                        out.println(input.substring(1));
-                    else if(!board.move(input))
-                    	out.println("ILLEGAL");
-                    else if(board.check_state())
-                    	out.println("GAME OVER");          
-                    else
-                    	out.println(AI.ai_move(board));
-                    if(board.check_state())
-                            out.println("GAME OVER");		 
-                    out.println("OK");
-                    if (display)
-                    {
-                        System.out.println("displayed");
-                        board.display_board(socket);
-                    }
-                        	
+		if(human_ai) {
+			AdvancedAI AI = new AdvancedAI(local_ai_diff);
+	
+			board = new GameBoard(client_color);
+	        
+		//	board.display_board(socket);
+	                
+	                
+			out.println("MAKE FIRST MOVE");
+	        boolean display = true;    
+			if(gui_flag)
+	            display = false;
+			
+			while (true) {
+	            input = in.readLine();
+			    if (input.equalsIgnoreCase("EXIT"))
+				    return 0;
+	                    else if (input.equalsIgnoreCase("DISPLAY"))
+	                        display = !display;
+	                    else if (input.equalsIgnoreCase("UNDO"))
+	                        board.undo();
+	                    else if (input.charAt(0)==';')
+	                        out.println(input.substring(1));
+	                    else if(!board.move(input))
+	                    	out.println("ILLEGAL");
+	                    else if(board.check_state())
+	                    	out.println("GAME OVER");          
+	                    else
+	                    	out.println(AI.ai_move(board));
+	                    if(board.check_state())
+	                            out.println("GAME OVER");		 
+	                    out.println("OK");
+	                    if (display)
+	                    {
+	                        System.out.println("displayed");
+	                        board.display_board(socket);
+	                    }
+	                        	
+			}
+		}
+		else {
+			Socket opponent = new Socket(remote_hostname, remote_port);
+			BufferedReader in_opp = new BufferedReader(new InputStreamReader(opponent.getInputStream()));      
+			PrintWriter out_opp = new PrintWriter(opponent.getOutputStream(), true);
+			
+			AdvancedAI AI = new AdvancedAI(local_ai_diff);			
+			board = new GameBoard('b'); // Set as black so that server AI moves white pieces
+			
+			String local_ai_move = "";
+			String remote_ai_move = "";
+			
+			input = in_opp.readLine();
+			out.println(input);
+			
+			input = in_opp.readLine(); // Take in CHOOSE WHITE OR BLACK
+			out_opp.print("WHITE");
+			
+			input = in_opp.readLine(); // Take in HUMAN-AI or AI-AI
+			out_opp.print("HUMAN-AI");
+			
+			input = in_opp.readLine(); // Take in CHOOSE SERVER DIFFICULTY
+			out_opp.print(remote_ai_diff);
+			
+			input = in_opp.readLine(); // Take in MAKE FIRST MOVE
+			
+			remote_ai_move = AI.ai_move(board);
+			out.print(remote_ai_move);
+			out_opp.print(remote_ai_move);
+			
+			while (true) {
+                remote_ai_move = in_opp.readLine();                
+                board.move(remote_ai_move);
+                out.print(remote_ai_move);
+                if(board.check_state()) {
+                	out.println("GAME OVER"); 
+                	return 0;
+                }
+                else
+                	local_ai_move = AI.ai_move(board);
+                	out_opp.println(local_ai_move);
+                	out.println(local_ai_move);
+                	if(board.check_state()) {
+                        out.println("GAME OVER");
+                        return 0;
+                	}
+			}			
 		}
 		               
 	}

@@ -27,6 +27,7 @@ public class Client {
     String server;
     String remote_ip;
     int remote_port;
+    String remote_diff;
     char color;
     final Object syncObj = new Object();
     
@@ -37,7 +38,6 @@ public class Client {
         port = ppo;
         remote_ip = r_ip;
         remote_port = r_p;
-        String server_difficulty = "";
         
         if("Black".equals(col))
             color = 'b';
@@ -48,13 +48,13 @@ public class Client {
         	client = "HUMAN-AI";
         else if(client == "AI-Easy") {
         	client = "AI-AI";
-        	server_difficulty = "EASY";
+        	remote_diff = "EASY";
         } else if(client == "AI-Medium") {
         	client = "AI-AI";
-        	server_difficulty = "MEDIUM";
+        	remote_diff = "MEDIUM";
         } else if(client == "AI-Hard") {
         	client = "AI-AI";
-        	server_difficulty = "HARD";
+        	remote_diff = "HARD";
         }
         	
         	
@@ -85,7 +85,7 @@ public class Client {
        out.println("gui");
        out.println(color);
        out.println(server);
-       if(client == "HUMAN_AI") {
+       if(client == "HUMAN-AI") {
     	   out.println(client);
       // input = in.readLine();
     //   gui.show_message(input);
@@ -128,6 +128,23 @@ public class Client {
       }
        else {
     	   out.println(client);
+    	   out.println(remote_ip);
+    	   out.println(remote_port);
+    	   out.println(remote_diff);
+    	   
+    	   input = in.readLine();
+    	   gui.show_message(input);
+    	   
+    	   input = in.readLine();
+    	   clientBoard.move(input);
+    	   gui.update_board(clientBoard);
+    	   
+	       while ((input = in.readLine()) != null) {
+	    	   clientBoard.ai_move(input);
+	    	   gui.update_board(clientBoard);
+	    	   clientBoard.move(input);
+	    	   gui.update_board(clientBoard);    	   
+	       }   	   
        }
      
     }
