@@ -138,6 +138,7 @@ public class ReversiGUI extends JFrame implements ActionListener {
        }
         
         game =g;
+        
         char[][] b = game.get_board();
         ArrayList<Character> col = new ArrayList();
         
@@ -202,6 +203,9 @@ public class ReversiGUI extends JFrame implements ActionListener {
            else if(col.get(i) == '@'){
                buttons.get(i).setIcon(nblack);
                
+           }
+           else{
+               buttons.get(i).setIcon(null);
            }
                
            

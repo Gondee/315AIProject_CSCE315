@@ -102,10 +102,14 @@ public class Client {
                             
                             if(gui.get_move().equalsIgnoreCase("NULL") && gui.get_undo())
                             {
-                                System.out.println("UNDO");
+                                
+                                //System.out.println("UNDO");
                                 clientBoard.undo();
-                                gui.update_board(clientBoard);
                                 gui.reset_undo();
+                                gui.update_board(clientBoard);
+                                out.println("UNDO");
+                                input = in.readLine();
+                                
                             }
                             
                         }

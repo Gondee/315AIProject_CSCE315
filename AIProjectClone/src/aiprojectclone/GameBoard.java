@@ -1289,7 +1289,11 @@ public class GameBoard implements Serializable{
     public void undo(){
        int size = previous_boards.size();
        char[][] temp = previous_boards.get(size-1); 
+       //display_board();
        board = temp;
+       //display_board();
+       
+       
     }
     
     public boolean move(String n) //interface for actully moving //F4
@@ -1316,7 +1320,8 @@ public class GameBoard implements Serializable{
        //System.out.println("Move: "+m+":: "+col+","+row);
       
        if(color == 'w'){
-           previous_boards.add(board);
+           
+           previous_boards.add((char[][])deepClone(board));
            board[row][col]='O';
            
            if(jump_row_test(m))
@@ -1332,7 +1337,7 @@ public class GameBoard implements Serializable{
        }
        
        if(color == 'b'){
-           previous_boards.add(board);
+           previous_boards.add((char[][])deepClone(board));
            board[row][col]='@';
            
            if(jump_row_test(m))
