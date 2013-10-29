@@ -144,7 +144,33 @@ public class SetupGUI extends JFrame implements ActionListener {
         
     }
     
-    
+    public class ClientRunnable implements Runnable { 
+
+        String clientsetup, serversetup, sip, col;
+        int portt;
+        
+        public ClientRunnable(String clientsetup, String serversetup, String sip, int portt, String col)
+        {
+            this.clientsetup = clientsetup;
+            this.serversetup = serversetup;
+            this.sip = sip;
+            this.portt = portt;
+            this.col = col;
+        }
+        
+        @Override
+        public void run() {
+            try {
+                 Client startclient = new Client(clientsetup,serversetup,sip,portt,col);
+             } catch (UnknownHostException ex) {
+                 Logger.getLogger(SetupGUI.class.getName()).log(Level.SEVERE, null, ex);
+             } catch (IOException ex) {
+                 Logger.getLogger(SetupGUI.class.getName()).log(Level.SEVERE, null, ex);
+             } catch (InterruptedException ex) {
+                 Logger.getLogger(SetupGUI.class.getName()).log(Level.SEVERE, null, ex);
+             }
+        }
+    }
     
     
     @Override
@@ -166,15 +192,9 @@ public class SetupGUI extends JFrame implements ActionListener {
                 
                dispose();
                int portt = Integer.parseInt(spo);
-                try {
-                    Client startclient = new Client(clientsetup,serversetup,sip,portt,col);
-                } catch (UnknownHostException ex) {
-                    Logger.getLogger(SetupGUI.class.getName()).log(Level.SEVERE, null, ex);
-                } catch (IOException ex) {
-                    Logger.getLogger(SetupGUI.class.getName()).log(Level.SEVERE, null, ex);
-                } catch (InterruptedException ex) {
-                    Logger.getLogger(SetupGUI.class.getName()).log(Level.SEVERE, null, ex);
-                }
+               Thread clientThread = new Thread(new ClientRunnable(clientsetup,serversetup,sip,portt,col), "client thread");
+               clientThread.start();
+                
                
                
                 
