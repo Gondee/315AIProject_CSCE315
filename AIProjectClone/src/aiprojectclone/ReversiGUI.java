@@ -38,7 +38,7 @@ public class ReversiGUI extends JFrame implements ActionListener {
     String white_image_path = "white_trans.png";
     String recent_move = "NULL";
     
-    Object SyncObj;
+    final Object SyncObj;
     
     public ReversiGUI(GameBoard g, Object syncobject){
        game =g;//reference to original gameboard  
@@ -47,10 +47,10 @@ public class ReversiGUI extends JFrame implements ActionListener {
         
     }
 
-    ReversiGUI() { //Temporary constructor for building
-        System.out.println("Starting GUI...");
-        setup_window();
-    }
+//    ReversiGUI() { //Temporary constructor for building
+//        System.out.println("Starting GUI...");
+//        setup_window();
+//    }
     
     
     private String get_color_name(){
@@ -302,8 +302,6 @@ public class ReversiGUI extends JFrame implements ActionListener {
                     }
    
                  }
-                 //----------------------
-                 //testing board
                  
                  
                  
