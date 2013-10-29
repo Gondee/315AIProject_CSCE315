@@ -20,11 +20,14 @@ import javax.swing.border.TitledBorder;
 /**
  *
  * @author joshkruger
+ * This class runs the GUI for the entire game, as well as displays any messages t
+ * that the server 
+ * 
  */
 public class ReversiGUI extends JFrame implements ActionListener {
     
     GameBoard game; //Board that is the same by referance as client or server
-    ArrayList<JButton> buttons = new ArrayList();
+    ArrayList<JButton> buttons = new ArrayList();   //Squares of the board
     JMenuItem undo = new JMenuItem("  Undo Last Move  ");
     JMenuItem show_a = new JMenuItem("   Toggle: Show Avaliable Moves");
     JMenuItem show_aa = new JCheckBoxMenuItem("  Show Avaliable Moves");
@@ -39,7 +42,7 @@ public class ReversiGUI extends JFrame implements ActionListener {
     String white_image_path = "white_trans.png";
     String recent_move = "NULL";
     
-    final Object SyncObj;
+    final Object SyncObj; //Sync object for determingin if move was made(for client class)
     
     
     public ReversiGUI(GameBoard g, Object syncobject){
@@ -55,7 +58,7 @@ public class ReversiGUI extends JFrame implements ActionListener {
 //    }
     
     
-    public void kill_gui()
+    public void kill_gui() //Shuts down GUI remotly
     {
         dispose();
     }
@@ -71,7 +74,7 @@ public class ReversiGUI extends JFrame implements ActionListener {
         return "Undefined";
     }
     
-    private void setup_window(){  
+    private void setup_window(){        //Makes and displays board on swing/awt thread
         
        //UIManager.setLookAndFeel(javax.swing.UIManager.getSystemLookAndFeelClassName());
        //System.out.println(UIManager.getInstalledLookAndFeels()); 
@@ -127,7 +130,7 @@ public class ReversiGUI extends JFrame implements ActionListener {
         
     }
     
-    public void update_board(GameBoard g){
+    public void update_board(GameBoard g){      //Updates the board with new gamebaord, and redraws peices
         
        if(show_moves){
             for(int i=0; i<64;i++)
