@@ -113,11 +113,11 @@ public class GameBoard implements Serializable{ //Implements serialiazable so de
         
         
         if(bp>wp){
-            System.out.println("BLACK WINS");
+            //System.out.println("BLACK WINS");
             return 'b';
         }
         if(wp>bp){
-            System.out.println("BLACK WINS");
+            //System.out.println("BLACK WINS");
             return 'w';
             
         }
@@ -522,7 +522,7 @@ public class GameBoard implements Serializable{ //Implements serialiazable so de
               {
                   rows.add(i);
                   cols.add(x);
-                  
+                 
               }
                 
             }
@@ -632,7 +632,7 @@ public class GameBoard implements Serializable{ //Implements serialiazable so de
         
         int i =0;
         
-        for(int x = col-1; x > 0; x--){
+        for(int x = col-1; x > -1; x--){
  
             if(board[row][x] == op_color){
                i++; 
@@ -645,6 +645,10 @@ public class GameBoard implements Serializable{ //Implements serialiazable so de
             if(board[row][x] == pl_color && i >0){
                return true;
             }
+            //-----test
+            if(board[row][x] == pl_color && i ==0)
+                break;
+            //-----test
             
         }
         
@@ -662,6 +666,10 @@ public class GameBoard implements Serializable{ //Implements serialiazable so de
             if(board[row][x] == pl_color && i >0){
                return true;
             }
+            //-----test
+            if(board[row][x] == pl_color && i ==0)
+                break;
+            //-----test
             
         }
        
@@ -692,7 +700,7 @@ public class GameBoard implements Serializable{ //Implements serialiazable so de
         
 
         int i =0; 
-        for(int x = row-1; x > 0; x--){
+        for(int x = row-1; x > -1; x--){
  
             if(board[x][col] == op_color){
                i++; 
@@ -705,6 +713,10 @@ public class GameBoard implements Serializable{ //Implements serialiazable so de
             if(board[x][col] == pl_color && i >0){
                return true;
             }
+            //-----test
+            if(board[x][col] == pl_color && i ==0)
+                break;
+            //-----test
             
         }
         
@@ -722,6 +734,10 @@ public class GameBoard implements Serializable{ //Implements serialiazable so de
             if(board[x][col] == pl_color && i >0){
                return true;
             }
+            //-----test
+            if(board[x][col] == pl_color && i ==0)
+                break;
+            //-----test
             
         }
        
@@ -753,15 +769,11 @@ public class GameBoard implements Serializable{ //Implements serialiazable so de
         
         int i =0;//Jump counter
         int y = 0;
-        y = col;
+        y = col-1;
         for(int x =row-1;x > 0;x--){  //up and to the left
             
-            if(y <7 && y >0)
-                    y--;
-                else 
-                    break;
-                
-            
+            if(y <0)
+                break;
                
                 if(board[x][y] == op_color){
                     i++; 
@@ -775,17 +787,21 @@ public class GameBoard implements Serializable{ //Implements serialiazable so de
                     //System.out.println("Jump diag up left test ");
                     return true;
                 } 
+                //-----test
+                if(board[x][y] == pl_color && i ==0)
+                    break;
+                //-----test
+                y--;
                 
              
         }
         i=0;
-        y = col;
+        y = col+1;
         for(int x =row-1;x > 0;x--){  //up and to the right
             
-                if(y <7 && y >0)
-                    y++;
-                else 
+                if(y>7)
                     break;
+                
             
                 if(board[x][y] == op_color){
                     i++; 
@@ -799,17 +815,19 @@ public class GameBoard implements Serializable{ //Implements serialiazable so de
                     //System.out.println("Jump diag up right");
                     return true;
                 } 
+                //-----test
+                if(board[x][y] == pl_color && i ==0)
+                    break;
+                //-----test
                 
-             
+             y++;
              
         }
         i=0;
-        y = col;
+        y = col-1;
         for(int x =row+1;x < 8;x++){  //down to the left
             
-                if(y <7 && y >0)
-                    y--;
-                else 
+                if(y <0)
                     break;
             
                
@@ -825,16 +843,20 @@ public class GameBoard implements Serializable{ //Implements serialiazable so de
                     //System.out.println("Jump diag down left");
                     return true;
                 }
+                //-----test
+                if(board[x][y] == pl_color && i ==0)
+                    break;
+                //-----test
+                
+                y--;
                 
              
         }
         i=0;
-        y = col;
+        y = col+1;
         for(int x =row+1;x < 8;x++){  //down to the right
             
-                if(y <7 && y >0)
-                    y++;
-                else 
+                if(y >7)
                     break;
                
                 if(board[x][y] == op_color){
@@ -849,9 +871,13 @@ public class GameBoard implements Serializable{ //Implements serialiazable so de
                     //System.out.println("Jump diag down right");
                     return true;
                 }
+                //-----test
+                if(board[x][y] == pl_color && i ==0)
+                    break;
+                //-----test
                 
                 
-             
+             y++;
         }
         
         
@@ -883,7 +909,7 @@ public class GameBoard implements Serializable{ //Implements serialiazable so de
         boolean left = false;
         boolean right = false;
         
-        for(int x = col-1; x > 0; x--){
+        for(int x = col-1; x > -1; x--){
  
             if(board[row][x] == op_color){
                i++; 
@@ -896,6 +922,10 @@ public class GameBoard implements Serializable{ //Implements serialiazable so de
             if(board[row][x] == pl_color && i >0){
                left = true;
             }
+            //-----test
+            if(board[row][x] == pl_color && i ==0)
+                break;
+            //-----test
             
         }
         
@@ -913,6 +943,10 @@ public class GameBoard implements Serializable{ //Implements serialiazable so de
             if(board[row][x] == pl_color && i >0){
                right = true;
             }
+            //-----test
+            if(board[row][x] == pl_color && i ==0)
+                break;
+            //-----test
             
         }
         
@@ -921,7 +955,7 @@ public class GameBoard implements Serializable{ //Implements serialiazable so de
         //--------peforming jump on directions
         if(left)
         {
-            for(int x = col-1; x > 0; x--){
+            for(int x = col-1; x > -1; x--){
 
                 if(board[row][x] == pl_color && i >0){
                     break;
@@ -935,6 +969,10 @@ public class GameBoard implements Serializable{ //Implements serialiazable so de
                 if(board[row][x] == ' '){
                     break;
                 }
+                //-----test
+                if(board[row][x] == pl_color && i ==0)
+                    break;
+                //-----test
 
 
 
@@ -958,6 +996,10 @@ public class GameBoard implements Serializable{ //Implements serialiazable so de
                 if(board[row][x] == ' '){    
                     break;
                 }
+                //-----test
+                if(board[row][x] == pl_color && i ==0)
+                    break;
+                //-----test
 
 
 
@@ -990,7 +1032,7 @@ public class GameBoard implements Serializable{ //Implements serialiazable so de
         boolean up = false;
         boolean down = false;
          
-        for(int x = row-1; x > 0; x--){
+        for(int x = row-1; x > -1; x--){
  
             if(board[x][col] == op_color){
                i++; 
@@ -1003,6 +1045,10 @@ public class GameBoard implements Serializable{ //Implements serialiazable so de
             if(board[x][col] == pl_color && i >0){
                up = true;
             }
+            //-----test
+            if(board[x][col] == pl_color && i ==0)
+                break;
+            //-----test
             
         }
         
@@ -1020,13 +1066,17 @@ public class GameBoard implements Serializable{ //Implements serialiazable so de
             if(board[x][col] == pl_color && i >0){
                down = true;
             }
+            //-----test
+            if(board[x][col] == pl_color && i ==0)
+                break;
+            //-----test
             
         }
 
         i =0; 
         if(up)
         {
-            for(int x = row-1; x > 0; x--){
+            for(int x = row-1; x > -1; x--){
 
                 if(board[x][col] == pl_color && i >0){
                 break;
@@ -1041,6 +1091,10 @@ public class GameBoard implements Serializable{ //Implements serialiazable so de
                 if(board[x][col] == ' '){
                     break;
                 }
+                //-----test
+                if(board[x][col] == pl_color && i ==0)
+                    break;
+                //-----test
 
             }
         }
@@ -1062,6 +1116,10 @@ public class GameBoard implements Serializable{ //Implements serialiazable so de
                 if(board[x][col] == ' '){    
                     break;
                 }
+                //-----test
+                if(board[x][col] == pl_color && i ==0)
+                    break;
+                //-----test
 
             }
         }
@@ -1098,12 +1156,10 @@ public class GameBoard implements Serializable{ //Implements serialiazable so de
         int i =0;//Jump counter
         
         int y = 0;
-        y = col;
-        for(int x =row-1;x > 0;x--){  //up and to the left
+        y = col-1;
+        for(int x =row-1;x > -1;x--){  //up and to the left
             
-                if(y <7 && y >0)
-                    y--;
-                else 
+                if(y<0)
                     break;
                
                 if(board[x][y] == op_color){
@@ -1117,18 +1173,21 @@ public class GameBoard implements Serializable{ //Implements serialiazable so de
                 if(board[x][y] == pl_color && i >0){
                     //System.out.println("Jump diag up left test ");
                     upleft = true;
-                } 
+                }
+                //-----test
+                if(board[x][y] == pl_color && i ==0)
+                    break;
+                //-----test
                 
-             
+             y--;
         }
         i=0;
-        y = col;
-        for(int x =row-1;x > 0;x--){  //up and to the right
+        y = col+1;
+        for(int x =row-1;x > -1;x--){  //up and to the right
             
-                 if(y <7 && y >0)
-                    y++;
-                else 
-                    break;
+                 if(y >7)
+                     break;
+                
             
                 if(board[x][y] == op_color){
                     i++; 
@@ -1142,17 +1201,19 @@ public class GameBoard implements Serializable{ //Implements serialiazable so de
                     //System.out.println("Jump diag up right");
                     upright = true;
                 } 
+                //-----test
+                if(board[x][y] == pl_color && i ==0)
+                    break;
+                //-----test
                
-             
+             y++;
              
         }
         i=0;
-        y = col;
+        y = col-1;
         for(int x =row+1;x < 8;x++){  //down to the left
             
-                if(y <7 && y >0)
-                    y--;
-                else 
+                if(y <0)
                     break;
                
                 if(board[x][y] == op_color){
@@ -1167,16 +1228,18 @@ public class GameBoard implements Serializable{ //Implements serialiazable so de
                     //System.out.println("Jump diag down left");
                     downleft=true;
                 }
-                
+                //-----test
+                if(board[x][y] == pl_color && i ==0)
+                    break;
+                //-----test
+                y--;
              
         }
         i=0;
-        y = col;
+        y = col+1;
         for(int x =row+1;x < 8;x++){  //down to the right
             
-                if(y <7 && y >0)
-                    y++;
-                else 
+                if(y >7)
                     break;
                
                 if(board[x][y] == op_color){
@@ -1191,8 +1254,12 @@ public class GameBoard implements Serializable{ //Implements serialiazable so de
                     //System.out.println("Jump diag down right");
                     downright = true;
                 }
+                //-----test
+                if(board[x][y] == pl_color && i ==0)
+                    break;
+                //-----test
                 
-                
+                y++;
              
         }
         
@@ -1201,12 +1268,10 @@ public class GameBoard implements Serializable{ //Implements serialiazable so de
         i=0;
         if(upleft){
             
-            y = col;
-            for(int x =row-1;x > 0;x--){  //up and to the left
+            y = col-1;
+            for(int x =row-1;x > -1;x--){  //up and to the left
                 
-                if(y <7 && y >0)
-                    y--;
-                else 
+                if(y <0)
                     break;
                 
                 if(board[x][y] == pl_color && i >0){
@@ -1222,7 +1287,7 @@ public class GameBoard implements Serializable{ //Implements serialiazable so de
                     break;
                 }
 
-                
+                y--;
              
             }
         }
@@ -1230,12 +1295,10 @@ public class GameBoard implements Serializable{ //Implements serialiazable so de
         i=0;
         if(upright){
             
-            y = col;
-            for(int x =row-1;x > 0;x--){  //up and to the right
+            y = col+1;
+            for(int x =row-1;x > -1;x--){  //up and to the right
             
-                if(y <7 && y >0)
-                    y++;
-                else 
+                if(y >7)
                     break;
              
                 
@@ -1252,7 +1315,7 @@ public class GameBoard implements Serializable{ //Implements serialiazable so de
                 }
 
                  
-                
+                y++;
              
             }
             
@@ -1261,12 +1324,10 @@ public class GameBoard implements Serializable{ //Implements serialiazable so de
         i=0;
         if(downleft){
             
-            y = col;
+            y = col-1;
             for(int x =row+1;x < 8;x++){  //down to the left
 
-                if(y <7 && y >0)
-                    y--;
-                else 
+                if(y <0)
                     break;
                 
                 if(board[x][y] == pl_color && i >0){
@@ -1282,7 +1343,7 @@ public class GameBoard implements Serializable{ //Implements serialiazable so de
                     break;
                 }
 
-                
+                y--;
                 
             }
             
@@ -1291,13 +1352,11 @@ public class GameBoard implements Serializable{ //Implements serialiazable so de
         i=0;
         if(downright){
             
-              y = col;
+              y = col+1;
             for(int x =row+1;x < 8;x++){  //down to the right
             
                 
-                if(y <7 && y >0)
-                    y++;
-                else 
+                if(y >7)
                     break;
                 
                 if(board[x][y] == pl_color && i >0){
@@ -1314,7 +1373,7 @@ public class GameBoard implements Serializable{ //Implements serialiazable so de
                     break;
                 }
 
-                
+                y++;
              
             }
             

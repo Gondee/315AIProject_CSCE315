@@ -203,6 +203,10 @@ public class SetupGUI extends JFrame implements ActionListener {
             else{
                 
                dispose();
+               
+               if("".equals(porttwoo))
+                   porttwoo = "0";
+               
                int portt = Integer.parseInt(spo);
                int porttnumber2 = Integer.parseInt(porttwoo);
                Thread clientThread = new Thread(new ClientRunnable(clientsetup,serversetup,sip,portt,col,ipptwo,porttnumber2), "client thread");
